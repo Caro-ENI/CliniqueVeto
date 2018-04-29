@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
+import org.jdatepicker.JDatePicker;
+
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
@@ -30,10 +32,6 @@ public class AgendaPanel extends JPanel{
 
 	private JLabel lblVeterinaire;
 	private JLabel lblDate;
-	
-	// A modifier par un vrai datePicker
-	private JLabel lblDatePicker;
-	private JTextField tfDatePicker;
 	
 	
 	// A terme faire des combobox de V�t�rinaire
@@ -59,9 +57,6 @@ public class AgendaPanel extends JPanel{
 		
 			this.createLblVeterinaire();
 			this.createLblDate();
-			this.createLblDatePicker();
-			
-			this.createTfDatePicker();
 			
 			this.createCbVeterinaire();
 			
@@ -129,9 +124,7 @@ public class AgendaPanel extends JPanel{
 		utilsIHM.addComponentTo(getLblVeterinaire(), panelHaut, 0, 0, 1, 1, 1, true);
 		utilsIHM.addComponentTo(getCbVeterinaire(), panelHaut, 1, 0, 1, 1, 1, true);
 		utilsIHM.addComponentTo(getLblDate(), panelHaut, 2, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getTfDatePicker(), panelHaut, 4, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getLblDatePicker(), panelHaut, 5, 0, 1, 1, 1, true);
-		
+		utilsIHM.addComponentTo(new JDatePicker(), panelHaut, 3, 0, 1, 1, 1, true);
 		
 	}
 
@@ -188,19 +181,12 @@ public class AgendaPanel extends JPanel{
 
 
 
-	private void createTfDatePicker() {
-		tfDatePicker = new JTextField("");
-		
-	}
 
 
 
 
 
-	private void createLblDatePicker() {
-		lblDatePicker = new JLabel ("DatePicker");
-		
-	}
+
 
 
 
@@ -230,14 +216,7 @@ public class AgendaPanel extends JPanel{
 	}
 
 
-	public JLabel getLblDatePicker() {
-		return lblDatePicker;
-	}
 
-
-	public JTextField getTfDatePicker() {
-		return tfDatePicker;
-	}
 
 
 	public JComboBox<String> getCbVeterinaire() {
