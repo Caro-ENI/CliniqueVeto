@@ -3,6 +3,8 @@ package fr.eni.cach.clinique.ihm.connexion;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,13 +12,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
+import fr.eni.cach.clinique.bll.VerifChamps;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.ActualiteFrame;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class ConnexionFrame extends JFrame {
+	/*
+	 * ORGANISATION DE LA CLASSE : - déclaration des attributs - constructeur
+	 * principal - création des panels - creation des boutons - méthodes annexes -
+	 * getters
+	 */
+
+	// *********** ATTRIBUTS ***************
 
 	private static final long serialVersionUID = -4761827877265050036L;
 
@@ -29,6 +40,8 @@ public class ConnexionFrame extends JFrame {
 	private JPasswordField tfMdp;
 
 	private JPanel panelGlobal;
+
+	// *********** CONSTRUCTEUR ***************
 
 	/**
 	 * Constructeur de la fenêtre de Connexion (1)
@@ -84,18 +97,7 @@ public class ConnexionFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO changer avec le couple nom/mdp de l'utilisateur
-				// au clic du bttOK ouvre la fenêtre cliniqueVeto
-				// avec le rôle rentré dans le champ nom
-
-				CliniqueVetoFrame2 maCliniqueVeto2 = CliniqueVetoFrame2.getInstance(getTfNom().getText());
-				maCliniqueVeto2.setVisible(true);
-				ConnexionFrame.this.setVisible(false);
-				
-				ActualiteFrame monActu = new ActualiteFrame(getTfNom().getText());
-				monActu.setVisible(true);
-				monActu.setLocationRelativeTo(null);
-
+				ouvertureClinique();
 			}
 		});
 	}
@@ -105,6 +107,22 @@ public class ConnexionFrame extends JFrame {
 	 */
 	private void createTfMdp() {
 		tfMdp = new JPasswordField("", 10);
+		tfMdp.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				 if('\n' == (e.getKeyChar())){
+					 ouvertureClinique();
+				 }
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {}
+			
+		});
 	}
 
 	/**
@@ -112,6 +130,24 @@ public class ConnexionFrame extends JFrame {
 	 */
 	private void createTfNom() {
 		tfNom = new JTextField("", 30);
+		//s'active si on appuie sur ENTRER quand on est dans le champ
+		tfNom.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				 if('\n' == (e.getKeyChar())){
+					 ouvertureClinique();
+				 }
+			}
+			//méthodes non ytilisées ici
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {}
+			
+		});
+		
 	}
 
 	/**
@@ -126,6 +162,40 @@ public class ConnexionFrame extends JFrame {
 	 */
 	private void createLblNom() {
 		lblNom = new JLabel("Nom");
+	}
+
+	// *********** METHODES ANNEXES ***************
+
+	/**
+	 * Ouvre la fenêtre principale de l'appication ainsi que celle des actualités
+	 * permet également de masquer la fenêtre de connexion
+	 */
+	private void ouvertureClinique() {
+
+		// Vérification que les entrées utilisateurs sont au bon format
+		if (VerifChamps.getInstance().isNameValid(getTfNom().getText())
+				&& VerifChamps.getInstance().isPwdValid(getTfMdp().getText())) {
+
+			// validation que l'utilisateur est trouvé en BDD avec VerifMetier....
+			if (true) {
+
+				// TODO changer avec le couple nom/mdp de l'utilisateur
+				// au clic du bttOK ouvre la fenêtre cliniqueVeto
+				// avec le rôle rentré dans le champ nom
+
+				// ouverture de Clinique Veto
+				CliniqueVetoFrame2 maCliniqueVeto2 = CliniqueVetoFrame2.getInstance(getTfNom().getText());
+				maCliniqueVeto2.setVisible(true);
+				// Ouvertue d'Actualité
+				ActualiteFrame monActu = new ActualiteFrame(getTfNom().getText());
+				monActu.setVisible(true);
+				monActu.setLocationRelativeTo(null);
+				// Masque la fenêtre Connexion
+				this.setVisible(false);
+			}
+
+		}
+
 	}
 
 	// *********** GETTERS **************
