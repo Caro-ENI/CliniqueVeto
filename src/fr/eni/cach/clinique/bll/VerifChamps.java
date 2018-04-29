@@ -15,7 +15,7 @@ public class VerifChamps {
 	private VerifChamps() {
 	}
 
-	public VerifChamps getInstance() {
+	public static VerifChamps getInstance() {
 		if (instance == null) {
 			instance = new VerifChamps();
 		}
@@ -23,6 +23,17 @@ public class VerifChamps {
 	}
 
 	/* ***************************************** */
+
+	public boolean isNameValid(String text) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public boolean isPwdValid(String text) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 
 	
 	
