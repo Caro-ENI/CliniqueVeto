@@ -1,12 +1,15 @@
 package fr.eni.cach.clinique.ihm.cliniqueVeto;
 
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 
+import javax.swing.Box;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -36,6 +39,7 @@ public class CliniqueVetoFrame2 extends JFrame {
 	 * Partie dans laquelle vont se placer les JInternalFrames
 	 */
 	private JDesktopPane desktop;
+	
 
 	/**
 	 * Singelton pour des méthodes utilitaires :
@@ -50,6 +54,8 @@ public class CliniqueVetoFrame2 extends JFrame {
 	private JMenuBar monMenuBar;
 	private JMenu jmFichier;
 	private JMenu jmGestion;
+	private JMenu jmAgenda;
+	private JMenu jmPersonnel;
 	private JMenuItem miDeco;
 	private JMenuItem miQuitter;
 	private JMenuItem miPriseRDV;
@@ -118,6 +124,8 @@ public class CliniqueVetoFrame2 extends JFrame {
 		//JMenus
 		createJmFichier();
 		createJmGestion();
+		createJmAgenda();
+		createJmPersonnel();
 		//JMenuBar
 		createMonMenuBar();
 		
@@ -177,6 +185,9 @@ public class CliniqueVetoFrame2 extends JFrame {
 	
 	
 
+
+
+
 	// *********** CREATEs **************
 	
 	/**
@@ -188,11 +199,15 @@ public class CliniqueVetoFrame2 extends JFrame {
 	 * 		-> Prise RDV
 	 * 		-> Gestion Clients
 	 * AGENDA
+	 * 		-> Agenda
 	 * GESTION PERSONNEL
+	 * 		-> Gestion Personnel
 	 */
 	private void createMonMenuBar() {
 		
 		monMenuBar = new JMenuBar();
+		
+	
 
         //Ajout du menu déroulant FICHIER:
         monMenuBar.add(getJmFichier());
@@ -201,14 +216,16 @@ public class CliniqueVetoFrame2 extends JFrame {
         monMenuBar.add(getJmGestion());
         
         //Ajout du menuItem AGENDA:
-        monMenuBar.add(getMiAgenda(),CENTER_ALIGNMENT);
+        monMenuBar.add(getJmAgenda());
         
         //Ajout du menuItem GESTTION PERSONNEL:
-        monMenuBar.add(getMiGestPersonnel(), CENTER_ALIGNMENT);
+        monMenuBar.add(getJmPersonnel());
 
   
        
 	}
+	
+	//------------------------------------CREATION DES JMENU---------------------------------------------
 	
 	/**
 	 * Crée le menu déroulant FICHIER
@@ -236,6 +253,27 @@ public class CliniqueVetoFrame2 extends JFrame {
 		//ajout du MenuItem Gestion Client
 		jmGestion.add(getMiGestClient());
 	}
+	
+	/**
+	 * Crée le menu déroulant Gestion Personnel
+	 */
+	private void createJmPersonnel() {
+		jmPersonnel = new JMenu("Gestion Personnel");
+		jmPersonnel.add(miGestPersonnel);
+	}
+
+
+	/**
+	 * Crée le menu déroulant Agenda
+	 */
+	private void createJmAgenda() {
+		jmAgenda = new JMenu("Agenda");
+		jmAgenda.add(miAgenda);
+	}
+	
+	
+	//------------------------------------CREATION DES JMENUITEM---------------------------------------------------
+	
 	
 	/**
 	 * Crée le MenuItem Agenda 
@@ -367,7 +405,7 @@ public class CliniqueVetoFrame2 extends JFrame {
 	
 	
 	
-	// *********** GETTEURS **************
+	// ------------------------------------ GETTERS ----------------------------------------------------
 	
 	/**
 	 * Renvoie la barre des menus
@@ -455,5 +493,21 @@ public class CliniqueVetoFrame2 extends JFrame {
 	public JDesktopPane getDesktop() {
 		return desktop;
 	}
+
+
+
+
+
+	public JMenu getJmAgenda() {
+		return jmAgenda;
+	}
+
+
+	public JMenu getJmPersonnel() {
+		return jmPersonnel;
+	}
+	
+	
+	
 
 }
