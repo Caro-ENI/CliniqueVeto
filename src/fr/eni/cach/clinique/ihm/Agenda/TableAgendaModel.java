@@ -16,12 +16,12 @@ public class TableAgendaModel extends AbstractTableModel {
 	private static final long serialVersionUID = 7022554891763668907L;
 	
 	/**
-	 * Définition des noms des colonnes de la JTable
+	 * Dï¿½finition des noms des colonnes de la JTable
 	 */
 	private String[] nomsColonnes = {"Heure", "Nom du client", "Animal", "Race"};
 
 	/**
-	 * Liste des Rdv qui sont ajoutés à la JTable
+	 * Liste des Rdv qui sont ajoutï¿½s ï¿½ la JTable
 	 */
 	private List<Rdv> listeRdv = new ArrayList<>();
 	
@@ -29,7 +29,7 @@ public class TableAgendaModel extends AbstractTableModel {
 	
 	
 	/**
-	 * Constructeur de TableAgendaModel -> permet de faire l'ajout de données dans une JTable
+	 * Constructeur de TableAgendaModel -> permet de faire l'ajout de donnï¿½es dans une JTable
 	 */
 	public TableAgendaModel() {
 		this.chargementDonnees();
@@ -72,7 +72,7 @@ public class TableAgendaModel extends AbstractTableModel {
 			case 0:
 				//TODO
 				
-				value = new SimpleDateFormat("h/mm").format(new Date().getTime());
+				value = new SimpleDateFormat("HH:mm").format(new Date().getTime());
 				break;
 			case 1:
 				//TODO
