@@ -72,6 +72,26 @@ public class GestPersonnelsPanel extends JPanel {
 	
 	private void createBttReinitialiser() {
 		bttReinitialiser = new JButton ("Réinitialiser");
+		bttReinitialiser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ReinitialiserMotPassePanel reinitialiserPanel = new ReinitialiserMotPassePanel();
+				JInternalFrame jifReinitialiserMotPasse = utilsIHM.createJIF("Réinitialiser mot de passe", reinitialiserPanel);
+				jifReinitialiserMotPasse.setSize(500, 350);
+				jifReinitialiserMotPasse.setVisible(true);
+				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifReinitialiserMotPasse);
+				try {
+					jifReinitialiserMotPasse.setSelected(true);
+		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
+				
+				
+			}
+		});
+		
+		
+		
+		
 					}
 
 	private void createBttSupprimer() {
