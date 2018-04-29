@@ -6,9 +6,12 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
 import fr.eni.cach.clinique.ihm.UtilsIHM;
+import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.priseRDV.TableRDVModel;
 
 public class GestPersonnelsPanel extends JPanel {
@@ -77,6 +81,25 @@ public class GestPersonnelsPanel extends JPanel {
 
 	private void createBttAjouter() {
 		bttAjouter = new JButton ("Ajouter");
+		bttAjouter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AjouterPersonnelPanel ajoutPanel = new AjouterPersonnelPanel();
+				JInternalFrame jifAjoutSalarie = utilsIHM.createJIF("Ajouter un salarié", ajoutPanel);
+				jifAjoutSalarie.setSize(500, 350);
+				jifAjoutSalarie.setVisible(true);
+				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutSalarie);
+				try {
+					jifAjoutSalarie.setSelected(true);
+		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
+				
+				
+				
+			}
+		});
+		
+		
 		
 	}
 
