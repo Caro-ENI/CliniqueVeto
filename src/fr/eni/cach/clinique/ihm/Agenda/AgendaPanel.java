@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import fr.eni.cach.clinique.ihm.UtilsIHM;
+import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class AgendaPanel extends JPanel{
 
@@ -137,7 +141,7 @@ public class AgendaPanel extends JPanel{
 	
 	
 	private void createCbVeterinaire() {
-		String veterinaires [] = {"VÃ©tÃ©rinaire 1","VÃ©tÃ©rinaire 2","VÃ©tÃ©rinaire 3","VÃ©tÃ©rinaire 4"};
+		String veterinaires [] = {"Vétérinaire 1","Vétérinaire 2","Vétérinaire 3","Vétérinaire 4"};
 		cbVeterinaire = new JComboBox<>(veterinaires);
 		
 	}
@@ -159,8 +163,25 @@ public class AgendaPanel extends JPanel{
 
 
 	private void createBttDossierAnimal() {
-		bttDossierMedical = new JButton ("Dossier mÃ©dical");
-		
+		bttDossierMedical = new JButton ("Dossier médical");
+		bttDossierMedical.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DossierMedicPanel panelDossierMedical = new DossierMedicPanel();
+				JInternalFrame jifDossierMedical = utilsIHM.createJIF("Dossier médical", panelDossierMedical);
+				jifDossierMedical.setSize(800,400);
+				jifDossierMedical.setVisible(true);
+				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifDossierMedical);
+				try {
+					jifDossierMedical.setSelected(true);
+		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
+				
+				
+				
+				
+			}
+		});
 	}
 
 
@@ -192,7 +213,7 @@ public class AgendaPanel extends JPanel{
 
 
 	private void createLblVeterinaire() {
-		lblVeterinaire = new JLabel ("VÃ©tÃ©rinaire");
+		lblVeterinaire = new JLabel ("Vétérinaire");
 		lblVeterinaire.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 	}
 

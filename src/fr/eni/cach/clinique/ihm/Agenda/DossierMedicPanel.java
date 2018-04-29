@@ -109,9 +109,10 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	private void createPanelAntecedents() {
-		panelAntecedents = new JPanel();
+		// Ajout d'un GridBagLayout pour que le TexteArea prenne toute la place.
+		panelAntecedents = new JPanel(new GridBagLayout());
 		panelAntecedents.setBorder(new TitledBorder("Antécédents de Consultation : "));
-		UtilsIHM.getInstance().addComponentTo(getTAAntecedents(), panelAntecedents, 0, 0, 1, 1, 0.8, true);
+		UtilsIHM.getInstance().addComponentTo(getTAAntecedents(), panelAntecedents, 0, 0, 1, 1, 1, true);
 	}
 	
 	private void createPanelClient() {
@@ -148,6 +149,7 @@ public class DossierMedicPanel extends JPanel {
 	
 	private void createTAAntecedents() {
 		taAntecedents = new JTextArea("Antécédents & Détails de Consultation : \n\n\n\n\n\n\n\n");
+		
 	}
 
 	// *********** CREATE JLabels ***************
