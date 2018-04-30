@@ -148,7 +148,7 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	private void createTAAntecedents() {
-		taAntecedents = new JTextArea("Antécédents & Détails de Consultation : \n\n\n\n\n\n\n\n");
+		taAntecedents = new JTextArea("Antécédents & Détails de Consultation :");
 		
 	}
 

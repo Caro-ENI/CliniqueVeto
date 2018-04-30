@@ -5,13 +5,22 @@ import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import fr.eni.cach.clinique.bll.BLLException;
+import fr.eni.cach.clinique.bll.PersonnelManager;
+import fr.eni.cach.clinique.bo.Admin;
+import fr.eni.cach.clinique.bo.Personnel;
+import fr.eni.cach.clinique.bo.Secretaire;
+import fr.eni.cach.clinique.bo.Veterinaire;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class AjouterPersonnelPanel extends JPanel {
@@ -35,6 +44,8 @@ public class AjouterPersonnelPanel extends JPanel {
 		private JTextField tfNom;
 		private JTextField tfMotPasse;
 		private JTextField tfRole;
+		
+		
 		
 		
 		public AjouterPersonnelPanel () {
@@ -79,17 +90,19 @@ public class AjouterPersonnelPanel extends JPanel {
 			
 			panelInfos = new JPanel (new GridBagLayout());
 			
-			utilsIHM.addComponentTo(getLblCodePers(), panelInfos, 0, 0, 1, 1, 0.3, true);
-			utilsIHM.addComponentTo(getTfCodePers(), panelInfos, 1, 0, 1, 1, 0.7, true);
+			// L'utilisateur n'a pas besoin de voir afficher  son code salarié.
 			
-			utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 1, 1, 1, 0.3, true);
-			utilsIHM.addComponentTo(getTfNom(), panelInfos, 1, 1, 1, 1, 0.7, true);
+			//utilsIHM.addComponentTo(getLblCodePers(), panelInfos, 0, 0, 1, 1, 0.3, true);
+			//utilsIHM.addComponentTo(getTfCodePers(), panelInfos, 1, 0, 1, 1, 0.7, true);
 			
-			utilsIHM.addComponentTo(getLblMotPasse(), panelInfos, 0, 2, 1, 1, 0.3, true);
-			utilsIHM.addComponentTo(getTfMotPasse(), panelInfos, 1, 2, 1, 1, 0.7, true);
+			utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 0, 1, 1, 0.3, true);
+			utilsIHM.addComponentTo(getTfNom(), panelInfos, 1, 0, 1, 1, 0.7, true);
 			
-			utilsIHM.addComponentTo(getLblRole(), panelInfos, 0, 3, 1, 1, 0.3, true);
-			utilsIHM.addComponentTo(getTfRole(), panelInfos, 1, 3, 1, 1, 0.7, true);
+			utilsIHM.addComponentTo(getLblMotPasse(), panelInfos, 0, 1, 1, 1, 0.3, true);
+			utilsIHM.addComponentTo(getTfMotPasse(), panelInfos, 1, 1, 1, 1, 0.7, true);
+			
+			utilsIHM.addComponentTo(getLblRole(), panelInfos, 0, 2, 1, 1, 0.3, true);
+			utilsIHM.addComponentTo(getTfRole(), panelInfos, 1, 2, 1, 1, 0.7, true);
 			
 		}
 
@@ -113,30 +126,86 @@ public class AjouterPersonnelPanel extends JPanel {
 
 		private void createBttAnnuler() {
 			bttAnnuler = new JButton ("Annuler");
+			bttAnnuler.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+				
+					getTfNom().setText("");
+					getTfMotPasse().setText("");
+					getTfRole().setText("");
+					
+					
+				}
+			});
 			
 		}
 
 
 		private void createBttValider() {
 			bttValider = new JButton ("Valider");
-			
+			bttValider.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					try {
+					
+					
+					Personnel persAAjouter = null;
+					
+					switch (getTfRole().getText()) {
+					case "sec":
+						persAAjouter = new Secretaire();
+						
+						break;
+					case "adm":
+						persAAjouter = new Admin();
+						
+						break;
+					case "vet":
+						persAAjouter = new Veterinaire();
+						
+						break;	
+						
+					default :
+						persAAjouter = new Veterinaire();
+						break;
+					}
+					
+					persAAjouter.setNom(getTfNom().getText());
+					persAAjouter.setMotPasse(getTfMotPasse().getText());
+					persAAjouter.setRole(getTfRole().getText());
+					
+					
+					PersonnelManager.getInstance().addPersonnel(persAAjouter);
+					// Permet de rafraichir la JTable
+					TablePersonnelModel.getInstance().chargementDonnees();
+					
+					} catch (BLLException e1) {
+						
+						JOptionPane.showMessageDialog(AjouterPersonnelPanel.this, e1.getMessage(),
+								"Ajout de Personnel Impossible", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
 		}
 
 
 		private void createTfRole() {
-			tfRole = new JTextField("sec");
+			tfRole = new JTextField("");
 			
 		}
 
 
 		private void createTfMotPasse() {
-			tfMotPasse = new JTextField("toto");
+			tfMotPasse = new JTextField("");
 			
 		}
 
 
 		private void createTfNom() {
-			tfNom = new JTextField ("DUPONT Monique");
+			tfNom = new JTextField ("");
 			
 		}
 

@@ -7,10 +7,13 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +23,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import org.jdatepicker.JDatePicker;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
+import fr.eni.cach.clinique.bll.BLLException;
+import fr.eni.cach.clinique.bll.ClientManager;
+import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
+import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
@@ -57,11 +67,6 @@ public class PriseRDVPanel extends JPanel {
 	private JPanel panelBoutons;
 	
 	/**
-	 * Tables des RDV
-	 */
-	private JTable tableRDV;
-	
-	/**
 	 * Sous panel de Panel Information
 	 */
 	private JPanel panelPour;
@@ -76,6 +81,12 @@ public class PriseRDVPanel extends JPanel {
 	 */
 	private JPanel panelQuand;
 	
+	
+	/**
+	 * Tables des RDV
+	 */
+	private JTable tableRDV;
+	
 	//Boutons de l'édition d'un rdv
 	private JButton bttOK;
 	private JButton bttSuppr;
@@ -89,10 +100,12 @@ public class PriseRDVPanel extends JPanel {
 	private JLabel jlDate;
 	private JLabel jlHeure;
 	private JLabel jlH;
+	
+	private JDatePicker datePicker;
 		
 	private JComboBox<String> jcbVeto;
 	//TODO changer en Client et en Animal !! 
-	private JComboBox<String> jcbClient;
+	private JComboBox<Client> jcbClient;
 	private JComboBox<String> jcbAnimal;
 	
 	private JComboBox<Integer> jcbHeures;
@@ -142,6 +155,10 @@ public class PriseRDVPanel extends JPanel {
 		this.createJlDate();
 		this.createJlHeure();
 		this.createJlH();
+		
+		// création du DatePicker
+		
+		this.createDatePicker();
 
 		
 		//création des panels
@@ -166,6 +183,9 @@ public class PriseRDVPanel extends JPanel {
 	}
 
 	
+	
+
+
 	// *********** CREATE PANELS **************
 	/**
 	 * Crée le panel d'informations du RDV à partir de 3 sous-panels
@@ -175,7 +195,7 @@ public class PriseRDVPanel extends JPanel {
 	 */
 	private void createPanelInformation(){
 		panelInfomations = new JPanel(new GridBagLayout());
-		panelInfomations.setBackground(Color.ORANGE);
+		panelInfomations.setBackground(Color.LIGHT_GRAY);
 		
 		utilsIHM.addComponentTo(getPanelPour(), panelInfomations, 0, 0, 1, 1, 0.5, true);
 		utilsIHM.addComponentTo(getPanelPar(), panelInfomations, 1, 0, 1, 1, 0.5, true);
@@ -254,7 +274,7 @@ public class PriseRDVPanel extends JPanel {
 		panelQuand.setBorder(new TitledBorder("Quand : "));
 		
 		utilsIHM.addComponentTo(getJlDate(), panelQuand, 0, 0, 1, 1, 0.2, true);
-		utilsIHM.addComponentTo(new JDatePicker(), panelQuand, 0, 1, 1, 1, 0.5, true);
+		utilsIHM.addComponentTo((JComponent) getDatePicker(), panelQuand, 0, 1, 1, 1, 0.5, true);
 		
 		utilsIHM.addComponentTo(getJlHeure(), panelQuand, 0, 2, 1, 1, 0.2, true);
 		utilsIHM.addComponentTo(getPanelHeure(), panelQuand, 0, 3, 1, 1, 0.8, true);
@@ -292,6 +312,21 @@ public class PriseRDVPanel extends JPanel {
 		/* pour l'ajout d'un LISTENER
 		 tableArticle.getSelectionModel().addListSelectionListener(new List...
 		 */
+	}
+ 	
+ 	
+ 	// ****************** CREATE JDATE PICKER ******************************
+ 	
+ 	
+ 	private void createDatePicker() {
+ 		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Aujourd'hui");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		
 	}
 
 	
@@ -360,6 +395,8 @@ public class PriseRDVPanel extends JPanel {
 	}
 	
 
+	
+	
 
 	
 	// *********** CREATE JLABELS **************
@@ -398,17 +435,22 @@ public class PriseRDVPanel extends JPanel {
 	}
 	
 	private void createJcbClient(){
-		//TODO remplir avec la liste des veto courante
-		String[] veto = {"Client1", "Client2", "Client3", "Client4", "Client5"};
-		jcbClient = new JComboBox<>(veto);
-		//permet de ne pas sélectionner par défaut le nom d'un véto
+		jcbClient = new JComboBox<>();
+
+		try {
+			List<Client> listeClients = ClientManager.getInstance().getListeClients();
+			for (Client cliCourant : listeClients) {
+				jcbClient.addItem(cliCourant);
+			}
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
 		jcbClient.setSelectedItem(null);
+		
 	}
 	
 	private void createJcbAnimal(){
-		//TODO remplir avec la liste des veto courante
-		String[] veto = {"Animal1", "Animal2", "Animal3", "Animal4", "Animal5"};
-		jcbAnimal = new JComboBox<>(veto);
+		jcbAnimal = new JComboBox<>();
 		//permet de ne pas sélectionner par défaut le nom d'un véto
 		jcbAnimal.setSelectedItem(null);
 	}
@@ -519,7 +561,7 @@ public class PriseRDVPanel extends JPanel {
 		return jlClient;
 	}
 	
-	public JComboBox<String> getJcbClient() {
+	public JComboBox<Client> getJcbClient() {
 		return jcbClient;
 	}
 	
@@ -548,10 +590,12 @@ public class PriseRDVPanel extends JPanel {
 	}
 	
 	public JLabel getJlHeure() {
+		
 		return jlHeure;
 	}
 
 	public JLabel getJlH() {
+		
 		return jlH;
 	}
 	
@@ -566,4 +610,31 @@ public class PriseRDVPanel extends JPanel {
 	public JPanel getPanelHeure() {
 		return panelHeure;
 	}
+
+
+
+
+
+	public JPanel getPanelInfomations() {
+		return panelInfomations;
+	}
+
+
+
+
+
+	public JDatePicker getDatePicker() {
+		return datePicker;
+	}
+
+
+
+
+
+	public TableRDVModel getModelTablRDV() {
+		return modelTablRDV;
+	}
+	
+	
+	
 }

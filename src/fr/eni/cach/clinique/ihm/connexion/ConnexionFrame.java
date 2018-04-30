@@ -9,13 +9,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
-import fr.eni.cach.clinique.bll.VerifChamps;
+import fr.eni.cach.clinique.bll.Utilitaires.VerifChamps;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.ActualiteFrame;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
@@ -23,8 +23,8 @@ import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 public class ConnexionFrame extends JFrame {
 	/*
 	 * ORGANISATION DE LA CLASSE : - déclaration des attributs - constructeur
-	 * principal - création des panels - creation des boutons - méthodes annexes -
-	 * getters
+	 * principal - création des panels - creation des boutons - méthodes annexes
+	 * - getters
 	 */
 
 	// *********** ATTRIBUTS ***************
@@ -108,20 +108,22 @@ public class ConnexionFrame extends JFrame {
 	private void createTfMdp() {
 		tfMdp = new JPasswordField("", 10);
 		tfMdp.addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
-				 if('\n' == (e.getKeyChar())){
-					 ouvertureClinique();
-				 }
+				if ('\n' == (e.getKeyChar())) {
+					ouvertureClinique();
+				}
 			}
-			
+
 			@Override
-			public void keyReleased(KeyEvent e) {}
-			
+			public void keyReleased(KeyEvent e) {
+			}
+
 			@Override
-			public void keyPressed(KeyEvent e) {}
-			
+			public void keyPressed(KeyEvent e) {
+			}
+
 		});
 	}
 
@@ -130,24 +132,27 @@ public class ConnexionFrame extends JFrame {
 	 */
 	private void createTfNom() {
 		tfNom = new JTextField("", 30);
-		//s'active si on appuie sur ENTRER quand on est dans le champ
+		// s'active si on appuie sur ENTRER quand on est dans le champ
 		tfNom.addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
-				 if('\n' == (e.getKeyChar())){
-					 ouvertureClinique();
-				 }
+				if ('\n' == (e.getKeyChar())) {
+					ouvertureClinique();
+				}
 			}
-			//méthodes non ytilisées ici
+
+			// méthodes non ytilisées ici
 			@Override
-			public void keyReleased(KeyEvent e) {}
-			
+			public void keyReleased(KeyEvent e) {
+			}
+
 			@Override
-			public void keyPressed(KeyEvent e) {}
-			
+			public void keyPressed(KeyEvent e) {
+			}
+
 		});
-		
+
 	}
 
 	/**
@@ -167,16 +172,17 @@ public class ConnexionFrame extends JFrame {
 	// *********** METHODES ANNEXES ***************
 
 	/**
-	 * Ouvre la fenêtre principale de l'appication ainsi que celle des actualités
-	 * permet également de masquer la fenêtre de connexion
+	 * Ouvre la fenêtre principale de l'appication ainsi que celle des
+	 * actualités permet également de masquer la fenêtre de connexion
 	 */
 	private void ouvertureClinique() {
 
 		// Vérification que les entrées utilisateurs sont au bon format
-		if (VerifChamps.getInstance().isNameValid(getTfNom().getText())
+		if (VerifChamps.getInstance().isNamePersonelValid(getTfNom().getText())
 				&& VerifChamps.getInstance().isPwdValid(getTfMdp().getText())) {
 
-			// validation que l'utilisateur est trouvé en BDD avec VerifMetier....
+			// validation que l'utilisateur est trouvé en BDD avec
+			// VerifMetier....
 			if (true) {
 
 				// TODO changer avec le couple nom/mdp de l'utilisateur
@@ -194,6 +200,9 @@ public class ConnexionFrame extends JFrame {
 				this.setVisible(false);
 			}
 
+		} else {
+			JOptionPane.showMessageDialog(this, "Vos Identifiants de connexion ne sont pas valides",
+					"Connexion Impossible", JOptionPane.WARNING_MESSAGE);
 		}
 
 	}

@@ -33,6 +33,8 @@ public class PersonnelDAOimplJDBC implements PersonnelDAO {
 	private static final String UPDATE = "UPDATE Personnels SET Nom=?, MotPasse=?, Role=?, "
 			+ "Archive=? WHERE CodePers=?";
 	
+	
+	
 
 	// ******************************************************************************************
 

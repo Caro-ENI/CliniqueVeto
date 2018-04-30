@@ -203,34 +203,36 @@ public class Client {
 		this.listeAnimaux = listeAnimaux;
 	}
 
+	
+	// Pour avoir les bons affichages dans les JComboBox
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Client [codeClient=");
-		builder.append(codeClient);
-		builder.append(", nomClient=");
+//		builder.append("Client [codeClient=");
+//		builder.append(codeClient);
+//		builder.append(", nomClient=");
 		builder.append(nomClient);
-		builder.append(", prenomClient=");
-		builder.append(prenomClient);
-		builder.append(", adresse1=");
-		builder.append(adresse1);
-		builder.append(", adresse2=");
-		builder.append(adresse2);
-		builder.append(", codePostal=");
-		builder.append(codePostal);
-		builder.append(", ville=");
-		builder.append(ville);
-		builder.append(", numTel=");
-		builder.append(numTel);
-		builder.append(", assurance=");
-		builder.append(assurance);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", archive=");
-		builder.append(archive);
-		builder.append(", \rlisteAnimaux=");
-		builder.append(listeAnimaux);
-		builder.append("]");
+//		builder.append(", prenomClient=");
+//		builder.append(prenomClient);
+//		builder.append(", adresse1=");
+//		builder.append(adresse1);
+//		builder.append(", adresse2=");
+//		builder.append(adresse2);
+//		builder.append(", codePostal=");
+//		builder.append(codePostal);
+//		builder.append(", ville=");
+//		builder.append(ville);
+//		builder.append(", numTel=");
+//		builder.append(numTel);
+//		builder.append(", assurance=");
+//		builder.append(assurance);
+//		builder.append(", email=");
+//		builder.append(email);
+//		builder.append(", archive=");
+//		builder.append(archive);
+//		builder.append(", \rlisteAnimaux=");
+//		builder.append(listeAnimaux);
+//		builder.append("]");
 		return builder.toString();
 	}
 

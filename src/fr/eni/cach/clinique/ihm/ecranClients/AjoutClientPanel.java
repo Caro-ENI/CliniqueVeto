@@ -4,14 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
+import fr.eni.cach.clinique.bll.BLLException;
+import fr.eni.cach.clinique.bll.ClientManager;
+import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class AjoutClientPanel extends JPanel {
@@ -28,7 +33,7 @@ public class AjoutClientPanel extends JPanel {
 	private JButton bttValider;
 	private JButton bttAnnuler;
 	
-	private JLabel lblCodeClient;
+	private JLabel lblEmail;
 	private JLabel lblNom;
 	private JLabel lblPrenom;
 	private JLabel lblAdresse;
@@ -38,7 +43,7 @@ public class AjoutClientPanel extends JPanel {
 	private JLabel lblAssurance;
 	private JLabel lblRemarques;
 	
-	private JTextField tfCodeClient;
+	private JTextField tfEmail;
 	private JTextField tflNom;
 	private JTextField tfPrenom;
 	private JTextField tfAdresse1;
@@ -56,7 +61,7 @@ public class AjoutClientPanel extends JPanel {
 	
 		//Initialisation des champs
 		
-		this.createLblCodeClient();
+		this.createLblEmail();
 		this.createLblNom();
 		this.createLblPrenom();
 		this.createLblAdresse();
@@ -66,7 +71,7 @@ public class AjoutClientPanel extends JPanel {
 		this.createLblAssurance();
 		this.createLblRemarques();
 		
-		this.createTfCodeClient();
+		this.createTfEmail();
 		this.createTfNom();
 		this.createTfPrenom();
 		this.createTfAdresse1();
@@ -100,8 +105,6 @@ public class AjoutClientPanel extends JPanel {
 	private void createPanelInfos() {
 		panelInfos = new JPanel(new GridBagLayout());
 		
-		utilsIHM.addComponentTo(getLblCodeClient() , panelInfos, 0, 0, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfCodeClient() , panelInfos, 1, 0, 1, 1, 0.8, true);
 		
 		utilsIHM.addComponentTo(getLblNom() , panelInfos, 0, 1, 1, 1, 0.2, false);
 		utilsIHM.addComponentTo(getTflNom() , panelInfos, 1, 1, 1, 1, 0.8, true);
@@ -122,14 +125,15 @@ public class AjoutClientPanel extends JPanel {
 		utilsIHM.addComponentTo(getLblNumTel() , panelInfos, 0, 7, 1, 1, 0.2, false);
 		utilsIHM.addComponentTo(getTfNumTel() , panelInfos, 1, 7, 1, 1, 0.8, true);
 		
-		utilsIHM.addComponentTo(getLblAssurance() , panelInfos, 0, 8, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfAssurance() , panelInfos, 1, 8, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getLblEmail() , panelInfos, 0, 8, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfEmail() , panelInfos, 1, 8, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblAssurance() , panelInfos, 0, 9, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfAssurance() , panelInfos, 1, 9, 1, 1, 0.8, true);
 		
-		utilsIHM.addComponentTo(getLblRemarques() , panelInfos, 0, 9, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfRemarques() , panelInfos, 1, 9, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getLblRemarques() , panelInfos, 0, 10, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfRemarques() , panelInfos, 1, 10, 1, 1, 0.8, true);
 	}
-
-
 
 	private void createPanelBoutons() {
 		//permet de définir l'orientation de l'écriture dans le panel 
@@ -146,159 +150,166 @@ public class AjoutClientPanel extends JPanel {
 		
 	}
 
-
-
-	
-
-
-
 	//**************CREATION DES COMPONENTS************************
 
 	private void createBttAnnuler() {
 		bttAnnuler = new JButton ("Annuler");
-		
+		bttAnnuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tfEmail.setText("");
+				tflNom.setText("");
+				tfPrenom.setText("");
+				tfAdresse1.setText("");
+				tfAdresse2.setText("");
+				tfCodePostal.setText("");
+				tfVille.setText("");
+				tfNumTel.setText("");
+				tfAssurance.setText("");
+				tfRemarques.setText("");
+			}
+		});
 	}
-
-
 
 	private void createBttValider() {
 		bttValider = new JButton ("Valider");
-		
+		bttValider.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				Client clientAAjouter = creaClientFromTF();
+				
+				try {
+					ClientManager.getInstance().addClient(clientAAjouter);
+					JOptionPane.showMessageDialog(AjoutClientPanel.this, "Le Client a bien été créé !",
+							"Ajout d'un Client", JOptionPane.INFORMATION_MESSAGE);
+				} catch (BLLException e1) {
+					JOptionPane.showMessageDialog(AjoutClientPanel.this, e1.getMessage(),
+							"Ajout d'un Client", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
-
-
 
 	private void createTfRemarques() {
 		tfRemarques = new JTextField("", 50);
 		
 	}
 
-
-
 	private void createTfAssurance() {
 		tfAssurance = new JTextField("", 30);
 		
 	}
-
-
 
 	private void createTfNumTel() {
 		tfNumTel = new JTextField("", 15);
 		
 	}
 
-
-
 	private void createTfVille() {
 		tfVille = new JTextField("", 25);
 		
 	}
-
-
 
 	private void createTfCodePostal() {
 		tfCodePostal = new JTextField("", 6);
 		
 	}
 
-
-
 	private void createTfAdresse2() {
 		tfAdresse2 = new JTextField("", 30);
 		
 	}
-
-
 
 	private void createTfAdresse1() {
 		tfAdresse1 = new JTextField("", 30);
 		
 	}
 
-
-
 	private void createTfPrenom() {
 		tfPrenom = new JTextField("", 20);
 		
 	}
-
-
 
 	private void createTfNom() {
 		tflNom = new JTextField("", 20);
 		
 	}
 
-
-
-	private void createTfCodeClient() {
-		tfCodeClient = new JTextField("", 20);
+	private void createTfEmail() {
+		tfEmail = new JTextField("", 20);
 		
 	}
-
-
 
 	private void createLblRemarques() {
 		lblRemarques = new JLabel("Remarques");
 		
 	}
 
-
-
 	private void createLblAssurance() {
 		lblAssurance = new JLabel ("Assurance");
 		
 	}
-
-
 
 	private void createLblNumTel() {
 		lblNumTel = new JLabel ("N° téléphone");
 		
 	}
 
-
-
 	private void createLblVille() {
 		lblVille = new JLabel ("Ville");
 		
 	}
-
-
 
 	private void createLblCodePostal() {
 		lblCodePostal = new JLabel ("Code postal");
 		
 	}
 
-
-
 	private void createLblAdresse() {
 		lblAdresse = new JLabel ("Adresse");
 		
 	}
-
-
 
 	private void createLblPrenom() {
 		lblPrenom = new JLabel ("Prenom");
 		
 	}
 
-
-
 	private void createLblNom() {
 		lblNom = new JLabel ("Nom");
 		
 	}
 
-
-
-	private void createLblCodeClient() {
-		lblCodeClient = new JLabel ("Code");
+	private void createLblEmail() {
+		lblEmail = new JLabel ("Email");
 		
 	}
 
+	// *********** Méthodes internes **************
+	
+	/**
+	 * Crée un client à partir des TextsFields de la fenêtre
+	 * @return
+	 */
+	private Client creaClientFromTF(){
+		Client clientCree = new Client();
+		clientCree.setNomClient(getTflNom().getText());
+		clientCree.setPrenomClient(getTfPrenom().getText());
+		clientCree.setAdresse1(getTfAdresse1().getText());
+		clientCree.setAdresse2(getTfAdresse2().getText());
+		clientCree.setCodePostal(getTfCodePostal().getText());
+		clientCree.setVille(getTfVille().getText());
+		clientCree.setNumTel(getTfNumTel().getText());
+		clientCree.setEmail(getTfEmail().getText());
+		clientCree.setAssurance(getTfAssurance().getText());
+		clientCree.setRemarque(getTfRemarques().getText());
+		return clientCree;
+	}
+	
 	// *********** GETTERS **************
 
 	public JPanel getPanelGlobal() {
@@ -325,8 +336,8 @@ public class AjoutClientPanel extends JPanel {
 		return bttAnnuler;
 	}
 
-	public JLabel getLblCodeClient() {
-		return lblCodeClient;
+	public JLabel getLblEmail() {
+		return lblEmail;
 	}
 
 	public JLabel getLblNom() {
@@ -361,8 +372,8 @@ public class AjoutClientPanel extends JPanel {
 		return lblRemarques;
 	}
 
-	public JTextField getTfCodeClient() {
-		return tfCodeClient;
+	public JTextField getTfEmail() {
+		return tfEmail;
 	}
 
 	public JTextField getTflNom() {

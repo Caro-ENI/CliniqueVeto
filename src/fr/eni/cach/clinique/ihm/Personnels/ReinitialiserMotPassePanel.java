@@ -78,17 +78,19 @@ public class ReinitialiserMotPassePanel extends JPanel {
 		
 		panelInfos = new JPanel (new GridBagLayout());
 		
-		utilsIHM.addComponentTo(getLblCodePers(), panelInfos, 0, 0, 1, 1, 0.3, true);
-		utilsIHM.addComponentTo(getTfCodePers(), panelInfos, 1, 0, 1, 1, 0.7, true);
+		// L'utilisateur n'a pas besoin de voir afficher  son code salarié.
 		
-		utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 1, 1, 1, 0.3, true);
-		utilsIHM.addComponentTo(getTfNom(), panelInfos, 1, 1, 1, 1, 0.7, true);
+		//utilsIHM.addComponentTo(getLblCodePers(), panelInfos, 0, 0, 1, 1, 0.3, true);
+		//utilsIHM.addComponentTo(getTfCodePers(), panelInfos, 1, 0, 1, 1, 0.7, true);
 		
-		utilsIHM.addComponentTo(getLblMotPasse(), panelInfos, 0, 2, 1, 1, 0.3, true);
-		utilsIHM.addComponentTo(getTfMotPasse(), panelInfos, 1, 2, 1, 1, 0.7, true);
+		utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 0, 1, 1, 0.3, true);
+		utilsIHM.addComponentTo(getTfNom(), panelInfos, 1, 0, 1, 1, 0.7, true);
 		
-		utilsIHM.addComponentTo(getLblRole(), panelInfos, 0, 3, 1, 1, 0.3, true);
-		utilsIHM.addComponentTo(getTfRole(), panelInfos, 1, 3, 1, 1, 0.7, true);
+		utilsIHM.addComponentTo(getLblMotPasse(), panelInfos, 0, 1, 1, 1, 0.3, true);
+		utilsIHM.addComponentTo(getTfMotPasse(), panelInfos, 1, 1, 1, 1, 0.7, true);
+		
+		utilsIHM.addComponentTo(getLblRole(), panelInfos, 0, 2, 1, 1, 0.3, true);
+		utilsIHM.addComponentTo(getTfRole(), panelInfos, 1, 2, 1, 1, 0.7, true);
 		
 	}
 

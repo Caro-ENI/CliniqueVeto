@@ -6,12 +6,15 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import fr.eni.cach.clinique.bo.Personnel;
-import fr.eni.cach.clinique.bo.Rdv;
-import fr.eni.cach.clinique.bo.Veterinaire;
+import fr.eni.cach.clinique.dal.DAOFactory;
+import fr.eni.cach.clinique.dal.DalException;
+import fr.eni.cach.clinique.dal.PersonnelDAO;
 
 public class TablePersonnelModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7022554891763668907L;
+	
+	private static TablePersonnelModel instance =null;
 	
 	/**
 	 * Définition des noms des colonnes de la JTable
@@ -23,25 +26,32 @@ public class TablePersonnelModel extends AbstractTableModel {
 	 */
 	private List<Personnel> listePersonnels = new ArrayList<>();
 	
+	private PersonnelDAO daoPersonnel = DAOFactory.getPersonelDAO();
+	
 	
 	
 	
 	/**
 	 * Constructeur de TablePersonnelModel -> permet de faire l'ajout de données dans une JTable
 	 */
-	public TablePersonnelModel() {
+	private TablePersonnelModel() {
 		this.chargementDonnees();
 	}
 	
-	public void chargementDonnees() {
-		//TODO enlever le bouchon quand BLL dispo
-	//	rdv = Catalogue.getInstance().getCatalogue();
-		listePersonnels.add(new Veterinaire());
-		listePersonnels.add(new Veterinaire());
-		listePersonnels.add(new Veterinaire());
-		listePersonnels.add(new Veterinaire());
-		listePersonnels.add(new Veterinaire());
-		listePersonnels.add(new Veterinaire());
+	public static TablePersonnelModel getInstance(){
+		if (instance == null) {
+			instance = new TablePersonnelModel();
+		}
+		return instance;
+	}
+	
+	public void chargementDonnees() {		
+		try {
+			listePersonnels = daoPersonnel.selectAll();
+		} catch (DalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		fireTableDataChanged();
 	}
 
@@ -68,24 +78,37 @@ public class TablePersonnelModel extends AbstractTableModel {
 			
 			switch (columnIndex) {
 			case 0:
-				//TODO
-				//value = personnelAAfficher.getNom();
-				value = "Morel";
+				
+				value = personnelAAfficher.getNom();
+				
 				break;
 			case 1:
-				//TODO
-				//value = personnelAAfficher.getRole();
-				value = "vet";
+				
+				value = personnelAAfficher.getRole();
+			
 				break;
 			case 2:
-				//TODO
-				//value = personnelAAfficher.getMotPasse();
-				value = "*****";
+				
+				value = "**********";
+				
 				break;
 			}
+			
+			
 		}
 		
 		return value;
+		
+	}
+	
+	
+	public Personnel getValueAt (int rowIndex) throws Exception {
+		if(rowIndex >= 0 && rowIndex < listePersonnels.size()) {
+			return listePersonnels.get(rowIndex);
+		}
+		throw new Exception ("Le salarié n'existe pas en BDD");
+		
+		
 	}
 	
 

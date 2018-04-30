@@ -6,21 +6,26 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import org.jdatepicker.JDatePicker;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
+import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
@@ -33,6 +38,7 @@ public class AgendaPanel extends JPanel{
 	private JLabel lblVeterinaire;
 	private JLabel lblDate;
 	
+	private JDatePicker datePicker;
 	
 	// A terme faire des combobox de V�t�rinaire
 	private JComboBox<String> cbVeterinaire;
@@ -57,6 +63,15 @@ public class AgendaPanel extends JPanel{
 		
 			this.createLblVeterinaire();
 			this.createLblDate();
+
+			
+			
+			this.createDatePicker();
+			
+		
+
+			
+			
 			
 			this.createCbVeterinaire();
 			
@@ -101,6 +116,12 @@ public class AgendaPanel extends JPanel{
 	//-------------------------CREATION DES PANELS-------------------------------
 	
 
+	
+
+
+
+
+
 	private void createPanelDossierMedical() {
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		panelDossierMedical = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -124,13 +145,32 @@ public class AgendaPanel extends JPanel{
 		utilsIHM.addComponentTo(getLblVeterinaire(), panelHaut, 0, 0, 1, 1, 1, true);
 		utilsIHM.addComponentTo(getCbVeterinaire(), panelHaut, 1, 0, 1, 1, 1, true);
 		utilsIHM.addComponentTo(getLblDate(), panelHaut, 2, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(new JDatePicker(), panelHaut, 3, 0, 1, 1, 1, true);
+
+		utilsIHM.addComponentTo((JComponent) getDatePicker(), panelHaut, 4, 0, 1, 1, 1, true);
+
+
+		
 		
 	}
 
 
 
 	//---------------------------CREATION DES COMPONENTS------------------------------------
+	
+	
+	private void createDatePicker() {
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Aujourd'hui");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		 
+	
+		
+	}
+	
 	
 	
 	private void createCbVeterinaire() {
@@ -251,6 +291,30 @@ public class AgendaPanel extends JPanel{
 
 	public JPanel getPanelDossierMedical() {
 		return panelDossierMedical;
+	}
+
+
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+
+
+	public UtilsIHM getUtilsIHM() {
+		return utilsIHM;
+	}
+
+
+
+
+
+	public JDatePicker getDatePicker() {
+		return datePicker;
 	}
 	
 	

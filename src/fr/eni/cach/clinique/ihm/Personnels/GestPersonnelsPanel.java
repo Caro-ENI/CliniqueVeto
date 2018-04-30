@@ -1,11 +1,8 @@
 package fr.eni.cach.clinique.ihm.Personnels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,11 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 
+import fr.eni.cach.clinique.bll.PersonnelManager;
+import fr.eni.cach.clinique.bo.Personnel;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
-import fr.eni.cach.clinique.ihm.priseRDV.TableRDVModel;
 
 public class GestPersonnelsPanel extends JPanel {
 
@@ -35,7 +32,9 @@ public class GestPersonnelsPanel extends JPanel {
 	private JButton bttAjouter;
 	private JButton bttSupprimer;
 	private JButton bttReinitialiser;
-	private TablePersonnelModel tablPersonnelModel;
+	public TablePersonnelModel tablPersonnelModel;
+	
+
 
 	public GestPersonnelsPanel() {
 		
@@ -96,6 +95,31 @@ public class GestPersonnelsPanel extends JPanel {
 
 	private void createBttSupprimer() {
 		bttSupprimer = new JButton ("Supprimer");
+		bttSupprimer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				try {
+					Personnel personnelASupprimer = tablPersonnelModel.getValueAt(tablPersonnel.getSelectedRow());
+					personnelASupprimer.setArchive(true);
+					
+					PersonnelManager.getInstance().updatePersonnel(personnelASupprimer);
+					// Permet de rafraichir la JTable
+					tablPersonnelModel.chargementDonnees();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+			
+			
+		
 		
 	}
 
@@ -110,6 +134,7 @@ public class GestPersonnelsPanel extends JPanel {
 				jifAjoutSalarie.setSize(500, 350);
 				jifAjoutSalarie.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutSalarie);
+				
 				try {
 					jifAjoutSalarie.setSelected(true);
 		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
@@ -125,12 +150,14 @@ public class GestPersonnelsPanel extends JPanel {
 
 	private void createTablPersonnel() {
 		
-		tablPersonnelModel = new TablePersonnelModel();
+		tablPersonnelModel = TablePersonnelModel.getInstance();
 		tablPersonnel = new JTable(tablPersonnelModel);
 		tablPersonnel.setBorder(BorderFactory.createEtchedBorder());
 		tablPersonnel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablPersonnel.setRowHeight(30);
 		tablPersonnel.getSelectionModel().setSelectionInterval(0, 0);
+		
+		
 	
 	}
 	

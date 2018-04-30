@@ -7,6 +7,7 @@ public class Rdv {
 	private Veterinaire veterinaire;
 	private Animal animal;
 	private Date dateRdv;
+	private Client client;
 	
 	
 	
@@ -29,6 +30,13 @@ public class Rdv {
 		this.dateRdv = dateRdv;
 	}
 	
+
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
 	public Rdv() {
 		// TODO Auto-generated constructor stub
 	}

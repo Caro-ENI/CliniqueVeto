@@ -67,20 +67,21 @@ public abstract class Personnel {
 		this.archive = archive;
 	}
 	
+	// Pour avoir les bons affichages dans les JComboBox
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Personnel [codePersonnel=");
-		builder.append(codePersonnel);
-		builder.append(", nom=");
+//		builder.append("Personnel [codePersonnel=");
+//		builder.append(codePersonnel);
+//		builder.append(", nom=");
 		builder.append(nom);
-		builder.append(", motPasse=");
-		builder.append(motPasse);
-		builder.append(", role=");
-		builder.append(role);
-		builder.append(", archive=");
-		builder.append(archive);
-		builder.append("]\r");
+//		builder.append(", motPasse=");
+//		builder.append(motPasse);
+//		builder.append(", role=");
+//		builder.append(role);
+//		builder.append(", archive=");
+//		builder.append(archive);
+//		builder.append("]\r");
 		return builder.toString();
 	}
 	

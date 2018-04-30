@@ -41,6 +41,7 @@ public class GestClientPanel extends JPanel {
 	private JLabel lblCodePostal;
 	private JLabel lblVille;
 	private JLabel lblNumTel;
+	private JLabel lblEmail;
 	private JLabel lblAssurance;
 	private JLabel lblRemarques;
 	
@@ -52,6 +53,7 @@ public class GestClientPanel extends JPanel {
 	private JTextField tfCodePostal;
 	private JTextField tfVille;
 	private JTextField tfNumTel;
+	private JTextField tfEmail;
 	private JTextField tfAssurance;
 	private JTextField tfRemarques;
 	
@@ -65,6 +67,7 @@ public class GestClientPanel extends JPanel {
 	private JPanel panelInfos;
 	private JPanel panelBttBas;
 	private JScrollPane panelTablAnimaux;
+	private JPanel panelCentral;
 	
 	
 	
@@ -81,6 +84,7 @@ public class GestClientPanel extends JPanel {
 				this.createLblCodePostal();
 				this.createLblVille();
 				this.createLblNumTel();
+				this.createLblEmail();
 				this.createLblAssurance();
 				this.createLblRemarques();
 				
@@ -94,6 +98,7 @@ public class GestClientPanel extends JPanel {
 				this.createTfCodePostal();
 				this.createTfVille();
 				this.createTfNumTel();
+				this.createTfEmail();
 				this.createTfAssurance();
 				this.createTfRemarques();
 		
@@ -119,6 +124,7 @@ public class GestClientPanel extends JPanel {
 				this.createPanelBttBas();
 				this.createPanelInfos();
 				this.createPanelTablAnimaux();
+				this.createPanelCentral();
 		
 		// Panel global
 				
@@ -126,14 +132,9 @@ public class GestClientPanel extends JPanel {
 				this.setLayout(layoutGlobal);
 				
 				this.add(getPanelBttHaut(), BorderLayout.NORTH);
-				this.add(getPanelInfos(), BorderLayout.WEST);
-				this.add(getPanelTablAnimaux(), BorderLayout.CENTER);
+				this.add(getPanelCentral(), BorderLayout.CENTER);	
 				this.add(getPanelBttBas(), BorderLayout.SOUTH);				
-		
-		
-		
-		
-		
+
 	}
 	
 	
@@ -141,11 +142,6 @@ public class GestClientPanel extends JPanel {
 
 	//--------------------CREATION DES PANELS-----------------------------
 	
-	
-
-
-
-
 
 	private void createPanelBttBas() {
 		//permet de définir l'orientation de l'écriture dans le panel 
@@ -168,7 +164,6 @@ public class GestClientPanel extends JPanel {
 		
 	}
 
-
 	private void createPanelTablAnimaux() {
 		
 		panelTablAnimaux = new JScrollPane();
@@ -176,7 +171,6 @@ public class GestClientPanel extends JPanel {
 		
 		
 	}
-
 
 	private void createPanelInfos() {
 			panelInfos = new JPanel (new GridBagLayout());
@@ -205,14 +199,16 @@ public class GestClientPanel extends JPanel {
 			utilsIHM.addComponentTo(getLblNumTel() , panelInfos, 0, 7, 1, 1, 0.2, false);
 			utilsIHM.addComponentTo(getTfNumTel() , panelInfos, 1, 7, 1, 1, 0.8, true);
 			
-			utilsIHM.addComponentTo(getLblAssurance() , panelInfos, 0, 8, 1, 1, 0.2, false);
-			utilsIHM.addComponentTo(getTfAssurance() , panelInfos, 1, 8, 1, 1, 0.8, true);
+			utilsIHM.addComponentTo(getLblEmail(), panelInfos, 0, 8, 1, 1, 0.2, false);
+			utilsIHM.addComponentTo(getTfEmail(), panelInfos, 1, 8, 1, 1, 0.8, true);
 			
-			utilsIHM.addComponentTo(getLblRemarques() , panelInfos, 0, 9, 1, 1, 0.2, false);
-			utilsIHM.addComponentTo(getTfRemarques() , panelInfos, 1, 9, 1, 1, 0.8, true);
+			utilsIHM.addComponentTo(getLblAssurance() , panelInfos, 0, 9, 1, 1, 0.2, false);
+			utilsIHM.addComponentTo(getTfAssurance() , panelInfos, 1, 9, 1, 1, 0.8, true);
+			
+			utilsIHM.addComponentTo(getLblRemarques() , panelInfos, 0, 10, 1, 1, 0.2, false);
+			utilsIHM.addComponentTo(getTfRemarques() , panelInfos, 1, 10, 1, 1, 0.8, true);
 		
 	}
-
 
 	private void createPanelBttHaut() {
 		
@@ -236,6 +232,11 @@ public class GestClientPanel extends JPanel {
 		
 	}
 
+	private void createPanelCentral(){
+		panelCentral = new JPanel(new GridBagLayout());
+		utilsIHM.addComponentTo(getPanelInfos(), panelCentral, 0, 0, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getPanelTablAnimaux(), panelCentral, 1, 0, 1, 1, 0.8, true);
+	}
 	
 
 	//-------------CREATION DES COMPONENTS----------------------------------
@@ -245,126 +246,98 @@ public class GestClientPanel extends JPanel {
 		
 	}
 
-
-
 	private void createTfAssurance() {
 		tfAssurance = new JTextField("", 30);
 		
 	}
 
-
-
 	private void createTfNumTel() {
 		tfNumTel = new JTextField("", 15);
 		
 	}
-
-
+	
+	private void createTfEmail() {
+		tfEmail = new JTextField("", 15);
+	}
 
 	private void createTfVille() {
 		tfVille = new JTextField("", 25);
 		
 	}
 
-
-
 	private void createTfCodePostal() {
 		tfCodePostal = new JTextField("", 6);
 		
 	}
-
-
 
 	private void createTfAdresse2() {
 		tfAdresse2 = new JTextField("", 30);
 		
 	}
 
-
-
 	private void createTfAdresse1() {
 		tfAdresse1 = new JTextField("", 30);
 		
 	}
-
-
 
 	private void createTfPrenom() {
 		tfPrenom = new JTextField("", 20);
 		
 	}
 
-
-
 	private void createTfNom() {
 		tflNom = new JTextField("", 20);
 		
 	}
-
-
 
 	private void createTfCodeClient() {
 		tfCodeClient = new JTextField("", 20);
 		
 	}
 
-
-
 	private void createLblRemarques() {
 		lblRemarques = new JLabel("Remarques");
 		
 	}
-
-
 
 	private void createLblAssurance() {
 		lblAssurance = new JLabel ("Assurance");
 		
 	}
 
-
-
 	private void createLblNumTel() {
 		lblNumTel = new JLabel ("N° téléphone");
 		
 	}
-
-
+	
+	private void createLblEmail() {
+		lblEmail = new JLabel("Email");
+	}
 
 	private void createLblVille() {
 		lblVille = new JLabel ("Ville");
 		
 	}
 
-
-
 	private void createLblCodePostal() {
 		lblCodePostal = new JLabel ("Code postal");
 		
 	}
-
-
 
 	private void createLblAdresse() {
 		lblAdresse = new JLabel ("Adresse");
 		
 	}
 
-
-
 	private void createLblPrenom() {
 		lblPrenom = new JLabel ("Prenom");
 		
 	}
 
-
-
 	private void createLblNom() {
 		lblNom = new JLabel ("Nom");
 		
 	}
-
-
 
 	private void createLblCodeClient() {
 		lblCodeClient = new JLabel ("Code");
@@ -484,169 +457,121 @@ public class GestClientPanel extends JPanel {
 		return bttRechercher;
 	}
 
-
-
 	public JButton getBttAjouterClient() {
 		return bttAjouterClient;
 	}
-
-
 
 	public JButton getBttSupprimerClient() {
 		return bttSupprimerClient;
 	}
 
-
-
 	public JButton getBttValider() {
 		return bttEditerClient;
 	}
-
-
 
 	public JButton getBttAnnuler() {
 		return bttAnnuler;
 	}
 
-
-
 	public JLabel getLblCodeClient() {
 		return lblCodeClient;
 	}
-
-
 
 	public JLabel getLblNom() {
 		return lblNom;
 	}
 
-
-
 	public JLabel getLblPrenom() {
 		return lblPrenom;
 	}
-
-
 
 	public JLabel getLblAdresse() {
 		return lblAdresse;
 	}
 
-
-
 	public JLabel getLblCodePostal() {
 		return lblCodePostal;
 	}
-
-
 
 	public JLabel getLblVille() {
 		return lblVille;
 	}
 
-
-
 	public JLabel getLblNumTel() {
 		return lblNumTel;
 	}
 
-
+	public JLabel getLblEmail(){
+		return lblEmail;
+	}
 
 	public JLabel getLblAssurance() {
 		return lblAssurance;
 	}
 
-
-
 	public JLabel getLblRemarques() {
 		return lblRemarques;
 	}
-
-
 
 	public JTextField getTfCodeClient() {
 		return tfCodeClient;
 	}
 
-
-
 	public JTextField getTflNom() {
 		return tflNom;
 	}
-
-
 
 	public JTextField getTfPrenom() {
 		return tfPrenom;
 	}
 
-
-
 	public JTextField getTfAdresse1() {
 		return tfAdresse1;
 	}
-
-
 
 	public JTextField getTfAdresse2() {
 		return tfAdresse2;
 	}
 
-
-
 	public JTextField getTfCodePostal() {
 		return tfCodePostal;
 	}
-
-
 
 	public JTextField getTfVille() {
 		return tfVille;
 	}
 
-
-
 	public JTextField getTfNumTel() {
 		return tfNumTel;
 	}
 
-
+	public JTextField getTfEmail(){
+		return tfEmail;
+	}
 
 	public JTextField getTfAssurance() {
 		return tfAssurance;
 	}
 
-
-
 	public JTextField getTfRemarques() {
 		return tfRemarques;
 	}
-
-
 
 	public JTable getTablAnimaux() {
 		return tablAnimaux;
 	}
 
-
-
 	public TableAnimalModel getModelTablAnimaux() {
 		return modelTablAnimaux;
 	}
-
-
 
 	public JButton getBttAjouterAnimal() {
 		return bttAjouterAnimal;
 	}
 
-
-
 	public JButton getBttSupprimerAnimal() {
 		return bttSupprimerAnimal;
 	}
-
-
 
 	public JButton getBttEditerAnimal() {
 		return bttEditerAnimal;
@@ -656,28 +581,21 @@ public class GestClientPanel extends JPanel {
 		return panelBttHaut;
 	}
 
-
-
-
 	public JPanel getPanelInfos() {
 		return panelInfos;
 	}
-
-
-
 
 	public JPanel getPanelBttBas() {
 		return panelBttBas;
 	}
 
-
-
-
 	public JScrollPane getPanelTablAnimaux() {
 		return panelTablAnimaux;
 	}
 	
-	
+	public JPanel getPanelCentral(){
+		return panelCentral;
+	}
 	
 	
 	
