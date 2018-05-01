@@ -2,6 +2,10 @@ package fr.eni.cach.clinique.ihm.ecranClients;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -70,7 +74,7 @@ public class RechercherPanel extends JPanel {
 	//**********************CREATION DES COMPONENTS****************************
 
 	private void createTablClients() {
-		modelTablClients = new TableClientModel();
+		modelTablClients = TableClientModel.getInstance();
 		tablClients = new JTable(modelTablClients);
 		tablClients.setBorder(BorderFactory.createEtchedBorder());
 		tablClients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -81,11 +85,36 @@ public class RechercherPanel extends JPanel {
 
 	private void createTfRechercher() {
 		tfRechercher = new JTextField("nom du client");
-		
+		tfRechercher.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if ('\n' == (e.getKeyChar())) {
+					//Demande un rafraichissement de l'affichage avec les données renvoyées par la recherche
+					TableClientModel.getInstance().chargementDonnees(getTfRechercher().getText());
+				}
+			}
+
+			// méthodes non utilisées ici
+			@Override
+			public void keyReleased(KeyEvent e) {}
+
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
 	}
 
 	private void createBttRechercher() {
-		bttRechercher = new JButton("Rechercher"); 
+		bttRechercher = new JButton("Rechercher");
+		bttRechercher.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Demande un rafraichissement de l'affichage avec les données renvoyées par la recherche
+				TableClientModel.getInstance().chargementDonnees(getTfRechercher().getText());
+				
+			}
+		});
 		
 	}
 

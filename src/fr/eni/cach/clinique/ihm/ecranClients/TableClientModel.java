@@ -5,14 +5,33 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import fr.eni.cach.clinique.bo.Client;
-import fr.eni.cach.clinique.bo.Personnel;
-import fr.eni.cach.clinique.bo.Rdv;
+import fr.eni.cach.clinique.bll.BLLException;
+import fr.eni.cach.clinique.bll.ClientManager;
 import fr.eni.cach.clinique.bo.Client;
 
 public class TableClientModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7022554891763668907L;
+	
+	/* *********** SINGLETON ************* */
+	
+	private static TableClientModel instance = null;
+	
+	/**
+	 * Constructeur de TablePersonnelModel -> permet de faire l'ajout de données dans une JTable
+	 */
+	private TableClientModel() {
+	}
+	
+	public static TableClientModel getInstance() {
+		if (instance == null) {
+			instance = new TableClientModel();
+		}
+		return instance;
+	}
+	
+	/* ********************************* */
+	
 	
 	/**
 	 * Définition des noms des colonnes de la JTable
@@ -24,28 +43,20 @@ public class TableClientModel extends AbstractTableModel {
 	 */
 	private List<Client> listeClients = new ArrayList<>();
 	
+
 	
-	
-	
-	/**
-	 * Constructeur de TablePersonnelModel -> permet de faire l'ajout de données dans une JTable
-	 */
-	public TableClientModel() {
-		this.chargementDonnees();
-	}
-	
-	public void chargementDonnees() {
-		//TODO enlever le bouchon quand BLL dispo
-	//	rdv = Catalogue.getInstance().getCatalogue();
-		listeClients.add(new Client());
-		listeClients.add(new Client());
-		listeClients.add(new Client());
-		listeClients.add(new Client());
-		listeClients.add(new Client());
-		listeClients.add(new Client());
+	public void chargementDonnees(String motCle) {
+		
+		try {
+			listeClients = ClientManager.getInstance().getListeClientsMC(motCle);
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
+		
 		fireTableDataChanged();
 	}
 
+	
 	@Override
 	public int getColumnCount() {
 		return nomsColonnes.length;
@@ -69,24 +80,17 @@ public class TableClientModel extends AbstractTableModel {
 			
 			switch (columnIndex) {
 			case 0:
-				//TODO
-				//value = personnelAAfficher.getNom();
-				value = "Morel";
+				value = clientAAfficher.getNomClient();
 				break;
 			case 1:
-				//TODO
-				//value = personnelAAfficher.getRole();
-				value = "Christophe";
+				value = clientAAfficher.getPrenomClient();
+				
 				break;
 			case 2:
-				//TODO
-				//value = personnelAAfficher.getMotPasse();
-				value = "35310";
+				value = clientAAfficher.getCodePostal();
 				break;
 			case 3:
-				//TODO
-				//value = personnelAAfficher.getMotPasse();
-				value = "Bréal sous Montfort";
+				value = clientAAfficher.getVille();
 				break;	
 			}
 		}
