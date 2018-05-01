@@ -212,8 +212,9 @@ public class Client {
 //		builder.append(codeClient);
 //		builder.append(", nomClient=");
 		builder.append(nomClient);
+		builder.append(" ");
 //		builder.append(", prenomClient=");
-//		builder.append(prenomClient);
+		builder.append(prenomClient);
 //		builder.append(", adresse1=");
 //		builder.append(adresse1);
 //		builder.append(", adresse2=");
