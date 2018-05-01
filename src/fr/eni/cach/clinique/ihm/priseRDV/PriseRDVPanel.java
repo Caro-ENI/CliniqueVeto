@@ -385,7 +385,12 @@ public class PriseRDVPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnimauxPanel panelAnimal = new AnimauxPanel(jcbClient.getSelectedItem().toString());
+				//dans le cas où on clique sur le bouton ajouter animal mais qu'aucun client n'est sélectionné
+				if (jcbClient.getSelectedItem() == null) {
+					JOptionPane.showMessageDialog(PriseRDVPanel.this, "Avant d'ajouter un nouvel animal, vous devez sélectionner le client auquel il appartient.",
+							"Attention", JOptionPane.WARNING_MESSAGE);
+				} else { 
+				AnimauxPanel panelAnimal = new AnimauxPanel((Client) jcbClient.getSelectedItem());
 				JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 				jifAjoutAnimal.setSize(500, 350);
 				jifAjoutAnimal.setVisible(true);
@@ -393,6 +398,7 @@ public class PriseRDVPanel extends JPanel {
 				try {
 					jifAjoutAnimal.setSelected(true);
 		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
+				}
 			}
 		});
 		
@@ -482,11 +488,13 @@ public class PriseRDVPanel extends JPanel {
 	}
 
 	
+	
 	private void createJcbHeures() {
 		Integer[] heures = {8,9,10,11,12,13,14,15,16,17,18,19};
 		jcbHeures = new JComboBox<Integer>(heures);
 	}
 
+	
 	private void createJcbMinutes() {
 		Integer[] minutes = {00,15,30,45};
 		jcbMinutes = new JComboBox<Integer>(minutes);

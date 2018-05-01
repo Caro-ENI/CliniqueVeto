@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class AnimauxPanel extends JPanel {
@@ -51,7 +52,7 @@ public class AnimauxPanel extends JPanel {
 	private JPanel panelGlobal;
 	
 
-	public AnimauxPanel(String nomClient) {
+	public AnimauxPanel(Client client) {
 		
 		//Initialisation des champs
 		
@@ -64,7 +65,7 @@ public class AnimauxPanel extends JPanel {
 		this.createLblTatouage();
 		this.createLblRace();
 		this.createLblGetCodeAnimal();
-		this.createLblNomClient(nomClient);
+		this.createLblNomClient(client);
 		
 			// Les TextFields
 		
@@ -225,8 +226,8 @@ public class AnimauxPanel extends JPanel {
 	}
 
 
-	private void createLblNomClient(String nomClient) {
-		lblNomClient = new JLabel (nomClient);
+	private void createLblNomClient(Client client) {
+		lblNomClient = new JLabel (client.toString());
 	}
 
 

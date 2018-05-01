@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
@@ -361,7 +362,7 @@ public class GestClientPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnimauxPanel panelAnimal = new AnimauxPanel("toto");
+				AnimauxPanel panelAnimal = new AnimauxPanel(new Client());
 				JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 				jifAjoutAnimal.setSize(500, 350);
 				jifAjoutAnimal.setVisible(true);
@@ -384,7 +385,7 @@ public class GestClientPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnimauxPanel panelAnimal = new AnimauxPanel("toto");
+				AnimauxPanel panelAnimal = new AnimauxPanel(new Client());
 				JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 				jifAjoutAnimal.setSize(500, 350);
 				jifAjoutAnimal.setVisible(true);
