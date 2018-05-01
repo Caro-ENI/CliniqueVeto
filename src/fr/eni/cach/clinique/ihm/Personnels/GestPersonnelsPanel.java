@@ -25,14 +25,14 @@ public class GestPersonnelsPanel extends JPanel {
 	
 	private JPanel panelBoutons;
 	private JScrollPane panelTablPersonnel;
-	private JTable tablPersonnel;
+	private static JTable tablPersonnel;
 	
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
 	
 	private JButton bttAjouter;
 	private JButton bttSupprimer;
 	private JButton bttReinitialiser;
-	public TablePersonnelModel tablPersonnelModel;
+	public static TablePersonnelModel tablPersonnelModel;
 	
 
 
@@ -80,6 +80,9 @@ public class GestPersonnelsPanel extends JPanel {
 				jifReinitialiserMotPasse.setSize(500, 350);
 				jifReinitialiserMotPasse.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifReinitialiserMotPasse);
+				
+				
+				
 				try {
 					jifReinitialiserMotPasse.setSelected(true);
 		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
@@ -212,7 +215,7 @@ public class GestPersonnelsPanel extends JPanel {
 		return panelTablPersonnel;
 	}
 
-	public JTable getTablPersonnel() {
+	public static JTable getTablPersonnel() {
 		return tablPersonnel;
 	}
 
@@ -228,7 +231,7 @@ public class GestPersonnelsPanel extends JPanel {
 		return bttReinitialiser;
 	}
 
-	public TablePersonnelModel getTablPersonnelModel() {
+	public static TablePersonnelModel getTablPersonnelModel() {
 		return tablPersonnelModel;
 	}
 	

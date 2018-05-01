@@ -4,13 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import fr.eni.cach.clinique.bll.PersonnelManager;
+import fr.eni.cach.clinique.bo.Personnel;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class ReinitialiserMotPassePanel extends JPanel {
@@ -35,10 +41,18 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	private JTextField tfMotPasse;
 	private JTextField tfRole;
 	
+	TablePersonnelModel model = GestPersonnelsPanel.getTablPersonnelModel();
+	JTable table = GestPersonnelsPanel.getTablPersonnel();
+	
+	
+
 	
 	public ReinitialiserMotPassePanel () {
 		
 		// Initialisation des components
+		
+	
+	
 		
 			this.createLblCodePers ();
 			this.createLblNom ();
@@ -114,30 +128,76 @@ public class ReinitialiserMotPassePanel extends JPanel {
 
 	private void createBttAnnuler() {
 		bttAnnuler = new JButton ("Annuler");
+		bttAnnuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getTfMotPasse().setText("");
+				
+			}
+		});
 		
 	}
 
 
 	private void createBttValider() {
 		bttValider = new JButton ("Valider");
+		bttValider.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Personnel persAInitialiser = model.getValueAt(table.getSelectedRow());
+					persAInitialiser.setMotPasse(getTfMotPasse().getText());
+					
+					PersonnelManager.getInstance().updatePersonnel(persAInitialiser);
+					
+					JOptionPane.showMessageDialog(ReinitialiserMotPassePanel.this, "Mot de passe réinitialisé",
+							"", JOptionPane.INFORMATION_MESSAGE);
+					
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		
 	}
 
 
 	private void createTfRole() {
-		tfRole = new JTextField("Rôle pré rempli");
+		try {
+			Personnel persAInitialiser = model.getValueAt(table.getSelectedRow());
+			tfRole = new JTextField (persAInitialiser.getRole());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		
 	}
 
 
 	private void createTfMotPasse() {
-		tfMotPasse = new JTextField("");
+		tfMotPasse = new JTextField();
 		
 	}
 
 
 	private void createTfNom() {
-		tfNom = new JTextField ("Nom pré rempli");
+		try {
+			Personnel persAInitialiser = model.getValueAt(table.getSelectedRow());
+			tfNom = new JTextField (persAInitialiser.getNom());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 		
 	}
 
