@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -31,14 +32,14 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	private JButton bttValider;
 	private JButton bttAnnuler;
 	
-	private JLabel lblCodePers;
+	
 	private JLabel lblNom;
 	private JLabel lblMotPasse;
 	private JLabel lblRole;
 	
-	private JTextField tfCodePers;
+	
 	private JTextField tfNom;
-	private JTextField tfMotPasse;
+	private JPasswordField tfMotPasse;
 	private JTextField tfRole;
 	
 	TablePersonnelModel model = GestPersonnelsPanel.getTablPersonnelModel();
@@ -54,12 +55,12 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	
 	
 		
-			this.createLblCodePers ();
+		
 			this.createLblNom ();
 			this.createLblMotPasse ();
 			this.createLblRole();
 			
-			this.createTfCodePers ();
+			
 			this.createTfNom();
 			this.createTfMotPasse();
 			this.createTfRole();
@@ -182,7 +183,7 @@ public class ReinitialiserMotPassePanel extends JPanel {
 
 
 	private void createTfMotPasse() {
-		tfMotPasse = new JTextField();
+		tfMotPasse = new JPasswordField();
 		
 	}
 
@@ -202,11 +203,7 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	}
 
 
-	private void createTfCodePers() {
-		tfCodePers = new JTextField("Code pré rempli");
-		
-	}
-
+	
 
 	private void createLblRole() {
 		lblRole = new JLabel ("Rôle");
@@ -226,11 +223,7 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	}
 
 
-	private void createLblCodePers() {
-		lblCodePers = new JLabel ("Code Personnel");
-		
-		
-	}
+
 	
 	//-------------------------------------------------GETTERS---------------------------------------------------------------
 
@@ -255,9 +248,6 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	}
 
 
-	public JLabel getLblCodePers() {
-		return lblCodePers;
-	}
 
 
 	public JLabel getLblNom() {
@@ -275,9 +265,7 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	}
 
 
-	public JTextField getTfCodePers() {
-		return tfCodePers;
-	}
+
 
 
 	public JTextField getTfNom() {
