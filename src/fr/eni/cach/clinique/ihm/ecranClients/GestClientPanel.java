@@ -332,6 +332,8 @@ public class GestClientPanel extends JPanel {
 
 	private void createTfCodeClient() {
 		tfCodeClient = new JTextField("", 20);
+		// rend la zone de texte non éditable par l'utilisateur
+		tfCodeClient.setEditable(false);
 
 	}
 
@@ -504,6 +506,7 @@ public class GestClientPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				RechercherPanel panelRecherche = new RechercherPanel(GestClientPanel.this);
+				TableClientModel.getInstance().dechargementDonnees();
 				JInternalFrame jifRechercher = UtilsIHM.getInstance().createJIF("Recherche de Client", panelRecherche);
 				jifRechercher.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifRechercher);
