@@ -5,12 +5,33 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import fr.eni.cach.clinique.bll.AnimalManager;
+import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bo.Animal;
 
 
 public class TableAnimalModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7022554891763668907L;
+	
+	/* ************** SINGLETON ************** */
+	
+	private static TableAnimalModel instance =null;
+	
+	/**
+	 * Constructeur de TableAnimalModel -> permet de faire l'ajout de données dans une JTable
+	 */
+	private TableAnimalModel() {
+	}
+	
+	public static TableAnimalModel getInstance() {
+		if (instance == null) {
+			instance = new TableAnimalModel();
+		}
+		return instance;
+	}
+	
+	/* *************************************** */
 	
 	/**
 	 * Définition des noms des colonnes de la JTable
@@ -22,25 +43,14 @@ public class TableAnimalModel extends AbstractTableModel {
 	 */
 	private List<Animal> listeAnimaux = new ArrayList<>();
 	
-	
-	
-	
-	/**
-	 * Constructeur de TableAnimalModel -> permet de faire l'ajout de données dans une JTable
-	 */
-	public TableAnimalModel() {
-		this.chargementDonnees();
-	}
-	
-	public void chargementDonnees() {
-		//TODO enlever le bouchon quand BLL dispo
-	//	rdv = Catalogue.getInstance().getCatalogue();
-		listeAnimaux.add(new Animal());
-		listeAnimaux.add(new Animal());
-		listeAnimaux.add(new Animal());
-		listeAnimaux.add(new Animal());
-		listeAnimaux.add(new Animal());
-		listeAnimaux.add(new Animal());
+		
+	public void chargementDonnees(int codeClient) {
+		
+		try {
+			listeAnimaux = AnimalManager.getInstance().selectAnimaux(codeClient);
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
 		fireTableDataChanged();
 	}
 
@@ -63,43 +73,29 @@ public class TableAnimalModel extends AbstractTableModel {
 		Object value = null;
 		
 		if(rowIndex >= 0 && rowIndex < listeAnimaux.size()) {
-			//Animal animalAAfficher = listeAnimaux.get(rowIndex);
+			Animal animalAAfficher = listeAnimaux.get(rowIndex);
 			
 			switch (columnIndex) {
 			case 0:
-				//TODO
-				//value = animalAAfficher.getCodeAnimal();
-				value = 1;
+				value = animalAAfficher.getCodeAnimal();
 				break;
 			case 1:
-				//TODO
-				//value = animalAAfficher.getNomAnimal();
-				value = "Mirza";
+				value = animalAAfficher.getNomAnimal();
 				break;
 			case 2:
-				//TODO
-				//value = animalAAfficher.getSexe();
-				value = "M";
+				value = animalAAfficher.getSexe();
 				break;
 			case 3:
-				//TODO
-				//value = animalAAfficher.getCouleur();
-				value = "Blanc";
+				value = animalAAfficher.getCouleur();
 				break;	
 			case 4:
-				//TODO
-				//value = animalAAfficher.getRace();
-				value = "Chien";
+				value = animalAAfficher.getRace();
 				break;
 			case 5:
-				//TODO
-				//value = animalAAfficher.getEspece();
-				value = "Bulldog";
+				value = animalAAfficher.getEspece();
 				break;	
 			case 6:
-				//TODO
-				//value = animalAAfficher.getTatouage();
-				value = "#I Love NY";
+				value = animalAAfficher.getTatouage();
 				break;	
 				
 			}

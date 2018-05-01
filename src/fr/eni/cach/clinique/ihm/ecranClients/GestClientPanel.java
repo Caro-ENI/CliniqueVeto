@@ -70,6 +70,8 @@ public class GestClientPanel extends JPanel {
 	private JScrollPane panelTablAnimaux;
 	private JPanel panelCentral;
 	
+//	private JInternalFrame jifRechercher;	
+	
 	
 	
 	public GestClientPanel() {
@@ -140,6 +142,34 @@ public class GestClientPanel extends JPanel {
 	
 	
 
+	// ------ Méthodes de refresh des affichages --------
+	
+	/**
+	 * Permet de rafraichir l'affichage du client courant 
+	 * @param client
+	 */
+	public void refreshAffichageClient(Client client) {
+		 this.tfCodeClient.setText(String.valueOf(client.getCodeClient()));
+		 this.tflNom.setText(client.getNomClient());
+		 this.tfPrenom.setText(client.getPrenomClient());
+		 this.tfAdresse1.setText(client.getAdresse1());
+		 this.tfAdresse2.setText(client.getAdresse2());
+		 this.tfCodePostal.setText(client.getCodePostal());
+		 this.tfVille.setText(client.getVille());
+		 this.tfNumTel.setText(client.getNumTel());
+		 this.tfEmail.setText(client.getEmail());
+		 this.tfAssurance.setText(client.getAssurance());
+		 this.tfRemarques.setText(client.getRemarque());
+		 
+		 this.rerefreshAffichageAnimaux(client);
+		 
+	}
+	
+	
+	public void rerefreshAffichageAnimaux(Client client) {
+		tablAnimaux.removeAll();
+		TableAnimalModel.getInstance().chargementDonnees(client.getCodeClient());
+	}
 
 	//--------------------CREATION DES PANELS-----------------------------
 	
@@ -346,7 +376,7 @@ public class GestClientPanel extends JPanel {
 	}
 	
 	private void createTablAnimaux() {
-		modelTablAnimaux = new TableAnimalModel();
+		modelTablAnimaux = TableAnimalModel.getInstance();
 		tablAnimaux = new JTable (modelTablAnimaux);
 		tablAnimaux.setBorder(BorderFactory.createEtchedBorder());
 		tablAnimaux.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -437,7 +467,7 @@ public class GestClientPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RechercherPanel panelRecherche = new RechercherPanel();
+				RechercherPanel panelRecherche = new RechercherPanel(GestClientPanel.this);
 				JInternalFrame jifRechercher = UtilsIHM.getInstance().createJIF("Recherche de Client", panelRecherche);
 				jifRechercher.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifRechercher);

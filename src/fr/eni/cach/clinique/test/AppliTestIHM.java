@@ -31,10 +31,10 @@ public class AppliTestIHM {
 				
 				AjoutClientPanel ajouterClientFrame = new AjoutClientPanel();
 				ajouterClientFrame.setVisible(true);
-				
-				RechercherPanel resultatFrame = new RechercherPanel();
-				resultatFrame.setVisible(true);
-				
+//				
+//				RechercherPanel resultatFrame = new RechercherPanel();
+//				resultatFrame.setVisible(true);
+//				
 
 			}
 		});

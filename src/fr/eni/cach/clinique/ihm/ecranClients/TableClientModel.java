@@ -44,7 +44,10 @@ public class TableClientModel extends AbstractTableModel {
 	private List<Client> listeClients = new ArrayList<>();
 	
 
-	
+	/**
+	 * Charge les données dans la Jtable
+	 * @param motCle
+	 */
 	public void chargementDonnees(String motCle) {
 		
 		try {
@@ -54,6 +57,13 @@ public class TableClientModel extends AbstractTableModel {
 		}
 		
 		fireTableDataChanged();
+	}
+	
+	/**
+	 * Permet de vider les données de la JTable
+	 */
+	public void dechargementDonnees() {
+		listeClients = new ArrayList<>();
 	}
 
 	
@@ -99,4 +109,13 @@ public class TableClientModel extends AbstractTableModel {
 	}
 	
 
+	public Client getValueAt(int rowIndex) throws Exception {
+		if(rowIndex >= 0 && rowIndex < listeClients.size()) {
+			return listeClients.get(rowIndex);
+		}
+		throw new Exception ("Le Client est introuvable.");
+		
+		
+	}
+	
 }

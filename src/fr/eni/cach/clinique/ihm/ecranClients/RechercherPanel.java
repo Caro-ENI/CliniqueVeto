@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 
@@ -34,13 +37,13 @@ public class RechercherPanel extends JPanel {
 	private JTable tablClients;
 	private TableClientModel modelTablClients;
 	
-	public RechercherPanel() {
+	public RechercherPanel(GestClientPanel panelGestParent) {
 		
 		// Initialisation des champs
 		
 		this.createBttRechercher();
 		this.createTfRechercher();
-		this.createTablClients();
+		this.createTablClients(panelGestParent);
 		
 		// Initialisation des panels
 		
@@ -52,6 +55,7 @@ public class RechercherPanel extends JPanel {
 		
 		this.add(getPanelHaut(), BorderLayout.NORTH);
 		this.add(getPanelBas(), BorderLayout.CENTER);
+		
 		
 	}
 
@@ -73,13 +77,49 @@ public class RechercherPanel extends JPanel {
 
 	//**********************CREATION DES COMPONENTS****************************
 
-	private void createTablClients() {
+	private void createTablClients(GestClientPanel panelGestParent) {
 		modelTablClients = TableClientModel.getInstance();
 		tablClients = new JTable(modelTablClients);
 		tablClients.setBorder(BorderFactory.createEtchedBorder());
 		tablClients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablClients.setRowHeight(30);
 		tablClients.getSelectionModel().setSelectionInterval(0, 0);
+		tablClients.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) { //quand double clic
+					
+					try {
+						// on récupère le client sélectionné 
+						Client clientSelect = TableClientModel.getInstance().getValueAt(tablClients.getSelectedRow());
+						//on l'envoie au panel parent (GestClientPanel) pour que celui-ci rafraichisse l'affichage
+						panelGestParent.refreshAffichageClient(clientSelect);
+						//on masque la fenêtre de recherche :
+						// ici on est dans un panel, si on fait RechercherPanel.this.setVisible(false)
+						//le panel va bien disparaître mais pas la JInternalFrame autour qui restera alors vide
+						//il faut donc récuperer le component parent grâce au .getParent()
+						RechercherPanel.this.getParent().getParent().getParent().setVisible(false);
+						TableClientModel.getInstance().dechargementDonnees();
+						
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+				}
+				
+			}
+			/* **Méthodes non utilisées ici** */
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {}			
+			@Override
+			public void mouseExited(MouseEvent e) {}			
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			
+		});
 		
 	}
 
