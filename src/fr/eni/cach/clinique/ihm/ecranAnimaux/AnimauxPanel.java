@@ -51,7 +51,7 @@ public class AnimauxPanel extends JPanel {
 	private JPanel panelGlobal;
 	
 
-	public AnimauxPanel() {
+	public AnimauxPanel(String nomClient) {
 		
 		//Initialisation des champs
 		
@@ -64,7 +64,7 @@ public class AnimauxPanel extends JPanel {
 		this.createLblTatouage();
 		this.createLblRace();
 		this.createLblGetCodeAnimal();
-		this.createLblNomClient();
+		this.createLblNomClient(nomClient);
 		
 			// Les TextFields
 		
@@ -94,9 +94,6 @@ public class AnimauxPanel extends JPanel {
 		
 		//Panel Global
 		
-		//this.createPanelGlobal ();
-		
-	
 		GridBagLayout layoutGlobal = new GridBagLayout();
 		
 		this.setLayout(layoutGlobal);
@@ -104,17 +101,6 @@ public class AnimauxPanel extends JPanel {
 		utilsIHM.addComponentTo(getPanelBttHaut(), this, 0, 0, 1, 1, 1, true);
 		utilsIHM.addComponentTo(getPanelClient(), this, 0, 1, 1, 1, 1, true);
 		utilsIHM.addComponentTo(getPanelAnimal(), this, 0, 2, 1, 4, 1, true);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	
 	}
@@ -127,19 +113,6 @@ public class AnimauxPanel extends JPanel {
 
 	//--------------------------CREATION DES PANELS-----------------------------------------
 	
-		private void createPanelGlobal() {
-		panelGlobal = new JPanel(new GridBagLayout());
-		
-		utilsIHM.addComponentTo(getPanelBttHaut(), panelGlobal, 0, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getPanelClient(), panelGlobal, 0, 1, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getPanelAnimal(), panelGlobal, 0, 2, 1, 4, 1, true);
-		
-		
-		
-		
-	}
-
-
 
 		private void createPanelAnimal() {
 			panelAnimal = new JPanel(new GridBagLayout());
@@ -252,10 +225,8 @@ public class AnimauxPanel extends JPanel {
 	}
 
 
-	private void createLblNomClient() {
-		// TODO : pré-remplir le label Nom Client
-		lblNomClient = new JLabel ("MOREL Christophe");
-		
+	private void createLblNomClient(String nomClient) {
+		lblNomClient = new JLabel (nomClient);
 	}
 
 

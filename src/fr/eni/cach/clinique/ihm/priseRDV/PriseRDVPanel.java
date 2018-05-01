@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,9 +28,11 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import fr.eni.cach.clinique.bll.AnimalManager;
 import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bll.ClientManager;
 import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
+import fr.eni.cach.clinique.bo.Animal;
 import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
@@ -103,10 +106,11 @@ public class PriseRDVPanel extends JPanel {
 	
 	private JDatePicker datePicker;
 		
+	//TODO changer en vétérinaire
 	private JComboBox<String> jcbVeto;
-	//TODO changer en Client et en Animal !! 
+
 	private JComboBox<Client> jcbClient;
-	private JComboBox<String> jcbAnimal;
+	private JComboBox<Animal> jcbAnimal;
 	
 	private JComboBox<Integer> jcbHeures;
 	private JComboBox<Integer> jcbMinutes;
@@ -381,7 +385,7 @@ public class PriseRDVPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnimauxPanel panelAnimal = new AnimauxPanel();
+				AnimauxPanel panelAnimal = new AnimauxPanel(jcbClient.getSelectedItem().toString());
 				JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 				jifAjoutAnimal.setSize(500, 350);
 				jifAjoutAnimal.setVisible(true);
@@ -446,12 +450,34 @@ public class PriseRDVPanel extends JPanel {
 			e.printStackTrace();
 		}
 		jcbClient.setSelectedItem(null);
-		
+		jcbClient.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+				//vérification que l'objet de la jcombobox est bien un client
+				if (jcbClient.getSelectedItem() instanceof Client) {
+				
+					//le client sélectionné est stocké dans une variable intermédiaire
+					Client client = (Client) jcbClient.getSelectedItem();
+					//on utilise AnimalManager pour récuperer la liste des animaux associée au client
+						List<Animal> animauxClient = AnimalManager.getInstance().selectAnimaux(client.getCodeClient());
+						jcbAnimal.removeAllItems();
+						for (Animal animal : animauxClient) {
+							jcbAnimal.addItem(animal);
+						}
+					}
+					} catch (BLLException e1) {
+						JOptionPane.showMessageDialog(PriseRDVPanel.this, "Impossible d'accéder aux animaux du Client",
+								"Erreur", JOptionPane.WARNING_MESSAGE);
+						e1.printStackTrace();
+				}	
+			}
+		});
 	}
 	
 	private void createJcbAnimal(){
 		jcbAnimal = new JComboBox<>();
-		//permet de ne pas sélectionner par défaut le nom d'un véto
 		jcbAnimal.setSelectedItem(null);
 	}
 
@@ -573,7 +599,7 @@ public class PriseRDVPanel extends JPanel {
 		return jlAnimal;
 	}
 	
-	public JComboBox<String> getJcbAnimal() {
+	public JComboBox<Animal> getJcbAnimal() {
 		return jcbAnimal;
 	}
 

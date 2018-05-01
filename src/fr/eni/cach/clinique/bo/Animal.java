@@ -130,27 +130,27 @@ public class Animal {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Animal [codeAnimal=");
-		builder.append(codeAnimal);
-		builder.append(", nomAnimal=");
+//		builder.append("Animal [codeAnimal=");
+//		builder.append(codeAnimal);
+//		builder.append(", nomAnimal=");
 		builder.append(nomAnimal);
-		builder.append(", sexe=");
-		builder.append(sexe);
-		builder.append(", couleur=");
-		builder.append(couleur);
-		builder.append(", race=");
-		builder.append(race);
-		builder.append(", espece=");
-		builder.append(espece);
-		builder.append(", codeClient=");
-		builder.append(codeClient);
-		builder.append(", tatouage=");
-		builder.append(tatouage);
-		builder.append(", antecedents=");
-		builder.append(antecedents);
-		builder.append(", archive=");
-		builder.append(archive);
-		builder.append("]\r");
+//		builder.append(", sexe=");
+//		builder.append(sexe);
+//		builder.append(", couleur=");
+//		builder.append(couleur);
+//		builder.append(", race=");
+//		builder.append(race);
+//		builder.append(", espece=");
+//		builder.append(espece);
+//		builder.append(", codeClient=");
+//		builder.append(codeClient);
+//		builder.append(", tatouage=");
+//		builder.append(tatouage);
+//		builder.append(", antecedents=");
+//		builder.append(antecedents);
+//		builder.append(", archive=");
+//		builder.append(archive);
+//		builder.append("]\r");
 		return builder.toString();
 	}
 	

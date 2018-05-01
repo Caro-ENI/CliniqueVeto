@@ -361,7 +361,7 @@ public class GestClientPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnimauxPanel panelAnimal = new AnimauxPanel();
+				AnimauxPanel panelAnimal = new AnimauxPanel("toto");
 				JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 				jifAjoutAnimal.setSize(500, 350);
 				jifAjoutAnimal.setVisible(true);
@@ -384,7 +384,7 @@ public class GestClientPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnimauxPanel panelAnimal = new AnimauxPanel();
+				AnimauxPanel panelAnimal = new AnimauxPanel("toto");
 				JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 				jifAjoutAnimal.setSize(500, 350);
 				jifAjoutAnimal.setVisible(true);
