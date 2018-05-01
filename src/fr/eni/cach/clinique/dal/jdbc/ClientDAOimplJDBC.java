@@ -239,7 +239,7 @@ public class ClientDAOimplJDBC implements ClientDAO {
 	 * @return : un client avec ou sans sa liste d'animaux
 	 * @throws SQLException
 	 */
-	private Client clientBuilder(ResultSet rs, Boolean avecAnimaux) throws SQLException {
+	public Client clientBuilder(ResultSet rs, Boolean avecAnimaux) throws SQLException {
 
 		Client client = new Client();
 		List<Animal> animauxDuCli = new ArrayList<>();

@@ -11,5 +11,7 @@ public interface RdvDAO extends DAO<Rdv> {
 	// Ne pas oublier de gérer la conversion des dates Java -> SQL
 	public List <Rdv> selectRdvByVetoAndDate (Veterinaire veto, Date dateRdv);
 	
+	public List <Rdv> selectRdvByVeto (Veterinaire veto);
+	
 
 }

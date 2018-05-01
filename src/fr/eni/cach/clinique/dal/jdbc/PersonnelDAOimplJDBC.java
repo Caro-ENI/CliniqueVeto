@@ -152,7 +152,7 @@ public class PersonnelDAOimplJDBC implements PersonnelDAO {
 	// Utlitaires
 	//********************************************************************
 	
-	private Personnel personnelBuilder(ResultSet rs) throws SQLException {
+	public Personnel personnelBuilder(ResultSet rs) throws SQLException {
 		Personnel personne = null;
 		String role = rs.getString("Role");
 
