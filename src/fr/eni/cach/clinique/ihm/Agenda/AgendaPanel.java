@@ -161,7 +161,7 @@ public class AgendaPanel extends JPanel{
 	private void createDatePicker() {
 		UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
-		p.put("text.today", "Aujourd'hui");
+		p.put("text.today", "Aujord'hui");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
