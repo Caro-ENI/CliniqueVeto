@@ -1,5 +1,6 @@
 package fr.eni.cach.clinique.ihm.priseRDV;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,11 @@ public class TableRDVModel extends AbstractTableModel {
 	public void chargementDonnees() {
 		//TODO enlever le bouchon quand BLL dispo
 	//	rdv = Catalogue.getInstance().getCatalogue();
-		listeDeRdv 
+		
+		//Veterinaire veto = 
+		//LocalDateTime date =	
+		
+		// listeRdv = RdvManager.getInstance().getListeRdv(veto, date);
 		
 		
 		

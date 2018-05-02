@@ -21,11 +21,11 @@ public class RdvManager {
 
 	private static RdvManager instance = null;
 
-	public RdvManager() {
+	private RdvManager() {
 		daoRdv = DAOFactory.getRdvDAO();
 	}
 
-	public RdvManager getInstance() {
+	public static RdvManager getInstance() {
 
 		if (instance == null) {
 
