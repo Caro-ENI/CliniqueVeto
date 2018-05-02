@@ -221,7 +221,7 @@ public class AnimalDAOimplJDBC implements AnimalDAO {
 			animal.setCouleur(rs.getString("Couleur"));
 			animal.setRace(rs.getString("Race"));
 			animal.setEspece(rs.getString("Espece"));
-			animal.setCodeClient(rs.getInt("CodeClient"));
+			animal.setCodeClient(rs.getInt("CodeClient"));	
 			animal.setTatouage(rs.getString("Tatouage"));
 			animal.setAntecedents(rs.getString("Antecedents"));
 			if (rs.getInt("Archive") == 0) {

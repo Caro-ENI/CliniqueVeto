@@ -9,9 +9,9 @@ import fr.eni.cach.clinique.bo.Veterinaire;
 public interface RdvDAO extends DAO<Rdv> {
 
 	// Ne pas oublier de gérer la conversion des dates Java -> SQL
-	public List <Rdv> selectRdvByVetoAndDate (Veterinaire veto, Date dateRdv);
+	public List <Rdv> selectRdvByVetoAndDate (int codeVeto, String dateRdv) throws DalException;
 	
-	public List <Rdv> selectRdvByVeto (Veterinaire veto);
+	public List <Rdv> selectRdvByVeto (int codeVeto) throws DalException;
 	
 
 }

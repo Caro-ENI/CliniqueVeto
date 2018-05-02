@@ -116,8 +116,11 @@ public class AnimalManager {
  	private void verificationSexe(Animal animal) throws BLLException{
  		if (animal.getSexe() == null || animal.getSexe().trim().isEmpty()) {
 			throw new BLLException("Le sexe de l'animal doit être renseigné.");
-		} else if ((animal.getSexe().length() > 1) || (("H" != animal.getSexe()) && ("M" != animal.getSexe()) && ("F" != animal.getSexe())) ) {
-			throw new BLLException("Le sexe de l'animal doit être M pour un mâle, F pour une femelle et H pour un hermaphrodite.");
+		} else if ((animal.getSexe().length() > 1)){
+			throw new BLLException("A.Le sexe de l'animal doit être M pour un mâle, F pour une femelle et H pour un hermaphrodite.");
+		} else if ( ('H' != animal.getSexe().charAt(0)) && ('M' != animal.getSexe().charAt(0)) && ('F' != animal.getSexe().charAt(0)) ) {
+		
+			throw new BLLException("B.Le sexe de l'animal doit être M pour un mâle, F pour une femelle et H pour un hermaphrodite.");
 		}
  	}
  	private void verificationEspece(Animal animal) throws BLLException{
@@ -135,7 +138,7 @@ public class AnimalManager {
 		}
  	}
  	private void verificationTatouage(Animal animal) throws BLLException{
- 		if (animal.getTatouage().length() > 10) {
+ 		if (animal.getTatouage() != null && animal.getTatouage().length() > 10) {
 			throw new BLLException("Le tatouage de l'animal ne doit pas excéder 10 caractères");
 		}
  	}

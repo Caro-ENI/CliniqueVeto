@@ -1,5 +1,7 @@
 package fr.eni.cach.clinique.test;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -44,9 +46,12 @@ public class AppliTestbo {
 		System.out.println(c1);
 		System.out.println("\r");
 		
-		Date date = new GregorianCalendar(2018, 3, 23, 10, 0).getTime();
+		Date in =new GregorianCalendar(2018, 3, 23, 10, 0).getTime();
+		LocalDateTime dateTest = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
 		
-		Rdv r1 = new Rdv(v1,a1, date);
+	
+		
+		Rdv r1 = new Rdv(v1,a1, dateTest,c1);
 		
 		System.out.println(r1);
 		

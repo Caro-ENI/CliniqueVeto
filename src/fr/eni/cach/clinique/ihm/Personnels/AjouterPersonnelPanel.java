@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.cach.clinique.bll.BLLException;
@@ -42,7 +43,7 @@ public class AjouterPersonnelPanel extends JPanel {
 		
 		private JTextField tfCodePers;
 		private JTextField tfNom;
-		private JTextField tfMotPasse;
+		private JPasswordField tfMotPasse;
 		private JTextField tfRole;
 		
 		
@@ -181,7 +182,7 @@ public class AjouterPersonnelPanel extends JPanel {
 					PersonnelManager.getInstance().addPersonnel(persAAjouter);
 					// Permet de rafraichir la JTable
 					TablePersonnelModel.getInstance().chargementDonnees();
-					
+					AjouterPersonnelPanel.this.getParent().getParent().getParent().setVisible(false);
 					} catch (BLLException e1) {
 						
 						JOptionPane.showMessageDialog(AjouterPersonnelPanel.this, e1.getMessage(),
@@ -199,7 +200,7 @@ public class AjouterPersonnelPanel extends JPanel {
 
 
 		private void createTfMotPasse() {
-			tfMotPasse = new JTextField("");
+			tfMotPasse = new JPasswordField("");
 			
 		}
 
@@ -293,7 +294,7 @@ public class AjouterPersonnelPanel extends JPanel {
 		}
 
 
-		public JTextField getTfMotPasse() {
+		public JPasswordField getTfMotPasse() {
 			return tfMotPasse;
 		}
 

@@ -154,8 +154,8 @@ public class ReinitialiserMotPassePanel extends JPanel {
 					PersonnelManager.getInstance().updatePersonnel(persAInitialiser);
 					
 					JOptionPane.showMessageDialog(ReinitialiserMotPassePanel.this, "Mot de passe réinitialisé",
-							"", JOptionPane.INFORMATION_MESSAGE);
-					
+							"Information", JOptionPane.INFORMATION_MESSAGE);
+					ReinitialiserMotPassePanel.this.getParent().getParent().getParent().setVisible(false);
 					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -172,6 +172,7 @@ public class ReinitialiserMotPassePanel extends JPanel {
 		try {
 			Personnel persAInitialiser = model.getValueAt(table.getSelectedRow());
 			tfRole = new JTextField (persAInitialiser.getRole());
+			tfRole.setEditable(false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,6 +193,7 @@ public class ReinitialiserMotPassePanel extends JPanel {
 		try {
 			Personnel persAInitialiser = model.getValueAt(table.getSelectedRow());
 			tfNom = new JTextField (persAInitialiser.getNom());
+			tfNom.setEditable(false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

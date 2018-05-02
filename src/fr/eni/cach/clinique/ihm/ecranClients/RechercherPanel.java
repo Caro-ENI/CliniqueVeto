@@ -131,7 +131,7 @@ public class RechercherPanel extends JPanel {
 	}
 
 	private void createTfRechercher() {
-		tfRechercher = new JTextField("nom du client");
+		tfRechercher = new JTextField("");
 		tfRechercher.addKeyListener(new KeyListener() {
 
 			@Override

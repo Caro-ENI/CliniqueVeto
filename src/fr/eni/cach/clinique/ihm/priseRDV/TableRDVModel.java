@@ -5,11 +5,29 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import fr.eni.cach.clinique.bll.RdvManager;
 import fr.eni.cach.clinique.bo.Rdv;
+import fr.eni.cach.clinique.dal.RdvDAO;
+import fr.eni.cach.clinique.ihm.ecranClients.TableAnimalModel;
 
 public class TableRDVModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7022554891763668907L;
+	
+/* ************** SINGLETON ************** */
+	
+	private static TableRDVModel instance = null;
+	
+	public static TableRDVModel getInstance () {
+		if (instance == null) {
+			instance = new TableRDVModel();	
+		}
+		return instance;
+	}
+	
+	
+	
+/* *************************************** */
 	
 	/**
 	 * Définition des noms des colonnes de la JTable
@@ -38,9 +56,10 @@ public class TableRDVModel extends AbstractTableModel {
 	public void chargementDonnees() {
 		//TODO enlever le bouchon quand BLL dispo
 	//	rdv = Catalogue.getInstance().getCatalogue();
-		listeDeRdv.add(new Rdv());
-		listeDeRdv.add(new Rdv());
-		listeDeRdv.add(new Rdv());
+		listeDeRdv 
+		
+		
+		
 		fireTableDataChanged();
 	}
 

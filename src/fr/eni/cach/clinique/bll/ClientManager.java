@@ -177,7 +177,7 @@ public class ClientManager {
 
 	private void verificationNumTel(Client client) throws BLLException {
 		if (client.getNumTel().length() > 15) {
-			throw new BLLException("La Ville du Client ne doit pas excéder 15 caractères");
+			throw new BLLException("Le Numéro de téléphone du Client ne doit pas excéder 15 caractères");
 		}
 	}
 

@@ -31,9 +31,11 @@ import org.jdatepicker.impl.UtilDateModel;
 import fr.eni.cach.clinique.bll.AnimalManager;
 import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bll.ClientManager;
+import fr.eni.cach.clinique.bll.PersonnelManager;
 import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.bo.Animal;
 import fr.eni.cach.clinique.bo.Client;
+import fr.eni.cach.clinique.bo.Veterinaire;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
@@ -186,9 +188,25 @@ public class PriseRDVPanel extends JPanel {
 		
 	}
 
+	// ****************** Méthodes INTERNES ******************************
+	/**
+	 * méthode qui raffraichit la JComboBox des clients 
+	 * avec le client ajouté et qui le selectionne
+	 * @param client
+	 */
+	public void refrechJcbClient(Client client){
+		jcbClient.addItem(client);
+		jcbClient.setSelectedItem(client);
+	}
 	
-	
-
+	/**
+	 * méthode qui raffraichit la JComboBox des animaux 
+	 * d'un client avec l'animal ajouté et qui le selectionne
+	 * @param animal
+	 */
+	public void refrechJcbAnimaux(Animal animal){
+		
+	}
 
 	// *********** CREATE PANELS **************
 	/**
@@ -367,7 +385,7 @@ public class PriseRDVPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AjoutClientPanel panelAjout = new AjoutClientPanel();
+				AjoutClientPanel panelAjout = new AjoutClientPanel(PriseRDVPanel.this);
 				JInternalFrame jifAjoutClient = utilsIHM.createJIF("Nouveau Client", panelAjout);
 				jifAjoutClient.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutClient);
@@ -437,9 +455,21 @@ public class PriseRDVPanel extends JPanel {
 	// *********** CREATE JCOMBOBOX **************	
 		
 	private void createJcbVeto(){
-		//TODO remplir avec la liste des veto courante
-		String[] veto = {"Veto1", "Veto2", "Veto3", "Veto4", "Veto5"};
-		jcbVeto = new JComboBox<>(veto);
+		jcbVeto = new JComboBox<>();
+		
+		try {
+			List <Veterinaire> listeVetos = PersonnelManager.getInstance().getListeVeto();
+			for (Veterinaire veterinaire : listeVetos) {
+				jcbVeto.addItem(veterinaire.toString());
+			}
+			
+			
+			
+		} catch (BLLException e) {
+			
+			e.printStackTrace();
+		}
+		
 		//permet de ne pas sélectionner par défaut le nom d'un véto
 		jcbVeto.setSelectedItem(null);
 	}

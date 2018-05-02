@@ -29,8 +29,8 @@ public class AppliTestIHM {
 		//	CliniqueVetoFrame2 maCliniqueVeto2 = new CliniqueVetoFrame2();
 		//	maCliniqueVeto2.setVisible(true);
 				
-				AjoutClientPanel ajouterClientFrame = new AjoutClientPanel();
-				ajouterClientFrame.setVisible(true);
+//				AjoutClientPanel ajouterClientFrame = new AjoutClientPanel();
+//				ajouterClientFrame.setVisible(true);
 //				
 //				RechercherPanel resultatFrame = new RechercherPanel();
 //				resultatFrame.setVisible(true);

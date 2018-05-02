@@ -8,6 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import fr.eni.cach.clinique.bll.AnimalManager;
 import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bo.Animal;
+import fr.eni.cach.clinique.bo.Client;
 
 
 public class TableAnimalModel extends AbstractTableModel {
@@ -104,5 +105,12 @@ public class TableAnimalModel extends AbstractTableModel {
 		return value;
 	}
 	
-
+	public Animal getValueAt(int rowIndex) throws Exception {
+		if(rowIndex >= 0 && rowIndex < listeAnimaux.size()) {
+			return listeAnimaux.get(rowIndex);
+		}
+		throw new Exception ("L'Animal est introuvable.");
+		
+		
+	}
 }
