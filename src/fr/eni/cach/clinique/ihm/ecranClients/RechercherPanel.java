@@ -24,6 +24,8 @@ import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class RechercherPanel extends JPanel {
 
+	// *********** ATTRIBUTS ****************************
+
 	private static final long serialVersionUID = 1950438804010026911L;
 
 	private JPanel panelHaut;
@@ -33,10 +35,14 @@ public class RechercherPanel extends JPanel {
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
 
 	private JButton bttRechercher;
+
+	private JLabel jlInfo;
 	private JTextField tfRechercher;
+
 	private JTable tablClients;
 	private TableClientModel modelTablClients;
-	private JLabel jlInfo;
+
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 
 	public RechercherPanel(GestClientPanel panelGestParent) {
 
@@ -62,7 +68,7 @@ public class RechercherPanel extends JPanel {
 
 	}
 
-	// *****************************CREATION DES PANELS***********************
+	// *********** CREATION PANELS **********************
 
 	private void createPanelHaut() {
 		panelHaut = new JPanel(new GridBagLayout());
@@ -78,12 +84,73 @@ public class RechercherPanel extends JPanel {
 
 	}
 
-	private void createPanelInfo(){
+	private void createPanelInfo() {
 		panelInfo = new JPanel(new GridBagLayout());
 		UtilsIHM.getInstance().addComponentTo(getJlInfo(), panelInfo, 0, 0, 1, 1, 1, true);
 	}
-	
-	// **********************CREATION DES COMPONENTS****************************
+
+	// *********** CREATION BOUTONS *********************
+
+	private void createBttRechercher() {
+		bttRechercher = UtilsIHM.getInstance().createBttAvecIcon("Rechercher", UtilsIHM.IconesEnum.RECHERCHER);
+		bttRechercher.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Demande un rafraichissement de l'affichage avec les données renvoyées par la
+				// recherche
+				TableClientModel.getInstance().chargementDonnees(getTfRechercher().getText());
+				if (tablClients.getRowCount() == 0) {
+					JOptionPane.showMessageDialog(RechercherPanel.this, "Aucun client ne correspond à votre recherche",
+							"Information", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+
+			}
+		});
+
+	}
+
+	// *********** CREATION LIBELLES ********************
+
+	private void createJlInfo() {
+		jlInfo = new JLabel("Double-cliquer pour choisir un client.");
+		jlInfo.setHorizontalAlignment(JLabel.CENTER);
+	}
+
+	// *********** CREATION ZONES DE TEXTE **************
+
+	private void createTfRechercher() {
+		tfRechercher = new JTextField("");
+		tfRechercher.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if ('\n' == (e.getKeyChar())) {
+					// Demande un rafraichissement de l'affichage avec les données renvoyées par la
+					// recherche
+					TableClientModel.getInstance().chargementDonnees(getTfRechercher().getText());
+					if (tablClients.getRowCount() == 0) {
+						JOptionPane.showMessageDialog(RechercherPanel.this,
+								"Aucun client ne correspond à votre recherche", "Information",
+								JOptionPane.INFORMATION_MESSAGE);
+
+					}
+				}
+			}
+
+			// méthodes non utilisées ici
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+	}
+
+	// *********** CREATION TABLES **********************
 
 	private void createTablClients(GestClientPanel panelGestParent) {
 		modelTablClients = TableClientModel.getInstance();
@@ -110,7 +177,6 @@ public class RechercherPanel extends JPanel {
 						// alors vide
 						// il faut donc récuperer le component parent grâce au .getParent()
 						RechercherPanel.this.getParent().getParent().getParent().setVisible(false);
-						
 
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -141,62 +207,7 @@ public class RechercherPanel extends JPanel {
 
 	}
 
-	private void createTfRechercher() {
-		tfRechercher = new JTextField("");
-		tfRechercher.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if ('\n' == (e.getKeyChar())) {
-					// Demande un rafraichissement de l'affichage avec les données renvoyées par la
-					// recherche
-					TableClientModel.getInstance().chargementDonnees(getTfRechercher().getText());
-					if (tablClients.getRowCount() == 0) {
-						JOptionPane.showMessageDialog(RechercherPanel.this, "Aucun client ne correspond à votre recherche",
-								"Information", JOptionPane.INFORMATION_MESSAGE);
-
-					}
-				}
-			}
-
-			// méthodes non utilisées ici
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-		});
-	}
-
-	private void createBttRechercher() {
-		bttRechercher = new JButton("Rechercher");
-		bttRechercher.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Demande un rafraichissement de l'affichage avec les données renvoyées par la
-				// recherche
-				TableClientModel.getInstance().chargementDonnees(getTfRechercher().getText());
-				if (tablClients.getRowCount() == 0) {
-					JOptionPane.showMessageDialog(RechercherPanel.this, "Aucun client ne correspond à votre recherche",
-							"Information", JOptionPane.INFORMATION_MESSAGE);
-
-				}
-
-			}
-		});
-
-	}
-
-	private void createJlInfo(){
-		jlInfo = new JLabel("Double-cliquer pour choisir un client.");
-		jlInfo.setHorizontalAlignment(JLabel.CENTER);
-	}
-
-	
-	// *************************GETTERS****************************************
+	// *********** GETTERS ******************************
 
 	public JPanel getPanelHaut() {
 		return panelHaut;
@@ -218,11 +229,11 @@ public class RechercherPanel extends JPanel {
 		return tablClients;
 	}
 
-	public JPanel getPanelInfo(){
+	public JPanel getPanelInfo() {
 		return panelInfo;
 	}
 
-	public JLabel getJlInfo(){
+	public JLabel getJlInfo() {
 		return jlInfo;
 	}
 

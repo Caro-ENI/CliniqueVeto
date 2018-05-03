@@ -11,55 +11,56 @@ import fr.eni.cach.clinique.bo.Client;
 
 public class TableClientModel extends AbstractTableModel {
 
+	// *********** ATTRIBUTS ****************************
+
 	private static final long serialVersionUID = 7022554891763668907L;
-	
-	/* *********** SINGLETON ************* */
-	
-	private static TableClientModel instance = null;
-	
+
 	/**
-	 * Constructeur de TablePersonnelModel -> permet de faire l'ajout de données dans une JTable
+	 * Définition des noms des colonnes de la JTable
+	 */
+	private String[] nomsColonnes = { "Nom", "Prénom", "Code postal", "Ville" };
+
+	/**
+	 * Liste des personnels qui sont ajoutés à la JTable
+	 */
+	private List<Client> listeClients = new ArrayList<>();
+
+	// *********** SINGLETON ****************************
+
+	private static TableClientModel instance = null;
+
+	/**
+	 * Constructeur de TablePersonnelModel -> permet de faire l'ajout de données
+	 * dans une JTable
 	 */
 	private TableClientModel() {
 	}
-	
+
 	public static TableClientModel getInstance() {
 		if (instance == null) {
 			instance = new TableClientModel();
 		}
 		return instance;
 	}
-	
-	/* ********************************* */
-	
-	
-	/**
-	 * Définition des noms des colonnes de la JTable
-	 */
-	private String[] nomsColonnes = {"Nom", "Prénom", "Code postal", "Ville"};
 
-	/**
-	 * Liste des personnels qui sont ajoutés à la JTable
-	 */
-	private List<Client> listeClients = new ArrayList<>();
-	
+	// *********** METHODES *****************************
 
 	/**
 	 * Charge les données dans la Jtable
+	 * 
 	 * @param motCle
 	 */
 	public void chargementDonnees(String motCle) {
-		
+
 		try {
 			listeClients = ClientManager.getInstance().getListeClientsMC(motCle);
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		fireTableDataChanged();
 	}
-	
+
 	/**
 	 * Permet de vider les données de la JTable
 	 */
@@ -67,7 +68,6 @@ public class TableClientModel extends AbstractTableModel {
 		listeClients = new ArrayList<>();
 	}
 
-	
 	@Override
 	public int getColumnCount() {
 		return nomsColonnes.length;
@@ -77,7 +77,7 @@ public class TableClientModel extends AbstractTableModel {
 	public int getRowCount() {
 		return listeClients.size();
 	}
-	
+
 	public String getColumnName(int column) {
 		return nomsColonnes[column];
 	}
@@ -85,38 +85,36 @@ public class TableClientModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Object value = null;
-		
-		if(rowIndex >= 0 && rowIndex < listeClients.size()) {
+
+		if (rowIndex >= 0 && rowIndex < listeClients.size()) {
 			Client clientAAfficher = listeClients.get(rowIndex);
-			
+
 			switch (columnIndex) {
 			case 0:
 				value = clientAAfficher.getNomClient();
 				break;
 			case 1:
 				value = clientAAfficher.getPrenomClient();
-				
+
 				break;
 			case 2:
 				value = clientAAfficher.getCodePostal();
 				break;
 			case 3:
 				value = clientAAfficher.getVille();
-				break;	
+				break;
 			}
 		}
-		
+
 		return value;
 	}
-	
 
 	public Client getValueAt(int rowIndex) throws Exception {
-		if(rowIndex >= 0 && rowIndex < listeClients.size()) {
+		if (rowIndex >= 0 && rowIndex < listeClients.size()) {
 			return listeClients.get(rowIndex);
 		}
-		throw new Exception ("Le Client est introuvable.");
-		
-		
+		throw new Exception("Le Client est introuvable.");
+
 	}
-	
+
 }

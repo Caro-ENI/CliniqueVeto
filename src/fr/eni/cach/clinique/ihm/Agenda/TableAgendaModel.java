@@ -16,10 +16,20 @@ import fr.eni.cach.clinique.bo.Veterinaire;
 
 public class TableAgendaModel extends AbstractTableModel {
 	
+	// *********** ATTRIBUTS ****************************
 	private static final long serialVersionUID = 7022554891763668907L;
 
-	
-	/* ************** SINGLETON ************** */
+	/**
+	 * Définition des noms des colonnes de la JTable
+	 */
+	private String[] nomsColonnes = {"Heure", "Nom du client", "Animal", "Race"};
+
+	/**
+	 * Liste des Rdv qui sont ajoutés à la JTable
+	 */
+	private List<Rdv> listeDeRdv = new ArrayList<>();
+
+	// *********** SINGLETON ****************************
 	
 	private static TableAgendaModel instance;
 	
@@ -31,9 +41,6 @@ public class TableAgendaModel extends AbstractTableModel {
 		
 	}
 
-	/* ************************************** */
-	
-	
 	/**
 	 * Constructeur de TableAgendaModel -> permet de faire l'ajout de données dans une JTable
 	 */
@@ -41,16 +48,7 @@ public class TableAgendaModel extends AbstractTableModel {
 		
 	}
 	
-	/**
-	 * Définition des noms des colonnes de la JTable
-	 */
-	private String[] nomsColonnes = {"Heure", "Nom du client", "Animal", "Race"};
-
-	/**
-	 * Liste des Rdv qui sont ajoutés à la JTable
-	 */
-	private List<Rdv> listeDeRdv = new ArrayList<>();
-	
+	// *********** METHODES *****************************
 
 	public void chargementDonnees(Veterinaire veto, Date dateRdv) {
 		
@@ -63,7 +61,6 @@ public class TableAgendaModel extends AbstractTableModel {
 		
 		fireTableDataChanged();
 	}
-	
 
 	@Override
 	public int getColumnCount() {
@@ -125,7 +122,6 @@ public class TableAgendaModel extends AbstractTableModel {
 	
 	}
 	
-
 	public Rdv getValueAt(int rowIndex) throws Exception {
 		if(rowIndex >= 0 && rowIndex < listeDeRdv.size()) {
 			return listeDeRdv.get(rowIndex);
@@ -134,6 +130,4 @@ public class TableAgendaModel extends AbstractTableModel {
 		
 	}
 	
-	
-
 }

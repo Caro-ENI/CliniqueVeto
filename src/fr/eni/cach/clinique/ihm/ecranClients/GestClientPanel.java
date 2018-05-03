@@ -31,6 +31,8 @@ import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
 
 public class GestClientPanel extends JPanel {
 
+	// *********** ATTRIBUTS ****************************
+
 	private static final long serialVersionUID = -84150586310550769L;
 
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
@@ -40,6 +42,9 @@ public class GestClientPanel extends JPanel {
 	private JButton bttSupprimerClient;
 	private JButton bttEditerClient;
 	private JButton bttAnnuler;
+	private JButton bttAjouterAnimal;
+	private JButton bttSupprimerAnimal;
+	private JButton bttEditerAnimal;
 
 	private JLabel lblCodeClient;
 	private JLabel lblNom;
@@ -66,9 +71,6 @@ public class GestClientPanel extends JPanel {
 
 	private JTable tablAnimaux;
 	private TableAnimalModel modelTablAnimaux;
-	private JButton bttAjouterAnimal;
-	private JButton bttSupprimerAnimal;
-	private JButton bttEditerAnimal;
 
 	private JPanel panelBttHaut;
 	private JPanel panelInfos;
@@ -78,6 +80,8 @@ public class GestClientPanel extends JPanel {
 
 	private Client clientCourant = null;
 	private Animal animalCourant = null;
+
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 
 	public GestClientPanel() {
 
@@ -145,7 +149,459 @@ public class GestClientPanel extends JPanel {
 
 	}
 
-	// ------ METHODES INTERNES --------
+	// *********** CREATION PANELS **********************
+
+	private void createPanelBttBas() {
+		// permet de définir l'orientation de l'écriture dans le panel
+		setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		panelBttBas = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		// panelBoutons.setBackground(Color.GRAY);
+
+		// pour mettre une bordure sur le panel boutons : faire appel à la
+		// BorderFactory
+		panelBttBas.setBorder(BorderFactory.createEtchedBorder());
+
+		// -> Récupère la taille de l'écran
+		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// panelBoutons.setSize(screenSize.width-10, 4);
+
+		panelBttBas.add(getBttAjouterAnimal());
+		panelBttBas.add(getBttSupprimerAnimal());
+		panelBttBas.add(getBttEditerAnimal());
+
+	}
+
+	private void createPanelTablAnimaux() {
+
+		panelTablAnimaux = new JScrollPane();
+		panelTablAnimaux.setViewportView(getTablAnimaux());
+
+	}
+
+	private void createPanelInfos() {
+		panelInfos = new JPanel(new GridBagLayout());
+
+		utilsIHM.addComponentTo(getLblCodeClient(), panelInfos, 0, 0, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfCodeClient(), panelInfos, 1, 0, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 1, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTflNom(), panelInfos, 1, 1, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblPrenom(), panelInfos, 0, 2, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfPrenom(), panelInfos, 1, 2, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblAdresse(), panelInfos, 0, 3, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfAdresse1(), panelInfos, 1, 3, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getTfAdresse2(), panelInfos, 1, 4, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblCodePostal(), panelInfos, 0, 5, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfCodePostal(), panelInfos, 1, 5, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblVille(), panelInfos, 0, 6, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfVille(), panelInfos, 1, 6, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblNumTel(), panelInfos, 0, 7, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfNumTel(), panelInfos, 1, 7, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblEmail(), panelInfos, 0, 8, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfEmail(), panelInfos, 1, 8, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblAssurance(), panelInfos, 0, 9, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfAssurance(), panelInfos, 1, 9, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblRemarques(), panelInfos, 0, 10, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfRemarques(), panelInfos, 1, 10, 1, 1, 0.8, true);
+
+	}
+
+	private void createPanelBttHaut() {
+
+		panelBttHaut = new JPanel(new GridBagLayout());
+
+		utilsIHM.addComponentTo(getBttRechercher(), panelBttHaut, 0, 0, 1, 1, 1, true);
+		utilsIHM.addComponentTo(getBttAjouterClient(), panelBttHaut, 3, 0, 1, 1, 1, true);
+		utilsIHM.addComponentTo(getBttSupprimerClient(), panelBttHaut, 4, 0, 1, 1, 1, true);
+		utilsIHM.addComponentTo(getBttValider(), panelBttHaut, 7, 0, 1, 1, 1, true);
+		utilsIHM.addComponentTo(getBttAnnuler(), panelBttHaut, 8, 0, 1, 1, 1, true);
+
+	}
+
+	private void createPanelCentral() {
+		panelCentral = new JPanel(new GridBagLayout());
+		utilsIHM.addComponentTo(getPanelInfos(), panelCentral, 0, 0, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getPanelTablAnimaux(), panelCentral, 1, 0, 1, 1, 0.8, true);
+	}
+
+	// *********** CREATION BOUTONS *********************
+
+	private void createBttEditerAnimal() {
+		bttEditerAnimal = utilsIHM.createBttAvecIcon("Éditer", UtilsIHM.IconesEnum.EDITER);
+		bttEditerAnimal.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clientCourant == null) {
+					JOptionPane.showMessageDialog(GestClientPanel.this,
+							"Vous ne pouvez pas éditer un animal sans avoir un client affiché.", "Attention",
+							JOptionPane.WARNING_MESSAGE);
+				} else if (animalCourant == null) {
+					JOptionPane.showMessageDialog(GestClientPanel.this,
+							"Vous devez d'abord sélectionner un animal dans le tableau.", "Attention",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					AnimauxPanel panelAnimal = new AnimauxPanel(clientCourant, animalCourant, GestClientPanel.this);
+					JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
+					jifAjoutAnimal.setSize(500, 350);
+					jifAjoutAnimal.setVisible(true);
+					CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutAnimal);
+					try {
+						jifAjoutAnimal.setSelected(true);
+					} catch (java.beans.PropertyVetoException eAjoutCli) {
+					}
+				}
+			}
+		});
+	}
+
+	private void createBttSupprimerAnimal() {
+		bttSupprimerAnimal = utilsIHM.createBttAvecIcon("Supprimer", UtilsIHM.IconesEnum.SUPPRIMER);
+		bttSupprimerAnimal.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clientCourant == null) {
+					JOptionPane.showMessageDialog(GestClientPanel.this,
+							"Vous devez d'avoir avoir sélectionné un client avant de supprimer un animal.", "Attention",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					if (tablAnimaux.getSelectedRow() < 0) {
+						JOptionPane.showMessageDialog(GestClientPanel.this,
+								"Vous devez d'avoir avoir sélectionné un animal dans la liste avant de le supprimer.",
+								"Attention", JOptionPane.WARNING_MESSAGE);
+					} else {
+						try {
+							// on sélectionne l'animal à supprimer à partir de la
+							// ligne sélectionnée
+							Animal animalASuppr = TableAnimalModel.getInstance()
+									.getValueAt(tablAnimaux.getSelectedRow());
+							// on archive l'animal
+							animalASuppr.setArchive(true);
+
+							AnimalManager.getInstance().updateAnimal(animalASuppr);
+
+							JOptionPane.showMessageDialog(GestClientPanel.this, "L'Animal a bien été supprimé.",
+									"Infomation", JOptionPane.INFORMATION_MESSAGE);
+						} catch (BLLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						TableAnimalModel.getInstance().chargementDonnees(clientCourant.getCodeClient());
+
+					}
+				}
+			}
+		});
+	}
+
+	private void createBttAjouterAnimal() {
+		bttAjouterAnimal = utilsIHM.createBttAvecIcon("Ajouter", UtilsIHM.IconesEnum.AJOUTER);
+		bttAjouterAnimal.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clientCourant == null) {
+					JOptionPane.showMessageDialog(GestClientPanel.this,
+							"Vous ne pouvez pas créer un animal sans avoir un client affiché.", "Attention",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					AnimauxPanel panelAnimal = new AnimauxPanel(clientCourant, new Animal(), GestClientPanel.this);
+					JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
+					jifAjoutAnimal.setSize(500, 350);
+					jifAjoutAnimal.setVisible(true);
+					CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutAnimal);
+					try {
+						jifAjoutAnimal.setSelected(true);
+					} catch (java.beans.PropertyVetoException eAjoutCli) {
+					}
+				}
+			}
+		});
+
+	}
+
+	private void createBttAnnuler() {
+		bttAnnuler = utilsIHM.createBttAvecIcon("Annuler", UtilsIHM.IconesEnum.ANNULER);
+		bttAnnuler.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				GestClientPanel.this.refreshAffichageClient(clientCourant);
+			}
+		});
+
+	}
+
+	private void createBttEditerClient() {
+		bttEditerClient = utilsIHM.createBttAvecIcon("Éditer", UtilsIHM.IconesEnum.EDITER);
+		bttEditerClient.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// on vérifie qu'il y a bien un client courant :
+				if (clientCourant == null) {
+					JOptionPane.showMessageDialog(GestClientPanel.this,
+							"Vous devez d'abord avoir affiché un client avant de le modifier. Pour créer un nouveau client utilisez le bouton Ajouter",
+							"Attention", JOptionPane.WARNING_MESSAGE);
+				} else {
+					// le client à modifier est le client courant, on récupère
+					// donc ses informations
+					Client cliAModif = GestClientPanel.this.createClientCourant();
+					try {
+						ClientManager.getInstance().updateClient(cliAModif);
+						JOptionPane.showMessageDialog(GestClientPanel.this, "Le Client a bien été édité.",
+								"Information", JOptionPane.INFORMATION_MESSAGE);
+					} catch (BLLException e1) {
+						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(), "Modification de Client",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+	}
+
+	private void createBttSupprimerClient() {
+		bttSupprimerClient = utilsIHM.createBttAvecIcon("Supprimer", UtilsIHM.IconesEnum.SUPPRIMER);
+		bttSupprimerClient.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// on vérifie qu'il y a bien un client courant :
+				if (clientCourant == null) {
+					JOptionPane.showMessageDialog(GestClientPanel.this,
+							"Vous devez d'abord avoir affiché un client avant de le supprimer.", "Attention",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						// on modifie la valeur Archive du client courant afin
+						// qu'il s'archive bien
+						clientCourant.setArchive(true);
+						ClientManager.getInstance().updateClient(clientCourant);
+						// on informe l'utilisateur
+						JOptionPane.showMessageDialog(GestClientPanel.this, "Le Client a bien été supprimé.",
+								"Information", JOptionPane.INFORMATION_MESSAGE);
+
+						// on fait un refresh de l'affichage
+						clientCourant = null;
+						refreshAffichageClient(clientCourant);
+					} catch (BLLException e1) {
+						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(), "Suppression d'un Client",
+								JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}
+
+				}
+
+			}
+		});
+	}
+
+	private void createBttAjouterClient() {
+		bttAjouterClient = utilsIHM.createBttAvecIcon("Ajouter", UtilsIHM.IconesEnum.AJOUTER);
+		bttAjouterClient.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AjoutClientPanel panelAjout = new AjoutClientPanel(GestClientPanel.this);
+				JInternalFrame jifAjoutClient = utilsIHM.createJIF("Nouveau Client", panelAjout);
+				jifAjoutClient.setVisible(true);
+				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutClient);
+				try {
+					jifAjoutClient.setSelected(true);
+				} catch (java.beans.PropertyVetoException eAjoutCli) {
+				}
+			}
+		});
+
+	}
+
+	private void createBttRechercher() {
+		bttRechercher = utilsIHM.createBttAvecIcon("Rechercher", UtilsIHM.IconesEnum.RECHERCHER);
+		bttRechercher.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RechercherPanel panelRecherche = new RechercherPanel(GestClientPanel.this);
+				TableClientModel.getInstance().dechargementDonnees();
+				JInternalFrame jifRechercher = UtilsIHM.getInstance().createJIF("Recherche de Client", panelRecherche);
+				jifRechercher.setVisible(true);
+				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifRechercher);
+				try {
+					jifRechercher.setSelected(true);
+				} catch (java.beans.PropertyVetoException eAjoutCli) {
+				}
+
+			}
+		});
+	}
+
+	// *********** CREATION LIBELLES ********************
+
+	private void createLblRemarques() {
+		lblRemarques = new JLabel("Remarques");
+
+	}
+
+	private void createLblAssurance() {
+		lblAssurance = new JLabel("Assurance");
+
+	}
+
+	private void createLblNumTel() {
+		lblNumTel = new JLabel("N° téléphone");
+
+	}
+
+	private void createLblEmail() {
+		lblEmail = new JLabel("Email");
+	}
+
+	private void createLblVille() {
+		lblVille = new JLabel("Ville");
+
+	}
+
+	private void createLblCodePostal() {
+		lblCodePostal = new JLabel("Code postal");
+
+	}
+
+	private void createLblAdresse() {
+		lblAdresse = new JLabel("Adresse");
+
+	}
+
+	private void createLblPrenom() {
+		lblPrenom = new JLabel("Prenom");
+
+	}
+
+	private void createLblNom() {
+		lblNom = new JLabel("Nom");
+
+	}
+
+	private void createLblCodeClient() {
+		lblCodeClient = new JLabel("Code");
+
+	}
+
+	// *********** CREATION ZONES DE TEXTE **************
+
+	private void createTfRemarques() {
+		tfRemarques = new JTextField("", 50);
+
+	}
+
+	private void createTfAssurance() {
+		tfAssurance = new JTextField("", 30);
+
+	}
+
+	private void createTfNumTel() {
+		tfNumTel = new JTextField("", 15);
+
+	}
+
+	private void createTfEmail() {
+		tfEmail = new JTextField("", 15);
+	}
+
+	private void createTfVille() {
+		tfVille = new JTextField("", 25);
+
+	}
+
+	private void createTfCodePostal() {
+		tfCodePostal = new JTextField("", 6);
+
+	}
+
+	private void createTfAdresse2() {
+		tfAdresse2 = new JTextField("", 30);
+
+	}
+
+	private void createTfAdresse1() {
+		tfAdresse1 = new JTextField("", 30);
+
+	}
+
+	private void createTfPrenom() {
+		tfPrenom = new JTextField("", 20);
+
+	}
+
+	private void createTfNom() {
+		tflNom = new JTextField("", 20);
+
+	}
+
+	private void createTfCodeClient() {
+		tfCodeClient = new JTextField("", 20);
+		// rend la zone de texte non éditable par l'utilisateur
+		tfCodeClient.setEditable(false);
+
+	}
+
+	// *********** CREATION TABLES **********************
+
+	private void createTablAnimaux() {
+		modelTablAnimaux = TableAnimalModel.getInstance();
+		tablAnimaux = new JTable(modelTablAnimaux);
+		TableAnimalModel.getInstance().dechargementDonnees();
+		animalCourant = null;
+		tablAnimaux.setBorder(BorderFactory.createEtchedBorder());
+		tablAnimaux.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablAnimaux.setRowHeight(30);
+		tablAnimaux.getSelectionModel().setSelectionInterval(0, 0);
+		tablAnimaux.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					// on récupère l'animal sélectionné
+					animalCourant = TableAnimalModel.getInstance().getValueAt(tablAnimaux.getSelectedRow());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+
+			/* *Méthodes non utilisées * */
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+		});
+
+	}
+
+	// *********** METHODES *****************************
 
 	/**
 	 * Permet de rafraichir l'affichage du client courant
@@ -217,464 +673,7 @@ public class GestClientPanel extends JPanel {
 		return clientCourant;
 	}
 
-	// --------------------CREATION DES PANELS-----------------------------
-
-	private void createPanelBttBas() {
-		// permet de définir l'orientation de l'écriture dans le panel
-		setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		panelBttBas = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		// panelBoutons.setBackground(Color.GRAY);
-
-		// pour mettre une bordure sur le panel boutons : faire appel à la
-		// BorderFactory
-		panelBttBas.setBorder(BorderFactory.createEtchedBorder());
-
-		// -> Récupère la taille de l'écran
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// panelBoutons.setSize(screenSize.width-10, 4);
-
-		panelBttBas.add(getBttAjouterAnimal());
-		panelBttBas.add(getBttSupprimerAnimal());
-		panelBttBas.add(getBttEditerAnimal());
-
-	}
-
-	private void createPanelTablAnimaux() {
-
-		panelTablAnimaux = new JScrollPane();
-		panelTablAnimaux.setViewportView(getTablAnimaux());
-
-	}
-
-	private void createPanelInfos() {
-		panelInfos = new JPanel(new GridBagLayout());
-
-		// Même code que dans la frame AjouterUnClient
-
-		utilsIHM.addComponentTo(getLblCodeClient(), panelInfos, 0, 0, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfCodeClient(), panelInfos, 1, 0, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 1, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTflNom(), panelInfos, 1, 1, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblPrenom(), panelInfos, 0, 2, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfPrenom(), panelInfos, 1, 2, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblAdresse(), panelInfos, 0, 3, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfAdresse1(), panelInfos, 1, 3, 1, 1, 0.8, true);
-		utilsIHM.addComponentTo(getTfAdresse2(), panelInfos, 1, 4, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblCodePostal(), panelInfos, 0, 5, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfCodePostal(), panelInfos, 1, 5, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblVille(), panelInfos, 0, 6, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfVille(), panelInfos, 1, 6, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblNumTel(), panelInfos, 0, 7, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfNumTel(), panelInfos, 1, 7, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblEmail(), panelInfos, 0, 8, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfEmail(), panelInfos, 1, 8, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblAssurance(), panelInfos, 0, 9, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfAssurance(), panelInfos, 1, 9, 1, 1, 0.8, true);
-
-		utilsIHM.addComponentTo(getLblRemarques(), panelInfos, 0, 10, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfRemarques(), panelInfos, 1, 10, 1, 1, 0.8, true);
-
-	}
-
-	private void createPanelBttHaut() {
-
-		panelBttHaut = new JPanel(new GridBagLayout());
-		// panelBoutons.setBackground(Color.GRAY);
-
-		// pour mettre une bordure sur le panel boutons : faire appel à la
-		// BorderFactory
-		// panelBttHaut.setBorder(BorderFactory.createEtchedBorder());
-
-		// -> Récupère la taille de l'écran
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// panelBoutons.setSize(screenSize.width-10, 4);
-
-		utilsIHM.addComponentTo(getBttRechercher(), panelBttHaut, 0, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getBttAjouterClient(), panelBttHaut, 3, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getBttSupprimerClient(), panelBttHaut, 4, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getBttValider(), panelBttHaut, 7, 0, 1, 1, 1, true);
-		utilsIHM.addComponentTo(getBttAnnuler(), panelBttHaut, 8, 0, 1, 1, 1, true);
-
-	}
-
-	private void createPanelCentral() {
-		panelCentral = new JPanel(new GridBagLayout());
-		utilsIHM.addComponentTo(getPanelInfos(), panelCentral, 0, 0, 1, 1, 0.8, true);
-		utilsIHM.addComponentTo(getPanelTablAnimaux(), panelCentral, 1, 0, 1, 1, 0.8, true);
-	}
-
-	// -------------CREATION DES COMPONENTS----------------------------------
-
-	private void createTfRemarques() {
-		tfRemarques = new JTextField("", 50);
-
-	}
-
-	private void createTfAssurance() {
-		tfAssurance = new JTextField("", 30);
-
-	}
-
-	private void createTfNumTel() {
-		tfNumTel = new JTextField("", 15);
-
-	}
-
-	private void createTfEmail() {
-		tfEmail = new JTextField("", 15);
-	}
-
-	private void createTfVille() {
-		tfVille = new JTextField("", 25);
-
-	}
-
-	private void createTfCodePostal() {
-		tfCodePostal = new JTextField("", 6);
-
-	}
-
-	private void createTfAdresse2() {
-		tfAdresse2 = new JTextField("", 30);
-
-	}
-
-	private void createTfAdresse1() {
-		tfAdresse1 = new JTextField("", 30);
-
-	}
-
-	private void createTfPrenom() {
-		tfPrenom = new JTextField("", 20);
-
-	}
-
-	private void createTfNom() {
-		tflNom = new JTextField("", 20);
-
-	}
-
-	private void createTfCodeClient() {
-		tfCodeClient = new JTextField("", 20);
-		// rend la zone de texte non éditable par l'utilisateur
-		tfCodeClient.setEditable(false);
-
-	}
-
-	private void createLblRemarques() {
-		lblRemarques = new JLabel("Remarques");
-
-	}
-
-	private void createLblAssurance() {
-		lblAssurance = new JLabel("Assurance");
-
-	}
-
-	private void createLblNumTel() {
-		lblNumTel = new JLabel("N° téléphone");
-
-	}
-
-	private void createLblEmail() {
-		lblEmail = new JLabel("Email");
-	}
-
-	private void createLblVille() {
-		lblVille = new JLabel("Ville");
-
-	}
-
-	private void createLblCodePostal() {
-		lblCodePostal = new JLabel("Code postal");
-
-	}
-
-	private void createLblAdresse() {
-		lblAdresse = new JLabel("Adresse");
-
-	}
-
-	private void createLblPrenom() {
-		lblPrenom = new JLabel("Prenom");
-
-	}
-
-	private void createLblNom() {
-		lblNom = new JLabel("Nom");
-
-	}
-
-	private void createLblCodeClient() {
-		lblCodeClient = new JLabel("Code");
-
-	}
-
-	private void createTablAnimaux() {
-		modelTablAnimaux = TableAnimalModel.getInstance();
-		tablAnimaux = new JTable(modelTablAnimaux);
-		TableAnimalModel.getInstance().dechargementDonnees();
-		animalCourant = null;
-		tablAnimaux.setBorder(BorderFactory.createEtchedBorder());
-		tablAnimaux.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablAnimaux.setRowHeight(30);
-		tablAnimaux.getSelectionModel().setSelectionInterval(0, 0);
-		tablAnimaux.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					// on récupère l'animal sélectionné
-					animalCourant = TableAnimalModel.getInstance().getValueAt(tablAnimaux.getSelectedRow());
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-
-			}
-
-			/* *Méthodes non utilisées * */
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-		});
-
-	}
-
-	private void createBttEditerAnimal() {
-		bttEditerAnimal = new JButton("Éditer");
-		bttEditerAnimal.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (clientCourant == null) {
-					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous ne pouvez pas éditer un animal sans avoir un client affiché.", "Attention",
-							JOptionPane.WARNING_MESSAGE);
-				} else if (animalCourant == null) {
-					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous devez d'abord sélectionner un animal dans le tableau.", "Attention",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					AnimauxPanel panelAnimal = new AnimauxPanel(clientCourant, animalCourant, GestClientPanel.this);
-					JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
-					jifAjoutAnimal.setSize(500, 350);
-					jifAjoutAnimal.setVisible(true);
-					CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutAnimal);
-					try {
-						jifAjoutAnimal.setSelected(true);
-					} catch (java.beans.PropertyVetoException eAjoutCli) {
-					}
-				}
-			}
-		});
-	}
-
-	private void createBttSupprimerAnimal() {
-		bttSupprimerAnimal = new JButton("Supprimer");
-		bttSupprimerAnimal.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (clientCourant == null) {
-					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous devez d'avoir avoir sélectionné un client avant de supprimer un animal.",
-							"Attention", JOptionPane.WARNING_MESSAGE);
-				} else {
-					if (tablAnimaux.getSelectedRow() < 0) {
-						JOptionPane.showMessageDialog(GestClientPanel.this,
-								"Vous devez d'avoir avoir sélectionné un animal dans la liste avant de le supprimer.",
-								"Attention", JOptionPane.WARNING_MESSAGE);
-					} else {
-						try {
-							// on sélectionne l'animal à supprimer à partir de la
-							// ligne sélectionnée
-							Animal animalASuppr = TableAnimalModel.getInstance()
-									.getValueAt(tablAnimaux.getSelectedRow());
-							// on archive l'animal
-							animalASuppr.setArchive(true);
-
-							AnimalManager.getInstance().updateAnimal(animalASuppr);
-
-							JOptionPane.showMessageDialog(GestClientPanel.this, "L'Animal a bien été supprimé.",
-									"Infomation", JOptionPane.INFORMATION_MESSAGE);
-						} catch (BLLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						TableAnimalModel.getInstance().chargementDonnees(clientCourant.getCodeClient());
-
-					}
-				}
-			}
-		});
-	}
-
-	private void createBttAjouterAnimal() {
-		bttAjouterAnimal = new JButton("Ajouter");
-		bttAjouterAnimal.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (clientCourant == null) {
-					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous ne pouvez pas créer un animal sans avoir un client affiché.", "Attention",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					AnimauxPanel panelAnimal = new AnimauxPanel(clientCourant, new Animal(), GestClientPanel.this);
-					JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
-					jifAjoutAnimal.setSize(500, 350);
-					jifAjoutAnimal.setVisible(true);
-					CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutAnimal);
-					try {
-						jifAjoutAnimal.setSelected(true);
-					} catch (java.beans.PropertyVetoException eAjoutCli) {
-					}
-				}
-			}
-		});
-
-	}
-
-	private void createBttAnnuler() {
-		bttAnnuler = new JButton("Annuler");
-		bttAnnuler.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				GestClientPanel.this.refreshAffichageClient(clientCourant);
-			}
-		});
-
-	}
-
-	private void createBttEditerClient() {
-		bttEditerClient = new JButton("Éditer");
-		bttEditerClient.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// on vérifie qu'il y a bien un client courant :
-				if (clientCourant == null) {
-					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous devez d'abord avoir affiché un client avant de le modifier. Pour créer un nouveau client utilisez le bouton Ajouter",
-							"Attention", JOptionPane.WARNING_MESSAGE);
-				} else {
-					// le client à modifier est le client courant, on récupère
-					// donc ses informations
-					Client cliAModif = GestClientPanel.this.createClientCourant();
-					try {
-						ClientManager.getInstance().updateClient(cliAModif);
-						JOptionPane.showMessageDialog(GestClientPanel.this, "Le Client a bien été édité.",
-								"Information", JOptionPane.INFORMATION_MESSAGE);
-					} catch (BLLException e1) {
-						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(), "Modification de Client",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-	}
-
-	private void createBttSupprimerClient() {
-		bttSupprimerClient = new JButton("Supprimer");
-		bttSupprimerClient.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// on vérifie qu'il y a bien un client courant :
-				if (clientCourant == null) {
-					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous devez d'abord avoir affiché un client avant de le supprimer.", "Attention",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					try {
-						// on modifie la valeur Archive du client courant afin
-						// qu'il s'archive bien
-						clientCourant.setArchive(true);
-						ClientManager.getInstance().updateClient(clientCourant);
-						// on informe l'utilisateur
-						JOptionPane.showMessageDialog(GestClientPanel.this, "Le Client a bien été supprimé.",
-								"Information", JOptionPane.INFORMATION_MESSAGE);
-
-						// on fait un refresh de l'affichage
-						clientCourant = null;
-						refreshAffichageClient(clientCourant);
-					} catch (BLLException e1) {
-						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(), "Suppression d'un Client",
-								JOptionPane.ERROR_MESSAGE);
-						e1.printStackTrace();
-					}
-
-				}
-
-			}
-		});
-	}
-
-	private void createBttAjouterClient() {
-		bttAjouterClient = new JButton("Ajouter");
-		bttAjouterClient.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AjoutClientPanel panelAjout = new AjoutClientPanel(GestClientPanel.this);
-				JInternalFrame jifAjoutClient = utilsIHM.createJIF("Nouveau Client", panelAjout);
-				jifAjoutClient.setVisible(true);
-				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutClient);
-				try {
-					jifAjoutClient.setSelected(true);
-				} catch (java.beans.PropertyVetoException eAjoutCli) {
-				}
-			}
-		});
-
-	}
-
-	private void createBttRechercher() {
-		bttRechercher = new JButton("Rechercher");
-		bttRechercher.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				RechercherPanel panelRecherche = new RechercherPanel(GestClientPanel.this);
-				TableClientModel.getInstance().dechargementDonnees();
-				JInternalFrame jifRechercher = UtilsIHM.getInstance().createJIF("Recherche de Client", panelRecherche);
-				jifRechercher.setVisible(true);
-				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifRechercher);
-				try {
-					jifRechercher.setSelected(true);
-				} catch (java.beans.PropertyVetoException eAjoutCli) {
-				}
-
-			}
-		});
-	}
-
-	// *************************GETTERS***************************************************
+	// *********** GETTERS ******************************
 
 	public JButton getBttRechercher() {
 		return bttRechercher;

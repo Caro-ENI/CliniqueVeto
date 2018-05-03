@@ -28,6 +28,8 @@ import fr.eni.cach.clinique.ihm.ecranClients.GestClientPanel;
 import fr.eni.cach.clinique.ihm.priseRDV.PriseRDVPanel;
 
 public class AnimauxPanel extends JPanel {
+	
+	// *********** ATTRIBUTS ****************************
 
 	private static final long serialVersionUID = -4242093774482057299L;
 
@@ -57,6 +59,8 @@ public class AnimauxPanel extends JPanel {
 	private JPanel panelClient;
 	private JPanel panelAnimal;
 	private JPanel panelGlobal;
+
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 	
 	public AnimauxPanel(Client client, Animal animal, JPanel panelParent) {
 
@@ -70,7 +74,6 @@ public class AnimauxPanel extends JPanel {
 		this.createLblEspece();
 		this.createLblTatouage();
 		this.createLblRace();
-
 		this.createLblNomClient(client);
 
 		// Les TextFields
@@ -80,24 +83,20 @@ public class AnimauxPanel extends JPanel {
 		this.createTfTatouage(animal);
 
 		// Les Boutons
-
 		this.createBttValider(client, animal, panelParent);
 		this.createBttAnnuler(animal);
 
 		// Les Combobox
-
 		this.createCbSexe(animal);
 		this.createCbEspece(animal);
 		this.createCbRace(animal);
 
 		// Création des panels
-
 		this.createPanelBttHaut();
 		this.createPanelClient();
 		this.createPanelAnimal();
 
 		// Panel Global
-
 		GridBagLayout layoutGlobal = new GridBagLayout();
 
 		this.setLayout(layoutGlobal);
@@ -108,8 +107,7 @@ public class AnimauxPanel extends JPanel {
 
 	}
 
-	// --------------------------CREATION DES
-	// PANELS-----------------------------------------
+	// *********** CREATION PANELS **********************
 
 	private void createPanelAnimal() {
 		panelAnimal = new JPanel(new GridBagLayout());
@@ -141,7 +139,7 @@ public class AnimauxPanel extends JPanel {
 		utilsIHM.addComponentTo(getLblNomClient(), panelClient, 0, 0, 1, 1, 1, true);
 
 	}
-
+	
 	private void createPanelBttHaut() {
 		// permet de définir l'orientation de l'écriture dans le panel
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -159,7 +157,170 @@ public class AnimauxPanel extends JPanel {
 
 	}
 
-	// -------------------CREATION JCOMBOBOX------------------------------------
+	// *********** CREATION BOUTONS *********************
+
+	private void createBttAnnuler(Animal animal) {
+		bttAnnuler = UtilsIHM.getInstance().createBttAvecIcon("Annuler", UtilsIHM.IconesEnum.ANNULER);
+		bttAnnuler.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (animal.getCodeAnimal() < 1) {
+					tfCodeAnimal.setText("0000");
+					tfNomAnimal.setText("");
+					tfCouleur.setText("");
+					tfTatouage.setText("");
+					cbSexe.setSelectedItem(null);
+					cbEspece.setSelectedItem(null);
+					cbRace.removeAllItems();
+					
+				} else {
+					tfCodeAnimal.setText(String.valueOf(animal.getCodeAnimal()));
+					tfNomAnimal.setText(animal.getNomAnimal());
+					tfCouleur.setText(animal.getCouleur());
+					tfTatouage.setText(animal.getTatouage());
+
+				}
+			}
+		});
+	}
+
+	private void createBttValider(Client client, Animal animal, JPanel panelParent) {
+		bttValider = UtilsIHM.getInstance().createBttAvecIcon("Valider", UtilsIHM.IconesEnum.VALIDER);
+		bttValider.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (animal.getCodeAnimal()< 1){
+					try {
+					// l'animal était vide en arrivant donc c'est une création
+					Animal animalAAjouter = AnimauxPanel.this.createAnimalFromTF(client);
+					animalAAjouter.setAntecedents("");
+										
+						AnimalManager.getInstance().addAnimal(animalAAjouter);
+					
+					JOptionPane.showMessageDialog(AnimauxPanel.this, "L'Animal a bien été créé !",
+							"Ajout d'un Animal", JOptionPane.INFORMATION_MESSAGE);
+					
+					//Rafraichissement des affichages des panels parents:
+					if (panelParent instanceof GestClientPanel){
+						((GestClientPanel) panelParent).rerefreshAffichageAnimaux(client);
+						
+					} else if (panelParent instanceof PriseRDVPanel){
+						((PriseRDVPanel) panelParent).refrechJcbAnimaux(animalAAjouter);
+					}
+					
+					//fermeture de la JIF
+					AnimauxPanel.this.getParent().getParent().getParent().setVisible(false);
+					
+					} catch (BLLException e1) {
+						JOptionPane.showMessageDialog(AnimauxPanel.this, e1.getMessage(),
+								"Ajout d'un Animal", JOptionPane.ERROR_MESSAGE);
+					}
+					
+				} else {
+					try {
+					//c'est une modification d'un animal existant
+					Animal animalAModifier = AnimauxPanel.this.createAnimalFromTF(client);
+					animalAModifier.setAntecedents(animal.getAntecedents());
+					
+						AnimalManager.getInstance().updateAnimal(animalAModifier);
+					
+					JOptionPane.showMessageDialog(AnimauxPanel.this, "L'Animal a bien été modifié !",
+							"Modification d'un Animal", JOptionPane.INFORMATION_MESSAGE);
+					
+					//Rafraichissement des affichages des panels parents:
+					if (panelParent instanceof GestClientPanel){
+						((GestClientPanel) panelParent).rerefreshAffichageAnimaux(client);
+					}
+					
+					
+					//fermeture de la JIF
+					AnimauxPanel.this.getParent().getParent().getParent().setVisible(false);
+					} catch (BLLException e1) {
+						JOptionPane.showMessageDialog(AnimauxPanel.this, e1.getMessage(),
+								"Modification d'un Animal", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+	}
+
+	// *********** CREATION LIBELLES ********************
+
+	private void createLblNomClient(Client client) {
+		lblNomClient = new JLabel(client.toString());
+	}
+
+	private void createLblRace() {
+		lblRace = new JLabel("Race");
+
+	}
+
+	private void createLblTatouage() {
+		lblTatouage = new JLabel("Tatouage");
+
+	}
+
+	private void createLblEspece() {
+		lblEspece = new JLabel("Espèce");
+
+	}
+
+	private void createLblCouleur() {
+		lblCouleur = new JLabel("Couleur");
+
+	}
+
+	private void createLblNomAnimal() {
+		lblNomAnimal = new JLabel("Nom");
+
+	}
+
+	private void createLblCodeAnimal() {
+		lblCodeAnimal = new JLabel("Code");
+
+	}
+
+	// *********** CREATION ZONES DE TEXTE **************
+
+	private void createTfTatouage(Animal animal) {
+		if (animal.getTatouage() == null) {
+			tfTatouage = new JTextField("");
+		} else {
+			tfTatouage = new JTextField(animal.getTatouage());
+		}
+
+	}
+
+	private void createTfCouleur(Animal animal) {
+		if (animal.getCouleur() == null) {
+			tfCouleur = new JTextField("");
+		} else {
+			tfCouleur = new JTextField(animal.getCouleur());
+		}
+	}
+
+	private void createTfNomAnimal(Animal animal) {
+		if (animal.getNomAnimal() == null) {
+			tfNomAnimal = new JTextField("");
+		} else {
+			tfNomAnimal = new JTextField(animal.getNomAnimal());
+		}
+	}
+
+	private void createTfCodeAnimal(Animal animal) {
+		if (animal.getCodeAnimal() < 1) {
+			tfCodeAnimal = new JTextField("0000");
+			tfCodeAnimal.setEnabled(false);
+		} else {
+			tfCodeAnimal = new JTextField(String.valueOf(animal.getCodeAnimal()));
+			tfCodeAnimal.setEnabled(false);
+		}
+	}
+
+	// *********** CREATION LISTES DEROULANTES **********
 
 	private void createCbRace(Animal animal) {
 		if (animal.getRace() == null) {
@@ -233,171 +394,7 @@ public class AnimauxPanel extends JPanel {
 
 	}
 
-	// -------------------CREATION BOUTONS--------------------------------------
-
-	private void createBttAnnuler(Animal animal) {
-		bttAnnuler = new JButton("Annuler");
-		bttAnnuler.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (animal.getCodeAnimal() < 1) {
-					tfCodeAnimal.setText("0000");
-					tfNomAnimal.setText("");
-					tfCouleur.setText("");
-					tfTatouage.setText("");
-					cbSexe.setSelectedItem(null);
-					cbEspece.setSelectedItem(null);
-					cbRace.removeAllItems();
-					
-				} else {
-					tfCodeAnimal.setText(String.valueOf(animal.getCodeAnimal()));
-					tfNomAnimal.setText(animal.getNomAnimal());
-					tfCouleur.setText(animal.getCouleur());
-					tfTatouage.setText(animal.getTatouage());
-
-				}
-			}
-		});
-	}
-
-	private void createBttValider(Client client, Animal animal, JPanel panelParent) {
-		bttValider = new JButton("Valider");
-		bttValider.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if (animal.getCodeAnimal()< 1){
-					try {
-					// l'animal était vide en arrivant donc c'est une création
-					Animal animalAAjouter = AnimauxPanel.this.createAnimalFromTF(client);
-					animalAAjouter.setAntecedents("");
-										
-						AnimalManager.getInstance().addAnimal(animalAAjouter);
-					
-					JOptionPane.showMessageDialog(AnimauxPanel.this, "L'Animal a bien été créé !",
-							"Ajout d'un Animal", JOptionPane.INFORMATION_MESSAGE);
-					
-					//Rafraichissement des affichages des panels parents:
-					if (panelParent instanceof GestClientPanel){
-						((GestClientPanel) panelParent).rerefreshAffichageAnimaux(client);
-						
-					} else if (panelParent instanceof PriseRDVPanel){
-						((PriseRDVPanel) panelParent).refrechJcbAnimaux(animalAAjouter);
-					}
-					
-					//fermeture de la JIF
-					AnimauxPanel.this.getParent().getParent().getParent().setVisible(false);
-					
-					} catch (BLLException e1) {
-						JOptionPane.showMessageDialog(AnimauxPanel.this, e1.getMessage(),
-								"Ajout d'un Animal", JOptionPane.ERROR_MESSAGE);
-					}
-					
-				} else {
-					try {
-					//c'est une modification d'un animal existant
-					Animal animalAModifier = AnimauxPanel.this.createAnimalFromTF(client);
-					animalAModifier.setAntecedents(animal.getAntecedents());
-					
-						AnimalManager.getInstance().updateAnimal(animalAModifier);
-					
-					JOptionPane.showMessageDialog(AnimauxPanel.this, "L'Animal a bien été modifié !",
-							"Modification d'un Animal", JOptionPane.INFORMATION_MESSAGE);
-					
-					//Rafraichissement des affichages des panels parents:
-					if (panelParent instanceof GestClientPanel){
-						((GestClientPanel) panelParent).rerefreshAffichageAnimaux(client);
-					}
-					
-					
-					//fermeture de la JIF
-					AnimauxPanel.this.getParent().getParent().getParent().setVisible(false);
-					} catch (BLLException e1) {
-						JOptionPane.showMessageDialog(AnimauxPanel.this, e1.getMessage(),
-								"Modification d'un Animal", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-	}
-
-	// -------------------CREATION TEXT FIELDS----------------------------------
-
-	private void createTfTatouage(Animal animal) {
-		if (animal.getTatouage() == null) {
-			tfTatouage = new JTextField("");
-		} else {
-			tfTatouage = new JTextField(animal.getTatouage());
-		}
-
-	}
-
-	private void createTfCouleur(Animal animal) {
-		if (animal.getCouleur() == null) {
-			tfCouleur = new JTextField("");
-		} else {
-			tfCouleur = new JTextField(animal.getCouleur());
-		}
-	}
-
-	private void createTfNomAnimal(Animal animal) {
-		if (animal.getNomAnimal() == null) {
-			tfNomAnimal = new JTextField("");
-		} else {
-			tfNomAnimal = new JTextField(animal.getNomAnimal());
-		}
-	}
-
-	private void createTfCodeAnimal(Animal animal) {
-		if (animal.getCodeAnimal() < 1) {
-			tfCodeAnimal = new JTextField("0000");
-			tfCodeAnimal.setEnabled(false);
-		} else {
-			tfCodeAnimal = new JTextField(String.valueOf(animal.getCodeAnimal()));
-			tfCodeAnimal.setEnabled(false);
-		}
-	}
-
-	// -------------------CREATION LABELS--------------------------------------
-
-	private void createLblNomClient(Client client) {
-		lblNomClient = new JLabel(client.toString());
-	}
-
-	private void createLblRace() {
-		lblRace = new JLabel("Race");
-
-	}
-
-	private void createLblTatouage() {
-		lblTatouage = new JLabel("Tatouage");
-
-	}
-
-	private void createLblEspece() {
-		lblEspece = new JLabel("Espèce");
-
-	}
-
-	private void createLblCouleur() {
-		lblCouleur = new JLabel("Couleur");
-
-	}
-
-	private void createLblNomAnimal() {
-		lblNomAnimal = new JLabel("Nom");
-
-	}
-
-	private void createLblCodeAnimal() {
-		lblCodeAnimal = new JLabel("Code");
-
-	}
-
-	// ----------------------------------Méthodes internes ------------------------------------------------
-	
+	// *********** METHODES *****************************
 	/**
 	 * Construit l'animal courant selon les champs
 	 * 
@@ -429,8 +426,7 @@ public class AnimauxPanel extends JPanel {
 		return animalCree;
 	}
 	
-	
-	// ----------------------------------GETTERS------------------------------------------------
+	// *********** GETTERS ******************************
 
 	public JButton getBttValider() {
 		return bttValider;

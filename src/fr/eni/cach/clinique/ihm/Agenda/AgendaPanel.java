@@ -44,6 +44,8 @@ import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class AgendaPanel extends JPanel {
 
+	// *********** ATTRIBUTS ****************************
+
 	private static final long serialVersionUID = -149957493039323454L;
 
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
@@ -52,7 +54,6 @@ public class AgendaPanel extends JPanel {
 	private JLabel lblDate;
 
 	private JDatePicker datePicker;
-
 
 	private JComboBox<Veterinaire> cbVeterinaire;
 
@@ -68,6 +69,8 @@ public class AgendaPanel extends JPanel {
 	private Rdv rdvCourant;
 	private Veterinaire vetoCourant = null;
 	private Date dateCourante = null;
+
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 
 	public AgendaPanel() {
 
@@ -104,7 +107,7 @@ public class AgendaPanel extends JPanel {
 
 	}
 
-	// --------------- CREATION DES PANELS-------------------------------
+	// *********** CREATION PANELS **********************
 
 	private void createPanelDossierMedical() {
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -130,8 +133,47 @@ public class AgendaPanel extends JPanel {
 
 	}
 
-	// --------------- CREATION DES COMPONENTS---------------------------
+	// *********** CREATION BOUTONS *********************
+	
+	private void createBttDossierAnimal() {
+		bttDossierMedical = utilsIHM.createBttAvecIcon("Dossier Médical", UtilsIHM.IconesEnum.DOSSIER);
+		bttDossierMedical.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (rdvCourant == null) {
+					JOptionPane.showMessageDialog(AgendaPanel.this,
+							"Avant d'ouvrir le dossier médical d'un animal, vous devez sélectionner un rendez-vous dans votre agenda.",
+							"Attention", JOptionPane.WARNING_MESSAGE);
+				} else {
+					DossierMedicPanel panelDossierMedical = new DossierMedicPanel(rdvCourant);
+					JInternalFrame jifDossierMedical = utilsIHM.createJIF("Dossier médical", panelDossierMedical);
+					jifDossierMedical.setSize(800, 400);
+					jifDossierMedical.setVisible(true);
+					CliniqueVetoFrame2.getInstance("").getDesktop().add(jifDossierMedical);
+					try {
+						jifDossierMedical.setSelected(true);
+					} catch (java.beans.PropertyVetoException eAjoutCli) {
+					}
+				}
+			}
+		});
+	}
+
+	// *********** CREATION LIBELLES ********************
+
+	private void createLblDate() {
+		lblDate = new JLabel("Date");
+		lblDate.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+	}
+
+	private void createLblVeterinaire() {
+		lblVeterinaire = new JLabel("Vétérinaire");
+		lblVeterinaire.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+	}
+
+	// *********** CREATION DATEPICKER ******************
+	
 	private void createDatePicker() {
 		UtilDateModel model = new UtilDateModel();
 		model.setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
@@ -142,57 +184,60 @@ public class AgendaPanel extends JPanel {
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		
-		dateCourante =model.getValue();
-		 
+
+		dateCourante = model.getValue();
+
 		datePicker.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+
 				String dateString = "" + model.getDay() + "-" + (model.getMonth() + 1) + "-" + model.getYear();
-				
+
 				try {
 					dateCourante = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
-					
+
 				} catch (ParseException e1) {
 
 					e1.printStackTrace();
 				}
-				
+
 				TableAgendaModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
 			}
 		});
 
 	}
 
+	// *********** CREATION LISTES DEROULANTES **********
+	
 	private void createCbVeterinaire() {
-		
+
 		cbVeterinaire = new JComboBox<>();
-		
+
 		try {
 			List<Veterinaire> listeVeto = PersonnelManager.getInstance().getListeVeto();
 			for (Veterinaire veterinaire : listeVeto) {
 				cbVeterinaire.addItem(veterinaire);
-				}
-			} catch (BLLException e) {
+			}
+		} catch (BLLException e) {
 			e.printStackTrace();
 		}
 		cbVeterinaire.setSelectedItem(null);
 		cbVeterinaire.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				vetoCourant = (Veterinaire) cbVeterinaire.getSelectedItem();
-				
+
 				TableAgendaModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
-				
+
 			}
 		});
-		
 
 	}
 
+	// *********** CREATION TABLES **********************
+	
 	private void createTablAgenda() {
 		modelTablAgenda = TableAgendaModel.getInstance();
 		tablAgenda = new JTable(modelTablAgenda);
@@ -235,42 +280,7 @@ public class AgendaPanel extends JPanel {
 
 	}
 
-	private void createBttDossierAnimal() {
-		bttDossierMedical = new JButton("Dossier médical");
-		bttDossierMedical.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (rdvCourant == null) {
-					JOptionPane.showMessageDialog(AgendaPanel.this,
-							"Avant d'ouvrir le dossier médical d'un animal, vous devez sélectionner un rendez-vous dans votre agenda.",
-							"Attention", JOptionPane.WARNING_MESSAGE);
-				} else {
-					DossierMedicPanel panelDossierMedical = new DossierMedicPanel(rdvCourant);
-					JInternalFrame jifDossierMedical = utilsIHM.createJIF("Dossier médical", panelDossierMedical);
-					jifDossierMedical.setSize(800, 400);
-					jifDossierMedical.setVisible(true);
-					CliniqueVetoFrame2.getInstance("").getDesktop().add(jifDossierMedical);
-					try {
-						jifDossierMedical.setSelected(true);
-					} catch (java.beans.PropertyVetoException eAjoutCli) {
-					}
-				}
-			}
-		});
-	}
-
-	private void createLblDate() {
-		lblDate = new JLabel("Date");
-		lblDate.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-	}
-
-	private void createLblVeterinaire() {
-		lblVeterinaire = new JLabel("Vétérinaire");
-		lblVeterinaire.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-	}
-
-	// --------------- GETTERS--------------------------------
+	// *********** GETTERS ******************************
 
 	public JLabel getLblVeterinaire() {
 		return lblVeterinaire;

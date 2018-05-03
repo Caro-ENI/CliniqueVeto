@@ -191,6 +191,8 @@ public class UtilsIHM {
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/dossier.png")));
 				dossier = dossier.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 				bttAvecIcone.setIcon(new ImageIcon(dossier));
+				//on le redimessionne ici car il est très long
+				bttAvecIcone.setPreferredSize(new Dimension(130, 60));
 				
 				} catch (IOException e) {
 				e.printStackTrace();
@@ -240,6 +242,17 @@ public class UtilsIHM {
 				e.printStackTrace();
 			}
 			break;
+		case EDITER:
+			try {
+				Image supprimer = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/editer.png")));
+				supprimer = supprimer.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(supprimer));
+				
+				} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		default:
 			bttAvecIcone = new JButton(textBtt);
 			break;
@@ -251,6 +264,6 @@ public class UtilsIHM {
 	// *************** CLASSE INTERNE ENUMERATION ***************
 
 	public enum IconesEnum {
-		AJOUTER, ANNULER, DOSSIER, RECHERCHER, REINIT, VALIDER, SUPPRIMER;
+		AJOUTER, ANNULER, DOSSIER, RECHERCHER, REINIT, VALIDER, SUPPRIMER, EDITER;
 	}
 }

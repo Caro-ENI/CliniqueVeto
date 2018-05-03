@@ -23,7 +23,9 @@ import fr.eni.cach.clinique.ihm.ecranClients.GestClientPanel;
 import fr.eni.cach.clinique.ihm.priseRDV.PriseRDVPanel;
 
 public class CliniqueVetoFrame2 extends JFrame {
-
+	
+	// *********** ATTRIBUTS ****************************
+	
 	private static final long serialVersionUID = 6842296107317141423L;
 
 	/**
@@ -37,7 +39,6 @@ public class CliniqueVetoFrame2 extends JFrame {
 	 */
 	private JDesktopPane desktop;
 	
-
 	/**
 	 * Singelton pour des méthodes utilitaires :
 	 * .getInstance() -> renvoie l'instance du singleton
@@ -47,7 +48,6 @@ public class CliniqueVetoFrame2 extends JFrame {
 	 */
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
 
-	
 	private JMenuBar monMenuBar;
 	private JMenu jmFichier;
 	private JMenu jmGestion;
@@ -60,8 +60,8 @@ public class CliniqueVetoFrame2 extends JFrame {
 	private JMenuItem miAgenda;
 	private JMenuItem miGestPersonnel;
 	
-
-
+	// *********** SINGLETON ****************************
+	
 	/**
 	 * Instance unique (SINGLETON) de la fenêtre Clinique Veto
 	 */
@@ -80,7 +80,6 @@ public class CliniqueVetoFrame2 extends JFrame {
 		}
 		return instance;
 	}
-	
 	
 	/**
 	 * Constructeur de la fenêtre Clinique Vétérinaire
@@ -172,21 +171,13 @@ public class CliniqueVetoFrame2 extends JFrame {
 			break;
 		}
 		
-		
-		
 		// on définit desktop comme étant le pane par défaut
 		this.setContentPane(desktop);
 		
-		//connexionFrame.setLocationRelativeTo(this);
 	}
 	
-	
+	// *********** CREATION BARRE DE MENU ***************
 
-
-
-
-	// *********** CREATEs **************
-	
 	/**
 	 * Crée la Barre de Menus :
 	 * FICHIER 
@@ -222,7 +213,7 @@ public class CliniqueVetoFrame2 extends JFrame {
        
 	}
 	
-	//------------------------------------CREATION DES JMENU---------------------------------------------
+	// *********** CREATION JMENUS **********************
 	
 	/**
 	 * Crée le menu déroulant FICHIER
@@ -259,7 +250,6 @@ public class CliniqueVetoFrame2 extends JFrame {
 		jmPersonnel.add(miGestPersonnel);
 	}
 
-
 	/**
 	 * Crée le menu déroulant Agenda
 	 */
@@ -268,10 +258,8 @@ public class CliniqueVetoFrame2 extends JFrame {
 		jmAgenda.add(miAgenda);
 	}
 	
-	
-	//------------------------------------CREATION DES JMENUITEM---------------------------------------------------
-	
-	
+	// *********** CREATION JMENUITEMS ******************
+
 	/**
 	 * Crée le MenuItem Agenda 
 	 * (au clic) ouvre la fenêtre Agenda
@@ -399,10 +387,7 @@ public class CliniqueVetoFrame2 extends JFrame {
 		});
 	}
 	
-	
-	
-	
-	// ------------------------------------ GETTERS ----------------------------------------------------
+	// *********** GETTERS ******************************
 	
 	/**
 	 * Renvoie la barre des menus
@@ -476,8 +461,6 @@ public class CliniqueVetoFrame2 extends JFrame {
 		return miGestClient;
 	}
 	
-
-
 	/**
 	 * Renvoie le menuItem Gestion Personnel
 	 * (détail dans la JavaDoc de création
@@ -491,20 +474,12 @@ public class CliniqueVetoFrame2 extends JFrame {
 		return desktop;
 	}
 
-
-
-
-
 	public JMenu getJmAgenda() {
 		return jmAgenda;
 	}
-
 
 	public JMenu getJmPersonnel() {
 		return jmPersonnel;
 	}
 	
-	
-	
-
 }

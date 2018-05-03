@@ -17,31 +17,27 @@ import javax.swing.WindowConstants;
 
 import fr.eni.cach.clinique.bll.Utilitaires.VerifChamps;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
-import fr.eni.cach.clinique.ihm.cliniqueVeto.ActualiteFrame;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class ConnexionFrame extends JFrame {
-	/*
-	 * ORGANISATION DE LA CLASSE : - déclaration des attributs - constructeur
-	 * principal - création des panels - creation des boutons - méthodes annexes
-	 * - getters
-	 */
-
-	// *********** ATTRIBUTS ***************
+	
+	// *********** ATTRIBUTS ****************************
 
 	private static final long serialVersionUID = -4761827877265050036L;
 
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
 
 	private JButton bttOK;
+	
 	private JLabel lblNom;
 	private JLabel lblMdp;
+	
 	private JTextField tfNom;
 	private JPasswordField tfMdp;
 
 	private JPanel panelGlobal;
-
-	// *********** CONSTRUCTEUR ***************
+	
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 
 	/**
 	 * Constructeur de la fenêtre de Connexion (1)
@@ -67,8 +63,8 @@ public class ConnexionFrame extends JFrame {
 		this.setContentPane(getPanelGlobal());
 
 	}
-
-	// *********** CREATION PANELS ***************
+	
+	// *********** CREATION PANELS **********************
 
 	/**
 	 * Crée le panel global
@@ -86,8 +82,8 @@ public class ConnexionFrame extends JFrame {
 
 	}
 
-	// *********** CREATION BOUTONS **************
-
+	// *********** CREATION BOUTONS *********************
+	
 	/**
 	 * crée le bouton Valider
 	 */
@@ -101,6 +97,24 @@ public class ConnexionFrame extends JFrame {
 			}
 		});
 	}
+
+	// *********** CREATION LIBELLES ********************
+
+	/**
+	 * crée le label MDP
+	 */
+	private void createLblMdp() {
+		lblMdp = new JLabel("Mot de passe");
+	}
+
+	/**
+	 * Crée le label Nom
+	 */
+	private void createLblNom() {
+		lblNom = new JLabel("Nom");
+	}
+
+	// *********** CREATION ZONES DE TEXTE **************
 
 	/**
 	 * crée le champ de MDP
@@ -155,21 +169,7 @@ public class ConnexionFrame extends JFrame {
 
 	}
 
-	/**
-	 * crée le label MDP
-	 */
-	private void createLblMdp() {
-		lblMdp = new JLabel("Mot de passe");
-	}
-
-	/**
-	 * Crée le label Nom
-	 */
-	private void createLblNom() {
-		lblNom = new JLabel("Nom");
-	}
-
-	// *********** METHODES ANNEXES ***************
+	// *********** METHODES *****************************
 
 	/**
 	 * Ouvre la fenêtre principale de l'appication ainsi que celle des
@@ -192,10 +192,10 @@ public class ConnexionFrame extends JFrame {
 				// ouverture de Clinique Veto
 				CliniqueVetoFrame2 maCliniqueVeto2 = CliniqueVetoFrame2.getInstance(getTfNom().getText());
 				maCliniqueVeto2.setVisible(true);
-				// Ouvertue d'Actualité
-				ActualiteFrame monActu = new ActualiteFrame(getTfNom().getText());
-				monActu.setVisible(true);
-				monActu.setLocationRelativeTo(null);
+//				// Ouvertue d'Actualité
+//				ActualiteFrame monActu = new ActualiteFrame(getTfNom().getText());
+//				monActu.setVisible(true);
+//				monActu.setLocationRelativeTo(null);
 				// Masque la fenêtre Connexion
 				this.setVisible(false);
 			}
@@ -207,7 +207,8 @@ public class ConnexionFrame extends JFrame {
 
 	}
 
-	// *********** GETTERS **************
+
+	// *********** GETTERS ******************************
 
 	/**
 	 * Renvoie le bouton valider

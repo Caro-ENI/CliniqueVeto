@@ -3,6 +3,7 @@ package fr.eni.cach.clinique.ihm.priseRDV;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -47,56 +48,51 @@ import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.bo.Veterinaire;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
-import fr.eni.cach.clinique.ihm.Personnels.AjouterPersonnelPanel;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
 import fr.eni.cach.clinique.ihm.ecranClients.AjoutClientPanel;
 
 public class PriseRDVPanel extends JPanel {
-	/*
-	 * ORGANISATION DE LA CLASSE : - déclaration des attributs - constructeur
-	 * principal - création des panels - creation des boutons - méthodes annexes
-	 * - getters
-	 */
 
-	// *********** ATTRIBUTS ***************
-
+	// *********** ATTRIBUTS ****************************
 	private static final long serialVersionUID = 7834116385228727053L;
+
+	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
 
 	/**
 	 * Panel contenant les informations relatives au Client
 	 */
 	private JPanel panelInfomations;
-
 	/**
 	 * Panel avec scroll contenant la Jtable des RDV
 	 */
 	private JScrollPane panelTablRDV;
-
 	/**
 	 * Panel contenant les boutons de l'édition d'un RDV
 	 */
 	private JPanel panelBoutons;
-
 	/**
 	 * Sous panel de Panel Information
 	 */
 	private JPanel panelPour;
-
 	/**
 	 * Sous panel de Panel Information
 	 */
 	private JPanel panelPar;
-
 	/**
 	 * Sous panel de Panel Information
 	 */
 	private JPanel panelQuand;
+	private JPanel panelHeure;
 
 	/**
 	 * Tables des RDV
 	 */
 	private JTable tableRDV;
+	/**
+	 * modèle de JTable disposant les données dans la JTable
+	 */
+	private TableRDVModel modelTablRDV;
 
 	// Boutons de l'édition d'un rdv
 	private JButton bttOK;
@@ -113,39 +109,25 @@ public class PriseRDVPanel extends JPanel {
 
 	private JDatePicker datePicker;
 
+	private JComboBox<Veterinaire> jcbVeto;
+	private JComboBox<Client> jcbClient;
+	private JComboBox<Animal> jcbAnimal;
+	private JComboBox<String> jcbHeures;
+	private JComboBox<String> jcbMinutes;
+
 	private Veterinaire vetoCourant = null;
 	private Date dateCourante = null;
 	private Animal animalCourant = null;
 	private Client clientCourant = null;
-	
-	
 	// Rendez-vous sélectionné dans la JTable
-	private Rdv rdvCourant = null ;
+	private Rdv rdvCourant = null;
 
-	
-	private JComboBox<Veterinaire> jcbVeto;
-
-	private JComboBox<Client> jcbClient;
-	private JComboBox<Animal> jcbAnimal;
-
-	private JComboBox<String> jcbHeures;
-	private JComboBox<String> jcbMinutes;
-
-	private JPanel panelHeure;
-
-	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 
 	/**
-	 * modèle de JTable disposant les données dans la JTable
-	 */
-	private TableRDVModel modelTablRDV;
-
-	// *********** CONSTRUCTEUR ***************
-
-	/**
-	 * Constructeur de la fenêtre Prise de RDV (3) Permet de saisir un nouveau
-	 * RDV Permet de visualiser les RDV à une date donnée Permet d'éditer un RDV
-	 * déjà pris
+	 * Constructeur de la fenêtre Prise de RDV (3) Permet de saisir un nouveau RDV
+	 * Permet de visualiser les RDV à une date donnée Permet d'éditer un RDV déjà
+	 * pris
 	 */
 	public PriseRDVPanel() {
 
@@ -198,31 +180,8 @@ public class PriseRDVPanel extends JPanel {
 
 	}
 
-	// ****************** Méthodes INTERNES ******************************
-	/**
-	 * méthode qui raffraichit la JComboBox des clients avec le client ajouté et
-	 * qui le selectionne
-	 * 
-	 * @param client
-	 */
-	public void refrechJcbClient(Client client) {
-		jcbClient.addItem(client);
-		jcbClient.setSelectedItem(client);
-	}
+	// *********** CREATION PANELS **********************
 
-	/**
-	 * méthode qui raffraichit la JComboBox des animaux d'un client avec
-	 * l'animal ajouté et qui le selectionne
-	 * 
-	 * @param animal
-	 */
-	public void refrechJcbAnimaux(Animal animal) {
-		jcbAnimal.addItem(animal);
-		jcbAnimal.setSelectedItem(animal);
-
-	}
-
-	// *********** CREATE PANELS **************
 	/**
 	 * Crée le panel d'informations du RDV à partir de 3 sous-panels panelPour
 	 * panelPar panelQuand
@@ -261,9 +220,9 @@ public class PriseRDVPanel extends JPanel {
 	}
 
 	/**
-	 * Crée le panel Pour : Renseigne les infos du client grâce à des JComboBox
-	 * nom du client nom de son animal Si l'une des données n'est pas en BDD il
-	 * est possible de la créer à la volée -> liens vers (4) et (6)
+	 * Crée le panel Pour : Renseigne les infos du client grâce à des JComboBox nom
+	 * du client nom de son animal Si l'une des données n'est pas en BDD il est
+	 * possible de la créer à la volée -> liens vers (4) et (6)
 	 */
 	private void createPanelPour() {
 		panelPour = new JPanel(new GridBagLayout());
@@ -282,8 +241,8 @@ public class PriseRDVPanel extends JPanel {
 	}
 
 	/**
-	 * Crée le panel Par : renseigne sur le véto grâce à des JComboBox par
-	 * défaut donne le premier veto disponible (à la première date disponible)
+	 * Crée le panel Par : renseigne sur le véto grâce à des JComboBox par défaut
+	 * donne le premier veto disponible (à la première date disponible)
 	 */
 	private void createPanelPar() {
 		panelPar = new JPanel(new GridBagLayout());
@@ -295,10 +254,10 @@ public class PriseRDVPanel extends JPanel {
 	}
 
 	/**
-	 * Crée le panel Quand : renseigne la date du Rdv Date rentrée dans un champ
-	 * ou grâce à une JDatePicker Heure avec 2 Jcombobox (heures et minutes) ->
-	 * seuelement tous les 15min de dispo pour les mins par défaut donne le
-	 * premier veto disponible (à la première date/heure disponible)
+	 * Crée le panel Quand : renseigne la date du Rdv Date rentrée dans un champ ou
+	 * grâce à une JDatePicker Heure avec 2 Jcombobox (heures et minutes) ->
+	 * seuelement tous les 15min de dispo pour les mins par défaut donne le premier
+	 * veto disponible (à la première date/heure disponible)
 	 */
 	private void createPanelQuand() {
 		panelQuand = new JPanel(new GridBagLayout());
@@ -321,246 +280,128 @@ public class PriseRDVPanel extends JPanel {
 
 	}
 
-	// *********** CREATE JTABLE **************
-
-	/**
-	 * Crée la Table des RDV à partir d'un modèle de données doit être réactif à
-	 * la date saisie dans le panelQuand
-	 */
-	private void createTableRDV() {
-		modelTablRDV = TableRDVModel.getInstance();
-
-		tableRDV = new JTable(modelTablRDV);
-
-		tableRDV.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		tableRDV.setRowHeight(30);
-
-		tableRDV.getSelectionModel().setSelectionInterval(0, 0);
-
-		
-		tableRDV.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				rdvCourant = new Rdv();
-				// On récupère le Rdv courant
-				vetoCourant = (Veterinaire) getJcbVeto().getSelectedItem();
-				rdvCourant.setVeterinaire(vetoCourant); 
-				
-				try {
-					rdvCourant.setClient((TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow()) .getClient()));
-					rdvCourant.setAnimal((TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow()).getAnimal()));
-					rdvCourant.setDateRdv((TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow()).getDateRdv()));
-				System.out.println(rdvCourant);
-				} catch (Exception e1) {
-					
-					e1.printStackTrace();
-				}
-			}
-			
-			// Méthodes non-utilisées
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-				
-			}
-
-		});
-		
-		
-	}
-
-	// ****************** CREATE JDATE PICKER ******************************
-
-	private void createDatePicker() {
-		UtilDateModel model = new UtilDateModel();
-		model.setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
-		model.setSelected(true);
-
-		Properties p = new Properties();
-		p.put("text.today", "Aujourd'hui");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-
-		dateCourante = model.getValue();
-
-		datePicker.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				String dateString = "" + model.getDay() + "-" + (model.getMonth() + 1) + "-" + model.getYear();
-
-				try {
-					dateCourante = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
-					
-				} catch (ParseException e1) {
-
-					e1.printStackTrace();
-				}
-
-				TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
-			}
-		});
-
-	}
-
-	// *********** CREATE BOUTONS **************
+	// *********** CREATION BOUTONS *********************
 
 	/**
 	 * Crée le bouton valider (au clic) enregistre le RDV saisi dans le panel
 	 * Information
 	 */
 	private void createBttOK() {
-		bttOK = new JButton("Valider");
-		
-		//TODO
-		
+		bttOK = utilsIHM.createBttAvecIcon("Valider", UtilsIHM.IconesEnum.VALIDER);
+
+		// TODO
 		bttOK.addActionListener(new ActionListener() {
-			
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
-				
-				Rdv rdvAAjouter = new Rdv();
-				
-				vetoCourant = (Veterinaire) getJcbVeto().getSelectedItem();
-				animalCourant = (Animal) getJcbAnimal().getSelectedItem();
-				clientCourant = (Client) getJcbClient().getSelectedItem();
-				
-				rdvAAjouter.setVeterinaire(vetoCourant);
-				rdvAAjouter.setAnimal(animalCourant);
-				rdvAAjouter.setClient(clientCourant);
-			
-				String heureSelectionne = (String) getJcbHeures().getSelectedItem();
-				String minutesSelectionne = (String) getJcbMinutes().getSelectedItem();
-				
-				String jourSelectionne;
-				
-				// Pour régler le problème des jours et des mois écrits avec un seul caractère
-				
-				int jourTemp = getDatePicker().getModel().getDay();
-				
-				if (jourTemp < 10) {
-					jourSelectionne = "0"+String.valueOf(getDatePicker().getModel().getDay());
-					
-				} else {
-					
-					jourSelectionne = String.valueOf(getDatePicker().getModel().getDay());
-				}
-				
-				String moisSelectionne;
-				
-				int moisTemp = getDatePicker().getModel().getMonth()+1;
-				
-				if (moisTemp < 10) {
-					moisSelectionne =  "0"+String.valueOf(getDatePicker().getModel().getMonth()+1);
-				} else {
-					moisSelectionne =  String.valueOf(getDatePicker().getModel().getMonth()+1);
-				}
-			
-				String anneeSelectionne = String.valueOf(getDatePicker().getModel().getYear());
-				
-				String dateChoisie = anneeSelectionne+"-"+moisSelectionne+"-"+jourSelectionne+" "+heureSelectionne+":"+minutesSelectionne; 
-				
-				
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-				LocalDateTime dateRdv = LocalDateTime.parse(dateChoisie, formatter);
-				
-				rdvAAjouter.setDateRdv(dateRdv);
-								
-				RdvManager.getInstance().addRdv(rdvAAjouter);
-				TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
-				
-				
-				
+
+					Rdv rdvAAjouter = new Rdv();
+
+					vetoCourant = (Veterinaire) getJcbVeto().getSelectedItem();
+					animalCourant = (Animal) getJcbAnimal().getSelectedItem();
+					clientCourant = (Client) getJcbClient().getSelectedItem();
+
+					rdvAAjouter.setVeterinaire(vetoCourant);
+					rdvAAjouter.setAnimal(animalCourant);
+					rdvAAjouter.setClient(clientCourant);
+
+					String heureSelectionne = (String) getJcbHeures().getSelectedItem();
+					String minutesSelectionne = (String) getJcbMinutes().getSelectedItem();
+
+					String jourSelectionne;
+
+					// Pour régler le problème des jours et des mois écrits avec un seul caractère
+
+					int jourTemp = getDatePicker().getModel().getDay();
+
+					if (jourTemp < 10) {
+						jourSelectionne = "0" + String.valueOf(getDatePicker().getModel().getDay());
+
+					} else {
+
+						jourSelectionne = String.valueOf(getDatePicker().getModel().getDay());
+					}
+
+					String moisSelectionne;
+
+					int moisTemp = getDatePicker().getModel().getMonth() + 1;
+
+					if (moisTemp < 10) {
+						moisSelectionne = "0" + String.valueOf(getDatePicker().getModel().getMonth() + 1);
+					} else {
+						moisSelectionne = String.valueOf(getDatePicker().getModel().getMonth() + 1);
+					}
+
+					String anneeSelectionne = String.valueOf(getDatePicker().getModel().getYear());
+
+					String dateChoisie = anneeSelectionne + "-" + moisSelectionne + "-" + jourSelectionne + " "
+							+ heureSelectionne + ":" + minutesSelectionne;
+
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+					LocalDateTime dateRdv = LocalDateTime.parse(dateChoisie, formatter);
+
+					rdvAAjouter.setDateRdv(dateRdv);
+
+					RdvManager.getInstance().addRdv(rdvAAjouter);
+					TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
+
 				} catch (BLLException e1) {
-				
+
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(PriseRDVPanel.this, e1.getMessage(),
-							"Ajout de Rdv Impossible", JOptionPane.ERROR_MESSAGE);
-					
+					JOptionPane.showMessageDialog(PriseRDVPanel.this, e1.getMessage(), "Ajout de Rdv Impossible",
+							JOptionPane.ERROR_MESSAGE);
+
 				}
-				
-			
+
 			}
 		});
-		
 
-		
 	}
 
 	/**
-	 * Crée le bouton supprimer (au clic) supprime le RDV sélectionné dans la
-	 * Table des RDV
+	 * Crée le bouton supprimer (au clic) supprime le RDV sélectionné dans la Table
+	 * des RDV
 	 */
 	private void createBttSuppr() {
-		bttSuppr = new JButton("Supprimer");
-		
+		bttSuppr = utilsIHM.createBttAvecIcon("Supprimer", UtilsIHM.IconesEnum.SUPPRIMER);
+
 		bttSuppr.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (tableRDV.getSelectedRow() <0 ) {
+				if (tableRDV.getSelectedRow() < 0) {
 					JOptionPane.showMessageDialog(PriseRDVPanel.this,
 							"Vous devez d'abord sélectionné un Rdv avant de pouvoir le supprimer.", "Attention",
 							JOptionPane.WARNING_MESSAGE);
-					} else {
-						try {
-							
-							Rdv rdvASupprimer = TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow());
-							
-							RdvManager.getInstance().deleteRdv(rdvASupprimer);
-							JOptionPane.showMessageDialog(PriseRDVPanel.this, "Le RDV a bien été supprimé.",
-									"Infomation", JOptionPane.INFORMATION_MESSAGE);
-							
-						} catch (BLLException e1) {
-							e1.printStackTrace();
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						
-						
-						TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
-						
+				} else {
+					try {
+
+						Rdv rdvASupprimer = TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow());
+
+						RdvManager.getInstance().deleteRdv(rdvASupprimer);
+						JOptionPane.showMessageDialog(PriseRDVPanel.this, "Le RDV a bien été supprimé.", "Infomation",
+								JOptionPane.INFORMATION_MESSAGE);
+
+					} catch (BLLException e1) {
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						e1.printStackTrace();
 					}
-				
+
+					TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
+
+				}
+
 			}
 		});
-		
+
 	}
 
-
-
-
-
-
 	private void createBttAjoutClient() {
-		bttAjoutClient = new JButton("Ajout");
+		bttAjoutClient = utilsIHM.createBttAvecIcon("", UtilsIHM.IconesEnum.AJOUTER);
+		bttAjoutClient.setPreferredSize(new Dimension(50, 40));
 		bttAjoutClient.addActionListener(new ActionListener() {
 
 			@Override
@@ -578,8 +419,10 @@ public class PriseRDVPanel extends JPanel {
 		});
 	}
 
+	// TODO cas d'erreur non résolu !
 	private void createBttAjoutAniaml() {
-		bttAjoutAnimal = new JButton("Ajout");
+		bttAjoutAnimal = utilsIHM.createBttAvecIcon("", UtilsIHM.IconesEnum.AJOUTER);
+		bttAjoutAnimal.setPreferredSize(new Dimension(50, 40));
 		bttAjoutAnimal.addActionListener(new ActionListener() {
 
 			@Override
@@ -591,7 +434,8 @@ public class PriseRDVPanel extends JPanel {
 							"Avant d'ajouter un nouvel animal, vous devez sélectionner le client auquel il appartient.",
 							"Attention", JOptionPane.WARNING_MESSAGE);
 				} else {
-					AnimauxPanel panelAnimal = new AnimauxPanel((Client) jcbClient.getSelectedItem(), new Animal(), PriseRDVPanel.this);
+					AnimauxPanel panelAnimal = new AnimauxPanel((Client) jcbClient.getSelectedItem(), new Animal(),
+							PriseRDVPanel.this);
 					JInternalFrame jifAjoutAnimal = utilsIHM.createJIF("Animal", panelAnimal);
 					jifAjoutAnimal.setSize(500, 350);
 					jifAjoutAnimal.setVisible(true);
@@ -606,7 +450,8 @@ public class PriseRDVPanel extends JPanel {
 
 	}
 
-	// *********** CREATE JLABELS **************
+	// *********** CREATION LIBELLES ********************
+
 	private void createJlAnimal() {
 		jlAnimal = new JLabel("Animal");
 	}
@@ -631,7 +476,7 @@ public class PriseRDVPanel extends JPanel {
 		jlClient = new JLabel("Client");
 	}
 
-	// *********** CREATE JCOMBOBOX **************
+	// *********** CREATION LISTES DEROULANTES **********
 
 	private void createJcbVeto() {
 		jcbVeto = new JComboBox<>();
@@ -655,14 +500,13 @@ public class PriseRDVPanel extends JPanel {
 
 				// le vétérinaire sélectionné est stocké dans une variable
 				// intermédiaire
-				
+
 				vetoCourant = (Veterinaire) jcbVeto.getSelectedItem();
-				
 
 				TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
 
-//				tableRDV.setModel(modelTablRDV);
-//				tableRDV.setVisible(true);
+				// tableRDV.setModel(modelTablRDV);
+				// tableRDV.setVisible(true);
 
 			}
 		});
@@ -716,7 +560,7 @@ public class PriseRDVPanel extends JPanel {
 	}
 
 	private void createJcbHeures() {
-		String[] heures = { "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"};
+		String[] heures = { "09", "10", "11", "12", "13", "14", "15", "16", "17", "18" };
 		jcbHeures = new JComboBox<String>(heures);
 	}
 
@@ -725,7 +569,135 @@ public class PriseRDVPanel extends JPanel {
 		jcbMinutes = new JComboBox<String>(minutes);
 	}
 
-	// *********** GETTERS **************
+	// *********** CREATION DATEPICKER ******************
+
+	private void createDatePicker() {
+		UtilDateModel model = new UtilDateModel();
+		model.setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
+		model.setSelected(true);
+
+		Properties p = new Properties();
+		p.put("text.today", "Aujourd'hui");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+
+		dateCourante = model.getValue();
+
+		datePicker.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				String dateString = "" + model.getDay() + "-" + (model.getMonth() + 1) + "-" + model.getYear();
+
+				try {
+					dateCourante = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
+
+				} catch (ParseException e1) {
+
+					e1.printStackTrace();
+				}
+
+				TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
+			}
+		});
+
+	}
+
+	// *********** CREATION TABLES **********************
+
+	/**
+	 * Crée la Table des RDV à partir d'un modèle de données doit être réactif à la
+	 * date saisie dans le panelQuand
+	 */
+	private void createTableRDV() {
+		modelTablRDV = TableRDVModel.getInstance();
+
+		tableRDV = new JTable(modelTablRDV);
+
+		tableRDV.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		tableRDV.setRowHeight(30);
+
+		tableRDV.getSelectionModel().setSelectionInterval(0, 0);
+
+		tableRDV.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				rdvCourant = new Rdv();
+				// On récupère le Rdv courant
+				vetoCourant = (Veterinaire) getJcbVeto().getSelectedItem();
+				rdvCourant.setVeterinaire(vetoCourant);
+
+				try {
+					rdvCourant
+							.setClient((TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow()).getClient()));
+					rdvCourant
+							.setAnimal((TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow()).getAnimal()));
+					rdvCourant.setDateRdv(
+							(TableRDVModel.getInstance().getValueAt(tableRDV.getSelectedRow()).getDateRdv()));
+					System.out.println(rdvCourant);
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+			}
+
+			// Méthodes non-utilisées
+			@Override
+			public void mouseReleased(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+
+			}
+
+		});
+
+	}
+
+	// *********** METHODES *****************************
+
+	/**
+	 * méthode qui raffraichit la JComboBox des clients avec le client ajouté et qui
+	 * le selectionne
+	 * 
+	 * @param client
+	 */
+	public void refrechJcbClient(Client client) {
+		jcbClient.addItem(client);
+		jcbClient.setSelectedItem(client);
+	}
+
+	/**
+	 * méthode qui raffraichit la JComboBox des animaux d'un client avec l'animal
+	 * ajouté et qui le selectionne
+	 * 
+	 * @param animal
+	 */
+	public void refrechJcbAnimaux(Animal animal) {
+		jcbAnimal.addItem(animal);
+		jcbAnimal.setSelectedItem(animal);
+
+	}
+
+	// *********** GETTERS ******************************
 
 	/**
 	 * Renvoie le panel d'informations
@@ -762,8 +734,6 @@ public class PriseRDVPanel extends JPanel {
 	public JTable getTableRDV() {
 		return tableRDV;
 	}
-
-
 
 	/**
 	 * Renvoie le bouton de suppression d'un rdv
@@ -879,11 +849,5 @@ public class PriseRDVPanel extends JPanel {
 	public TableRDVModel getModelTablRDV() {
 		return modelTablRDV;
 	}
-
-	// Méthodes inhérentes à la classe
-
-
-	
-	
 
 }

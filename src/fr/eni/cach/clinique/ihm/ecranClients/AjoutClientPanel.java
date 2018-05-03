@@ -21,19 +21,20 @@ import fr.eni.cach.clinique.ihm.UtilsIHM;
 import fr.eni.cach.clinique.ihm.priseRDV.PriseRDVPanel;
 
 public class AjoutClientPanel extends JPanel {
-	
-	
+
+	// *********** ATTRIBUTS ****************************
+
 	private static final long serialVersionUID = 2751586841854361836L;
-	
+
 	private JPanel panelGlobal;
 	private JPanel panelBoutons;
 	private JPanel panelInfos;
-	
+
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
-	
+
 	private JButton bttValider;
 	private JButton bttAnnuler;
-	
+
 	private JLabel lblEmail;
 	private JLabel lblNom;
 	private JLabel lblPrenom;
@@ -43,7 +44,7 @@ public class AjoutClientPanel extends JPanel {
 	private JLabel lblNumTel;
 	private JLabel lblAssurance;
 	private JLabel lblRemarques;
-	
+
 	private JTextField tfEmail;
 	private JTextField tflNom;
 	private JTextField tfPrenom;
@@ -54,12 +55,13 @@ public class AjoutClientPanel extends JPanel {
 	private JTextField tfNumTel;
 	private JTextField tfAssurance;
 	private JTextField tfRemarques;
-	
-	
+
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
+
 	public AjoutClientPanel(JPanel panelParent) {
-	
-		//Initialisation des champs
-		
+
+		// Initialisation des champs
+
 		this.createLblEmail();
 		this.createLblNom();
 		this.createLblPrenom();
@@ -69,7 +71,7 @@ public class AjoutClientPanel extends JPanel {
 		this.createLblNumTel();
 		this.createLblAssurance();
 		this.createLblRemarques();
-		
+
 		this.createTfEmail();
 		this.createTfNom();
 		this.createTfPrenom();
@@ -80,81 +82,77 @@ public class AjoutClientPanel extends JPanel {
 		this.createTfNumTel();
 		this.createTfAssurance();
 		this.createTfRemarques();
-		
+
 		this.createBttValider(panelParent);
 		this.createBttAnnuler();
-		
+
 		// Initialisation des panels
-		
-	
+
 		this.createPanelBoutons();
 		this.createPanelInfos();
-		
+
 		BorderLayout layoutGlobal = new BorderLayout();
 		this.setLayout(layoutGlobal);
-		
+
 		this.add(getPanelBoutons(), BorderLayout.NORTH);
 		this.add(getPanelInfos(), BorderLayout.CENTER);
-		
+
 	}
 
+	// *********** CREATION PANELS **********************
 
-	//***********CREATION PANELS********************
-	
 	private void createPanelInfos() {
 		panelInfos = new JPanel(new GridBagLayout());
-		
-		
-		utilsIHM.addComponentTo(getLblNom() , panelInfos, 0, 1, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTflNom() , panelInfos, 1, 1, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblPrenom() , panelInfos, 0, 2, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfPrenom() , panelInfos, 1, 2, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblAdresse() , panelInfos, 0, 3, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfAdresse1() , panelInfos, 1, 3, 1, 1, 0.8, true);
-		utilsIHM.addComponentTo(getTfAdresse2() , panelInfos, 1, 4, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblCodePostal() , panelInfos, 0, 5, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfCodePostal() , panelInfos, 1, 5, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblVille() , panelInfos, 0, 6, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfVille() , panelInfos, 1, 6, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblNumTel() , panelInfos, 0, 7, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfNumTel() , panelInfos, 1, 7, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblEmail() , panelInfos, 0, 8, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfEmail() , panelInfos, 1, 8, 1, 1, 0.8, true);
 
-		utilsIHM.addComponentTo(getLblAssurance() , panelInfos, 0, 9, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfAssurance() , panelInfos, 1, 9, 1, 1, 0.8, true);
-		
-		utilsIHM.addComponentTo(getLblRemarques() , panelInfos, 0, 10, 1, 1, 0.2, false);
-		utilsIHM.addComponentTo(getTfRemarques() , panelInfos, 1, 10, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getLblNom(), panelInfos, 0, 1, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTflNom(), panelInfos, 1, 1, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblPrenom(), panelInfos, 0, 2, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfPrenom(), panelInfos, 1, 2, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblAdresse(), panelInfos, 0, 3, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfAdresse1(), panelInfos, 1, 3, 1, 1, 0.8, true);
+		utilsIHM.addComponentTo(getTfAdresse2(), panelInfos, 1, 4, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblCodePostal(), panelInfos, 0, 5, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfCodePostal(), panelInfos, 1, 5, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblVille(), panelInfos, 0, 6, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfVille(), panelInfos, 1, 6, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblNumTel(), panelInfos, 0, 7, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfNumTel(), panelInfos, 1, 7, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblEmail(), panelInfos, 0, 8, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfEmail(), panelInfos, 1, 8, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblAssurance(), panelInfos, 0, 9, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfAssurance(), panelInfos, 1, 9, 1, 1, 0.8, true);
+
+		utilsIHM.addComponentTo(getLblRemarques(), panelInfos, 0, 10, 1, 1, 0.2, false);
+		utilsIHM.addComponentTo(getTfRemarques(), panelInfos, 1, 10, 1, 1, 0.8, true);
 	}
 
 	private void createPanelBoutons() {
-		//permet de définir l'orientation de l'écriture dans le panel 
-				setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-				panelBoutons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-				//panelBoutons.setBackground(Color.GRAY);
-				
-				// pour mettre une bordure sur le panel boutons : faire appel à la BorderFactory
-				panelBoutons.setBorder(BorderFactory.createEtchedBorder());
-				//l'ordre des .add détermine la position des boutons 
-				panelBoutons.add(getBttValider());
-				panelBoutons.add(getBttAnnuler());
-				
-		
+		// permet de définir l'orientation de l'écriture dans le panel
+		setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		panelBoutons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		// panelBoutons.setBackground(Color.GRAY);
+
+		// pour mettre une bordure sur le panel boutons : faire appel à la BorderFactory
+		panelBoutons.setBorder(BorderFactory.createEtchedBorder());
+		// l'ordre des .add détermine la position des boutons
+		panelBoutons.add(getBttValider());
+		panelBoutons.add(getBttAnnuler());
+
 	}
 
-	//**************CREATION DES COMPONENTS************************
+	// *********** CREATION BOUTONS *********************
 
 	private void createBttAnnuler() {
-		bttAnnuler = new JButton ("Annuler");
+		bttAnnuler = UtilsIHM.getInstance().createBttAvecIcon("Annuler", UtilsIHM.IconesEnum.ANNULER);
 		bttAnnuler.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tfEmail.setText("");
@@ -172,140 +170,146 @@ public class AjoutClientPanel extends JPanel {
 	}
 
 	private void createBttValider(JPanel panelParent) {
-		bttValider = new JButton ("Valider");
+		bttValider = UtilsIHM.getInstance().createBttAvecIcon("Valider", UtilsIHM.IconesEnum.VALIDER);
 		bttValider.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				Client clientAAjouter = creaClientFromTF();
-				
+
 				try {
 					ClientManager.getInstance().addClient(clientAAjouter);
-					
-					//refrech des affichages selon le panel Parent(qui est à l'origine de l'ouverture de la fenêtre d'ajout)
-					if (panelParent instanceof GestClientPanel){
-					((GestClientPanel) panelParent).refreshAffichageClient(clientAAjouter);
-					} else if (panelParent instanceof PriseRDVPanel){
+
+					// refrech des affichages selon le panel Parent(qui est à l'origine de
+					// l'ouverture de la fenêtre d'ajout)
+					if (panelParent instanceof GestClientPanel) {
+						((GestClientPanel) panelParent).refreshAffichageClient(clientAAjouter);
+					} else if (panelParent instanceof PriseRDVPanel) {
 						((PriseRDVPanel) panelParent).refrechJcbClient(clientAAjouter);
 					}
-					
-					//fenêtre qui dit que la client a été créé
+
+					// fenêtre qui dit que la client a été créé
 					JOptionPane.showMessageDialog(AjoutClientPanel.this, "Le Client a bien été créé !",
 							"Ajout d'un Client", JOptionPane.INFORMATION_MESSAGE);
-					//fermeture de la JIF
+					// fermeture de la JIF
 					AjoutClientPanel.this.getParent().getParent().getParent().setVisible(false);
-					
+
 				} catch (BLLException e1) {
-					JOptionPane.showMessageDialog(AjoutClientPanel.this, e1.getMessage(),
-							"Ajout d'un Client", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(AjoutClientPanel.this, e1.getMessage(), "Ajout d'un Client",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 	}
 
+	// *********** CREATION LIBELLES ********************
+
+	private void createLblRemarques() {
+		lblRemarques = new JLabel("Remarques");
+
+	}
+
+	private void createLblAssurance() {
+		lblAssurance = new JLabel("Assurance");
+
+	}
+
+	private void createLblNumTel() {
+		lblNumTel = new JLabel("N° téléphone");
+
+	}
+
+	private void createLblVille() {
+		lblVille = new JLabel("Ville");
+
+	}
+
+	private void createLblCodePostal() {
+		lblCodePostal = new JLabel("Code postal");
+
+	}
+
+	private void createLblAdresse() {
+		lblAdresse = new JLabel("Adresse");
+
+	}
+
+	private void createLblPrenom() {
+		lblPrenom = new JLabel("Prenom");
+
+	}
+
+	private void createLblNom() {
+		lblNom = new JLabel("Nom");
+
+	}
+
+	private void createLblEmail() {
+		lblEmail = new JLabel("Email");
+
+	}
+
+	// *********** CREATION ZONES DE TEXTE **************
+
 	private void createTfRemarques() {
 		tfRemarques = new JTextField("", 50);
-		
+
 	}
 
 	private void createTfAssurance() {
 		tfAssurance = new JTextField("", 30);
-		
+
 	}
 
 	private void createTfNumTel() {
 		tfNumTel = new JTextField("", 15);
-		
+
 	}
 
 	private void createTfVille() {
 		tfVille = new JTextField("", 25);
-		
+
 	}
 
 	private void createTfCodePostal() {
 		tfCodePostal = new JTextField("", 6);
-		
+
 	}
 
 	private void createTfAdresse2() {
 		tfAdresse2 = new JTextField("", 30);
-		
+
 	}
 
 	private void createTfAdresse1() {
 		tfAdresse1 = new JTextField("", 30);
-		
+
 	}
 
 	private void createTfPrenom() {
 		tfPrenom = new JTextField("", 20);
-		
+
 	}
 
 	private void createTfNom() {
 		tflNom = new JTextField("", 20);
-		
+
 	}
 
 	private void createTfEmail() {
 		tfEmail = new JTextField("", 20);
-		
+
 	}
 
-	private void createLblRemarques() {
-		lblRemarques = new JLabel("Remarques");
-		
-	}
+	// *********** METHODES *****************************
 
-	private void createLblAssurance() {
-		lblAssurance = new JLabel ("Assurance");
-		
-	}
-
-	private void createLblNumTel() {
-		lblNumTel = new JLabel ("N° téléphone");
-		
-	}
-
-	private void createLblVille() {
-		lblVille = new JLabel ("Ville");
-		
-	}
-
-	private void createLblCodePostal() {
-		lblCodePostal = new JLabel ("Code postal");
-		
-	}
-
-	private void createLblAdresse() {
-		lblAdresse = new JLabel ("Adresse");
-		
-	}
-
-	private void createLblPrenom() {
-		lblPrenom = new JLabel ("Prenom");
-		
-	}
-
-	private void createLblNom() {
-		lblNom = new JLabel ("Nom");
-		
-	}
-
-	private void createLblEmail() {
-		lblEmail = new JLabel ("Email");
-		
-	}
-
-	// *********** Méthodes internes **************
-	
 	/**
 	 * Crée un client à partir des TextsFields de la fenêtre
+	 * 
 	 * @return
 	 */
-	private Client creaClientFromTF(){
+	private Client creaClientFromTF() {
 		Client clientCree = new Client();
 		clientCree.setNomClient(getTflNom().getText());
 		clientCree.setPrenomClient(getTfPrenom().getText());
@@ -319,8 +323,8 @@ public class AjoutClientPanel extends JPanel {
 		clientCree.setRemarque(getTfRemarques().getText());
 		return clientCree;
 	}
-	
-	// *********** GETTERS **************
+
+	// *********** GETTERS ******************************
 
 	public JPanel getPanelGlobal() {
 		return panelGlobal;
@@ -421,8 +425,5 @@ public class AjoutClientPanel extends JPanel {
 	public JTextField getTfRemarques() {
 		return tfRemarques;
 	}
-	
-	//*************************************************************
-	
-	
+
 }
