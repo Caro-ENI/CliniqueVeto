@@ -157,7 +157,10 @@ public class UtilsIHM {
 
 	public JButton createBttAvecIcon(String textBtt, IconesEnum icone) {
 
-		JButton bttAvecIcone = null;
+		JButton bttAvecIcone = new JButton(textBtt);
+		bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+		bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+		bttAvecIcone.setPreferredSize(new Dimension(105, 60));
 
 		switch (icone) {
 		case AJOUTER:
@@ -165,89 +168,75 @@ public class UtilsIHM {
 				Image ajouter = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/ajouter.png")));
 				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setSize(50, 45);
+				bttAvecIcone.setIcon(new ImageIcon(ajouter));
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
 		case ANNULER:
 			try {
-				Image ajouter = ImageIO
+				Image annuler = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/annuler.png")));
-				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setSize(50, 45);
-			} catch (IOException e) {
+				annuler = annuler.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(annuler));
+				
+				} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
 		case DOSSIER:
 			try {
-				Image ajouter = ImageIO
+				Image dossier = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/dossier.png")));
-				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setSize(50, 45);
-			} catch (IOException e) {
+				dossier = dossier.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(dossier));
+				
+				} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
 		case RECHERCHER:
 			try {
-				Image ajouter = ImageIO
+				Image rechercher = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/rechercher.png")));
-				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setSize(50, 45);
-			} catch (IOException e) {
+				rechercher = rechercher.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(rechercher));
+				
+				} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
 		case REINIT:
 			try {
-				Image ajouter = ImageIO
+				Image reinit = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/reinit.png")));
-				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setSize(50, 45);
-			} catch (IOException e) {
+				reinit = reinit.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(reinit));
+				
+				} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
 		case VALIDER:
 			try {
-				Image ajouter = ImageIO
+				Image valider = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/valider.png")));
-				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setSize(50, 45);
-			} catch (IOException e) {
+				valider = valider.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(valider));
+				
+				} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
 		case SUPPRIMER:
 			try {
-				Image ajouter = ImageIO
+				Image supprimer = ImageIO
 						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/supprimer.png")));
-				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
-				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
-				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
-				bttAvecIcone.setPreferredSize(new Dimension(100, 60));
-			} catch (IOException e) {
+				supprimer = supprimer.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone.setIcon(new ImageIcon(supprimer));
+				
+				} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
