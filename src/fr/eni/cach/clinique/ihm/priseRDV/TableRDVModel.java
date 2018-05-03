@@ -151,8 +151,6 @@ public class TableRDVModel extends AbstractTableModel {
 		}
 		throw new Exception ("Le RDV n'existe pas en BDD");
 		
-		
-		
 	}
 	
 

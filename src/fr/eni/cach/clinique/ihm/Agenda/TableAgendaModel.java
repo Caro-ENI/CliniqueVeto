@@ -15,25 +15,44 @@ public class TableAgendaModel extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 7022554891763668907L;
 	
+	
+/* ************** SINGLETON ************** */
+	
+	private static TableAgendaModel instance = null;
+	
+	public static TableAgendaModel getInstance () {
+		if (instance == null) {
+			instance = new TableAgendaModel();	
+		}
+		return instance;
+	}
+	
 	/**
-	 * Dï¿½finition des noms des colonnes de la JTable
+	 * Constructeur de TableAgendaModel -> permet de faire l'ajout de données dans une JTable
+	 */
+	private TableAgendaModel() {
+		this.chargementDonnees();
+	}
+	
+/* *************************************** */
+	
+	
+	
+	
+	/**
+	 * Définition des noms des colonnes de la JTable
 	 */
 	private String[] nomsColonnes = {"Heure", "Nom du client", "Animal", "Race"};
 
 	/**
-	 * Liste des Rdv qui sont ajoutï¿½s ï¿½ la JTable
+	 * Liste des Rdv qui sont ajoutés à la JTable
 	 */
 	private List<Rdv> listeRdv = new ArrayList<>();
 	
 	
 	
 	
-	/**
-	 * Constructeur de TableAgendaModel -> permet de faire l'ajout de donnï¿½es dans une JTable
-	 */
-	public TableAgendaModel() {
-		this.chargementDonnees();
-	}
+
 	
 	public void chargementDonnees() {
 		//TODO enlever le bouchon quand BLL dispo
@@ -89,8 +108,7 @@ public class TableAgendaModel extends AbstractTableModel {
 				
 				value = "Race";
 				break;	
-		
-		
+
 			}
 		}
 		
@@ -98,7 +116,13 @@ public class TableAgendaModel extends AbstractTableModel {
 	}
 	
 
-
+	public Rdv getValueAt(int rowIndex) throws Exception {
+		if(rowIndex >= 0 && rowIndex < listeRdv.size()) {
+			return listeRdv.get(rowIndex);
+		}
+		throw new Exception ("Le RDV n'existe pas en BDD");
+		
+	}
 	
 	
 

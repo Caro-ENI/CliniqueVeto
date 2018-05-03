@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class DossierMedicPanel extends JPanel {
@@ -51,7 +52,7 @@ public class DossierMedicPanel extends JPanel {
 	
 	// *********** CONSTRUCTEUR ***************
 	
-	public DossierMedicPanel() {
+	public DossierMedicPanel(Rdv rdv) {
 
 		//créa boutons et zones de texte :
 		createBttOK();
@@ -133,7 +134,7 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	
-	// *********** CREATE BOUTONS & ZOne de texte ***************
+	// *********** CREATE BOUTONS & ZONE DE TEXTE ***************
 	private void createBttOK() {
 		bttOK = new JButton("Valider");		
 	}
@@ -148,6 +149,7 @@ public class DossierMedicPanel extends JPanel {
 	}
 
 	// *********** CREATE JLabels ***************
+	
 	private void createLblClient() {
 		lblClient = new JLabel("Je suis le propriétaire de l'animal");
 	}
@@ -221,21 +223,27 @@ public class DossierMedicPanel extends JPanel {
 	public JLabel getLblAnimal() {
 		return lblAnimal;
 	}
+	
 	public JLabel getLblCodeAnimal() {
 		return lblCodeAnimal;
 	}
+	
 	public JLabel getLblNom() {
 		return lblNom;
 	}
+	
 	public JLabel getLblCouleur() {
 		return lblCouleur;
 	}
+	
 	public JLabel getLblSexe() {
 		return lblSexe;
 	}
+	
 	public JLabel getLblEspece() {
 		return lblEspece;
 	}
+	
 	public JLabel getLblTatouage() {
 		return lblTatouage;
 	}
