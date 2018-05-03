@@ -78,8 +78,7 @@ public class GestClientPanel extends JPanel {
 
 	private Client clientCourant = null;
 	private Animal animalCourant = null;
-	
-	
+
 	public GestClientPanel() {
 
 		// Initialisation des champs
@@ -180,7 +179,7 @@ public class GestClientPanel extends JPanel {
 			this.tfEmail.setText(client.getEmail());
 			this.tfAssurance.setText(client.getAssurance());
 			this.tfRemarques.setText(client.getRemarque());
-			
+
 			this.rerefreshAffichageAnimaux(client);
 		}
 
@@ -429,7 +428,7 @@ public class GestClientPanel extends JPanel {
 		tablAnimaux.setRowHeight(30);
 		tablAnimaux.getSelectionModel().setSelectionInterval(0, 0);
 		tablAnimaux.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
@@ -438,22 +437,26 @@ public class GestClientPanel extends JPanel {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				
+
 			}
-			
-			/* *Méthodes non utilisées * */ 
+
+			/* *Méthodes non utilisées * */
 			@Override
-			public void mouseReleased(MouseEvent e) {}
-			
+			public void mouseReleased(MouseEvent e) {
+			}
+
 			@Override
-			public void mousePressed(MouseEvent e) {}
-			
+			public void mousePressed(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseExited(MouseEvent e) {}
-			
+			public void mouseExited(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseEntered(MouseEvent e) {}
-			
+			public void mouseEntered(MouseEvent e) {
+			}
+
 		});
 
 	}
@@ -486,37 +489,45 @@ public class GestClientPanel extends JPanel {
 			}
 		});
 	}
-	
+
 	private void createBttSupprimerAnimal() {
 		bttSupprimerAnimal = new JButton("Supprimer");
 		bttSupprimerAnimal.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (tablAnimaux.getSelectedRow() < 0) {
+				if (clientCourant == null) {
 					JOptionPane.showMessageDialog(GestClientPanel.this,
-							"Vous devez d'avoir avoir sélectionné un animal dans la liste avant de le supprimer.",
+							"Vous devez d'avoir avoir sélectionné un client avant de supprimer un animal.",
 							"Attention", JOptionPane.WARNING_MESSAGE);
 				} else {
-					try {
-						// on sélectionne l'animal à supprimer à partir de la
-						// ligne sélectionnée
-						Animal animalASuppr = TableAnimalModel.getInstance().getValueAt(tablAnimaux.getSelectedRow());
-						// on archive l'animal
-						animalASuppr.setArchive(true);
+					if (tablAnimaux.getSelectedRow() < 0) {
+						JOptionPane.showMessageDialog(GestClientPanel.this,
+								"Vous devez d'avoir avoir sélectionné un animal dans la liste avant de le supprimer.",
+								"Attention", JOptionPane.WARNING_MESSAGE);
+					} else {
+						try {
+							// on sélectionne l'animal à supprimer à partir de la
+							// ligne sélectionnée
+							Animal animalASuppr = TableAnimalModel.getInstance()
+									.getValueAt(tablAnimaux.getSelectedRow());
+							// on archive l'animal
+							animalASuppr.setArchive(true);
 
-						AnimalManager.getInstance().updateAnimal(animalASuppr);
+							AnimalManager.getInstance().updateAnimal(animalASuppr);
 
-						JOptionPane.showMessageDialog(GestClientPanel.this, "L'Animal a bien été supprimé.",
-								"Infomation", JOptionPane.INFORMATION_MESSAGE);
-					} catch (BLLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+							JOptionPane.showMessageDialog(GestClientPanel.this, "L'Animal a bien été supprimé.",
+									"Infomation", JOptionPane.INFORMATION_MESSAGE);
+						} catch (BLLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						TableAnimalModel.getInstance().chargementDonnees(clientCourant.getCodeClient());
+
 					}
-					TableAnimalModel.getInstance().chargementDonnees(clientCourant.getCodeClient());
 				}
 			}
 		});
@@ -580,8 +591,8 @@ public class GestClientPanel extends JPanel {
 						JOptionPane.showMessageDialog(GestClientPanel.this, "Le Client a bien été édité.",
 								"Information", JOptionPane.INFORMATION_MESSAGE);
 					} catch (BLLException e1) {
-						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(),
-								"Modification de Client", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(), "Modification de Client",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -613,8 +624,8 @@ public class GestClientPanel extends JPanel {
 						clientCourant = null;
 						refreshAffichageClient(clientCourant);
 					} catch (BLLException e1) {
-						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(),
-								"Suppression d'un Client", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(GestClientPanel.this, e1.getMessage(), "Suppression d'un Client",
+								JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 
@@ -662,7 +673,6 @@ public class GestClientPanel extends JPanel {
 			}
 		});
 	}
-
 
 	// *************************GETTERS***************************************************
 
@@ -809,8 +819,8 @@ public class GestClientPanel extends JPanel {
 	public JPanel getPanelCentral() {
 		return panelCentral;
 	}
-	
-	public Client getClientCourant(){
+
+	public Client getClientCourant() {
 		return clientCourant;
 	}
 
