@@ -4,13 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import fr.eni.cach.clinique.bll.AnimalManager;
+import fr.eni.cach.clinique.bll.BLLException;
+import fr.eni.cach.clinique.bo.Animal;
+import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
 
@@ -20,7 +27,7 @@ public class DossierMedicPanel extends JPanel {
 	 * - déclaration des attributs 
 	 * - constructeur principal 
 	 * - création des panels 
-	 * - creation des boutons 
+	 * - creation des boutons & zone de texte
 	 * - méthodes annexes 
 	 * - getters
 	 */
@@ -49,32 +56,41 @@ public class DossierMedicPanel extends JPanel {
 	private JLabel lblEspece;
 	private JLabel lblTatouage;
 	
+	private Client clientCourant;
+	private Animal animalCourant;
+	
 	
 	// *********** CONSTRUCTEUR ***************
 	
 	public DossierMedicPanel(Rdv rdv) {
+		
+		//créateur de l'animalCourant :
+		this.createAnimalCourant(rdv);
+		
+		//créateur du clientCourant :
+		this.createClientCourant(rdv);
 
 		//créa boutons et zones de texte :
-		createBttOK();
-		createBttAnnuler();
-		createTAAntecedents();
+		this.createBttOK();
+		this.createBttAnnuler();
+		this.createTAAntecedents();
 		
 		//créa labels 
-		createLblClient();
-		createLblAnimal();
-		createLblCodeAnimal();
-		createLblNom();
-		createLblCouleur();
-		createLblSexe();
-		createLblEspece();
-		createLblTatouage();
+		this.createLblClient();
+		this.createLblAnimal();
+		this.createLblCodeAnimal();
+		this.createLblNom();
+		this.createLblCouleur();
+		this.createLblSexe();
+		this.createLblEspece();
+		this.createLblTatouage();
 		
 		//créa des panels : 
-		createPanelBtts();
-		createPanelClient();
-		createPanelAnimal();
-		createPanelAntecedents();
-		createPanelInfos();
+		this.createPanelBtts();
+		this.createPanelClient();
+		this.createPanelAnimal();
+		this.createPanelAntecedents();
+		this.createPanelInfos();
 		
 		//ajout des panels au panel principal :
 		BorderLayout layoutGlobal = new BorderLayout();
@@ -87,6 +103,7 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	// *********** CREATE PANEL ***************
+	
 	private void createPanelBtts() {
 		//permet de définir l'orientation de l'écriture dans le panel (à reformuler si meilleure explication)
 		setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -137,21 +154,51 @@ public class DossierMedicPanel extends JPanel {
 	// *********** CREATE BOUTONS & ZONE DE TEXTE ***************
 	private void createBttOK() {
 		bttOK = new JButton("Valider");		
+		bttOK.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+				animalCourant.setAntecedents(taAntecedents.getText());
+					AnimalManager.getInstance().updateAnimal(animalCourant);
+				} catch (BLLException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(DossierMedicPanel.this, e1.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 	}
 	
 	private void createBttAnnuler() {
-		bttAnnuler = new JButton("Annuler");		
+		bttAnnuler = new JButton("Annuler");	
+		bttAnnuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (animalCourant.getAntecedents() != null) {
+				taAntecedents.setText(animalCourant.getAntecedents());
+				} else {
+					taAntecedents.setText("");
+				}
+				
+			}
+		});
 	}
 	
 	private void createTAAntecedents() {
-		taAntecedents = new JTextArea("Antécédents & Détails de Consultation :");
-		
+		taAntecedents = new JTextArea("");
+		//si l'animal a déjà des antécédents, ils sont affichés dans la zone de texte
+		if (animalCourant.getAntecedents() != null) {
+		taAntecedents.setText(animalCourant.getAntecedents());
+		}
 	}
 
 	// *********** CREATE JLabels ***************
 	
 	private void createLblClient() {
-		lblClient = new JLabel("Je suis le propriétaire de l'animal");
+		lblClient = new JLabel();
+		lblClient.setText(clientCourant.getNomClient()+" "+clientCourant.getPrenomClient());
 	}
 	
 	private void createLblAnimal() {
@@ -159,29 +206,63 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	private void createLblCodeAnimal() {
-		lblCodeAnimal = new JLabel("CodeAnimal");
+		lblCodeAnimal = new JLabel(String.valueOf(animalCourant.getCodeAnimal()));
 	}
 	
 	private void createLblNom() {
-		lblNom = new JLabel("Nom Animal");
+		lblNom = new JLabel(animalCourant.getNomAnimal());
 	}
 	
 	private void createLblCouleur() {
-		lblCouleur = new JLabel("Couleur");
+		lblCouleur = new JLabel(animalCourant.getCouleur());
 	}
 	
 	private void createLblSexe() {
-		lblSexe= new JLabel("Sexe");
+		lblSexe= new JLabel();
+		//en fonction du sexe on affiche différents libeles :
+		switch (animalCourant.getSexe()) {
+		case "M" :
+			lblSexe.setText("Mâle");
+			break;
+		case "F" :
+			lblSexe.setText("Femelle");
+			break;
+		case "H" : 
+			lblSexe.setText("Hermaphrodite");
+			break;
+		}
 	}
 	
 	private void createLblEspece() {
-		lblEspece = new JLabel("Espèce");
+		//on affiche sous ce label l'espèce et la race
+		lblEspece = new JLabel(animalCourant.getEspece()+" "+animalCourant.getRace());
 	}
 	
 	private void createLblTatouage() {
-		lblTatouage = new JLabel("Tatouage");
+		lblTatouage = new JLabel();
+		
+		// si l'animal n'est pas tatouté on affiche "non-tatoué"
+		if (animalCourant.getTatouage() == null) {
+			lblTatouage.setText("Non tatoué");
+		}
+		lblTatouage.setText(animalCourant.getTatouage());
 	}
 	
+	// *********** METHODES ANNEXES ***************
+	
+	/**
+	 * Permet de créer un animal courant à partir du rdv sélectionné
+	 */
+	private void createAnimalCourant(Rdv rdv) {
+		animalCourant = new Animal();
+	}
+	
+	/**
+	 * Permet de créer un client courant à partir du rdv sélectionné
+	 */
+	private void createClientCourant(Rdv rdv) {
+		clientCourant = rdv.getClient();
+	}
 	
 	// *********** GETTERS ***************
 	public JButton getBttOK() {

@@ -146,6 +146,7 @@ public class AgendaPanel extends JPanel {
 		tablAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablAgenda.setRowHeight(30);
 		tablAgenda.getSelectionModel().setSelectionInterval(0, 0);
+		tablAgenda.clearSelection();
 		tablAgenda.addMouseListener(new MouseListener() {
 
 			@Override
