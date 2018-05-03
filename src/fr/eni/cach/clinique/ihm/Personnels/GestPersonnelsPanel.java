@@ -21,11 +21,6 @@ import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class GestPersonnelsPanel extends JPanel {
 
-	/*
-	 * ORGANISATION DE LA CLASSE : - Attributs - Constructeur principal - Création
-	 * des panels - Creation des boutons - Création Table - Getters
-	 */
-
 	// *********** ATTRIBUTS ****************************
 
 	private static final long serialVersionUID = 4638604561225803319L;

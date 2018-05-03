@@ -26,16 +26,6 @@ import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class AjouterPersonnelPanel extends JPanel {
 
-	/*
-	 * ORGANISATION DE LA CLASSE : - Attributs 
-	 * - Constructeur principal 
-	 * - Création des panels 
-	 * - Creation des boutons 
-	 * - Création de Libellés & zones de textes & liste déroulante
-	 * - Méthodes annexes 
-	 * - Getters
-	 */
-
 	// *********** ATTRIBUTS ****************************
 
 	private static final long serialVersionUID = 1526419773788020856L;

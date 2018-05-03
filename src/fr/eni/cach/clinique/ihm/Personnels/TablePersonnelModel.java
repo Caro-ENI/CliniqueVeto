@@ -11,16 +11,7 @@ import fr.eni.cach.clinique.dal.DalException;
 import fr.eni.cach.clinique.dal.PersonnelDAO;
 
 public class TablePersonnelModel extends AbstractTableModel {
-	
-	/*
-	 * ORGANISATION DE LA CLASSE : 
-	 * - Attributs
-	 * - Singleton
-	 * - Création des panels 
-	 * - Creation des boutons & zone de texte
-	 * - Méthodes annexes 
-	 * - Getters
-	 */
+
 	// *********** ATTRIBUTS ****************************
 
 	private static final long serialVersionUID = 7022554891763668907L;

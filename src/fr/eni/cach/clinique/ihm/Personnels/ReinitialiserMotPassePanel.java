@@ -22,12 +22,6 @@ import fr.eni.cach.clinique.ihm.UtilsIHM;
 
 public class ReinitialiserMotPassePanel extends JPanel {
 
-	/*
-	 * ORGANISATION DE LA CLASSE : - Attributs - Constructeur principal - Création
-	 * des panels - Creation des boutons & zone de texte - Méthodes annexes -
-	 * Getters
-	 */
-
 	// *********** ATTRIBUTS ****************************
 	private static final long serialVersionUID = 8882775963959575605L;
 
