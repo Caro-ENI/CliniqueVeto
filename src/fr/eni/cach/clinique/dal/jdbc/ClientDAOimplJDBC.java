@@ -41,7 +41,10 @@ public class ClientDAOimplJDBC implements ClientDAO {
 
 	public static final String DELETE = "DELETE FROM CLIENTS WHERE CodeClient=?";
 	
-	public static final String SELECT_BY_MOT_CLE = SELECT_ALL+ " AND CHARINDEX (?, NomClient) > 0";
+	
+	//AND CHARINDEX (?, NomClient) > 0 -> envoie des résultat quand la chaine est trouvée même si elle est en milieu de mot
+	//du coup on passe par un LIKE ?% -> le % est rajouté dans la pstmt
+	public static final String SELECT_BY_MOT_CLE = SELECT_ALL+ " AND NomCLient LIKE ?";
 
 	// ******************************************************************************************************
 	// ******************************************************************************************************
@@ -207,7 +210,7 @@ public class ClientDAOimplJDBC implements ClientDAO {
 		{
 			//On considère qu'on a une connexion opérationnelle
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_MOT_CLE);
-			pStmt.setString(1, motCle);
+			pStmt.setString(1, (motCle+"%"));
 			
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next())
