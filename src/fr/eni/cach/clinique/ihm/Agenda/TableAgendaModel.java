@@ -31,7 +31,9 @@ public class TableAgendaModel extends AbstractTableModel {
 		
 	}
 
-	/****************************************/
+	/* ************************************** */
+	
+	
 	/**
 	 * Constructeur de TableAgendaModel -> permet de faire l'ajout de données dans une JTable
 	 */

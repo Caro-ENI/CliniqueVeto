@@ -24,12 +24,12 @@ import fr.eni.cach.clinique.ihm.UtilsIHM;
 public class DossierMedicPanel extends JPanel {
 	/*
 	 * ORGANISATION DE LA CLASSE : 
-	 * - déclaration des attributs 
-	 * - constructeur principal 
-	 * - création des panels 
-	 * - creation des boutons & zone de texte
-	 * - méthodes annexes 
-	 * - getters
+	 * - Attributs 
+	 * - Constructeur principal 
+	 * - Création des panels 
+	 * - Creation des boutons & zone de texte
+	 * - Méthodes annexes 
+	 * - Getters
 	 */
 
 	// *********** ATTRIBUTS ***************
@@ -122,10 +122,10 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	private void createPanelAntecedents() {
-		// Ajout d'un GridBagLayout pour que le TexteArea prenne toute la place.
-		panelAntecedents = new JPanel(new GridBagLayout());
+		// Ajout d'un BorderLayout pour que le TexteArea prenne toute la place.
+		panelAntecedents = new JPanel(new BorderLayout());
 		panelAntecedents.setBorder(new TitledBorder("Antécédents de Consultation : "));
-		UtilsIHM.getInstance().addComponentTo(getTAAntecedents(), panelAntecedents, 0, 0, 1, 1, 1, true);
+		panelAntecedents.add(getTAAntecedents(), BorderLayout.CENTER);
 	}
 	
 	private void createPanelClient() {
@@ -161,6 +161,11 @@ public class DossierMedicPanel extends JPanel {
 				try {
 				animalCourant.setAntecedents(taAntecedents.getText());
 					AnimalManager.getInstance().updateAnimal(animalCourant);
+					
+					JOptionPane.showMessageDialog(DossierMedicPanel.this, "L'animal a bien été mis à jour.", "Information", JOptionPane.INFORMATION_MESSAGE);
+					
+					DossierMedicPanel.this.getParent().getParent().getParent().setVisible(false);
+					
 				} catch (BLLException e1) {
 					e1.printStackTrace();
 					JOptionPane.showMessageDialog(DossierMedicPanel.this, e1.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -187,7 +192,7 @@ public class DossierMedicPanel extends JPanel {
 	}
 	
 	private void createTAAntecedents() {
-		taAntecedents = new JTextArea("");
+		taAntecedents = new JTextArea();
 		//si l'animal a déjà des antécédents, ils sont affichés dans la zone de texte
 		if (animalCourant.getAntecedents() != null) {
 		taAntecedents.setText(animalCourant.getAntecedents());
@@ -254,7 +259,7 @@ public class DossierMedicPanel extends JPanel {
 	 * Permet de créer un animal courant à partir du rdv sélectionné
 	 */
 	private void createAnimalCourant(Rdv rdv) {
-		animalCourant = new Animal();
+		animalCourant = rdv.getAnimal();
 	}
 	
 	/**

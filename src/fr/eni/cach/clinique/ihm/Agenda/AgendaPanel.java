@@ -65,7 +65,7 @@ public class AgendaPanel extends JPanel {
 	private JScrollPane panelAgenda;
 	private JPanel panelDossierMedical;
 
-	private Rdv rdvCourant = null;
+	private Rdv rdvCourant;
 	private Veterinaire vetoCourant = null;
 	private Date dateCourante = null;
 
