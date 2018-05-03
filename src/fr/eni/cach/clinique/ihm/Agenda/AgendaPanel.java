@@ -27,6 +27,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
+import fr.eni.cach.clinique.ihm.DossierMedical.DossierMedicPanel;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class AgendaPanel extends JPanel{

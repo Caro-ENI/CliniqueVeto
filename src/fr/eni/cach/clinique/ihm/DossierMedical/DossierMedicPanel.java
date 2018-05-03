@@ -1,4 +1,4 @@
-package fr.eni.cach.clinique.ihm.Agenda;
+package fr.eni.cach.clinique.ihm.DossierMedical;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
