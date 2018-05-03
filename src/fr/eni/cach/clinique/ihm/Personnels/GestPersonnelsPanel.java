@@ -70,7 +70,7 @@ public class GestPersonnelsPanel extends JPanel {
 	//**********CREATION DES BOUTONS ET DE LA JTABLE*********************
 	
 	private void createBttReinitialiser() {
-		bttReinitialiser = new JButton ("Réinitialiser");
+		bttReinitialiser = utilsIHM.createBttAvecIcon("Réinitialiser", UtilsIHM.IconesEnum.REINIT);
 		bttReinitialiser.addActionListener(new ActionListener() {
 			
 			@Override
@@ -97,7 +97,7 @@ public class GestPersonnelsPanel extends JPanel {
 					}
 
 	private void createBttSupprimer() {
-		bttSupprimer = new JButton ("Supprimer");
+		bttSupprimer = utilsIHM.createBttAvecIcon("Supprimer", UtilsIHM.IconesEnum.SUPPRIMER);
 		bttSupprimer.addActionListener(new ActionListener() {
 			
 			@Override
@@ -127,7 +127,9 @@ public class GestPersonnelsPanel extends JPanel {
 	}
 
 	private void createBttAjouter() {
-		bttAjouter = new JButton ("Ajouter");
+		//On crée le bouton grâce au créateur de bouton avec icones de UtilsIHM
+		// UtilsIHM.IconesEnum.AJOUTER -> désigne le nom de l'icone que l'on ajoute qui est stocké dans une enum interne : IconesEnum 
+		bttAjouter = utilsIHM.createBttAvecIcon("Ajouter", UtilsIHM.IconesEnum.AJOUTER);
 		bttAjouter.addActionListener(new ActionListener() {
 			
 			@Override
@@ -235,4 +237,6 @@ public class GestPersonnelsPanel extends JPanel {
 		return tablPersonnelModel;
 	}
 	
+
+
 }

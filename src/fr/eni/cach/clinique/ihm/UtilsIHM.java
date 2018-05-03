@@ -1,14 +1,19 @@
 package fr.eni.cach.clinique.ihm;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -21,10 +26,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class UtilsIHM {
 
 	/*
-	 * ORGANISATION DE LA CLASSE : 
-	 * - Singleton 
-	 * - Attributs 
-	 * - Méthodes Annexes
+	 * ORGANISATION DE LA CLASSE : - Singleton - Attributs - Méthodes Annexes
 	 */
 
 	/* ************** SINGLETON ************** */
@@ -153,15 +155,102 @@ public class UtilsIHM {
 		}
 	}
 
-	public JButton createBttAvecIcon(String textBtt, String icone) {
+	public JButton createBttAvecIcon(String textBtt, IconesEnum icone) {
 
 		JButton bttAvecIcone = null;
 
 		switch (icone) {
-		case "ajouter":
-			bttAvecIcone = new JButton(textBtt, new ImageIcon((this.getClass().getResource("fe"))));
+		case AJOUTER:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/ajouter.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setSize(50, 45);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
-
+		case ANNULER:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/annuler.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setSize(50, 45);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case DOSSIER:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/dossier.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setSize(50, 45);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case RECHERCHER:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/rechercher.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setSize(50, 45);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case REINIT:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/reinit.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setSize(50, 45);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case VALIDER:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/valider.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setSize(50, 45);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case SUPPRIMER:
+			try {
+				Image ajouter = ImageIO
+						.read((this.getClass().getResource("/fr/eni/cach/clinique/Ressources/supprimer.png")));
+				ajouter = ajouter.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+				bttAvecIcone = new JButton(textBtt, new ImageIcon(ajouter));
+				bttAvecIcone.setVerticalTextPosition(SwingConstants.BOTTOM);
+				bttAvecIcone.setHorizontalTextPosition(SwingConstants.CENTER);
+				bttAvecIcone.setPreferredSize(new Dimension(100, 60));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		default:
 			bttAvecIcone = new JButton(textBtt);
 			break;
@@ -170,4 +259,9 @@ public class UtilsIHM {
 		return bttAvecIcone;
 	}
 
+	// *************** CLASSE INTERNE ENUMERATION ***************
+
+	public enum IconesEnum {
+		AJOUTER, ANNULER, DOSSIER, RECHERCHER, REINIT, VALIDER, SUPPRIMER;
+	}
 }
