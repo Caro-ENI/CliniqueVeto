@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,6 +28,7 @@ public class RechercherPanel extends JPanel {
 
 	private JPanel panelHaut;
 	private JScrollPane panelBas;
+	private JPanel panelInfo;
 
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
 
@@ -34,6 +36,7 @@ public class RechercherPanel extends JPanel {
 	private JTextField tfRechercher;
 	private JTable tablClients;
 	private TableClientModel modelTablClients;
+	private JLabel jlInfo;
 
 	public RechercherPanel(GestClientPanel panelGestParent) {
 
@@ -42,17 +45,20 @@ public class RechercherPanel extends JPanel {
 		this.createBttRechercher();
 		this.createTfRechercher();
 		this.createTablClients(panelGestParent);
+		this.createJlInfo();
 
 		// Initialisation des panels
 
 		this.createPanelHaut();
 		this.createPanelBas();
+		this.createPanelInfo();
 
 		BorderLayout layoutGlobal = new BorderLayout();
 		this.setLayout(layoutGlobal);
 
 		this.add(getPanelHaut(), BorderLayout.NORTH);
 		this.add(getPanelBas(), BorderLayout.CENTER);
+		this.add(getPanelInfo(), BorderLayout.SOUTH);
 
 	}
 
@@ -72,6 +78,11 @@ public class RechercherPanel extends JPanel {
 
 	}
 
+	private void createPanelInfo(){
+		panelInfo = new JPanel(new GridBagLayout());
+		UtilsIHM.getInstance().addComponentTo(getJlInfo(), panelInfo, 0, 0, 1, 1, 1, true);
+	}
+	
 	// **********************CREATION DES COMPONENTS****************************
 
 	private void createTablClients(GestClientPanel panelGestParent) {
@@ -179,6 +190,12 @@ public class RechercherPanel extends JPanel {
 
 	}
 
+	private void createJlInfo(){
+		jlInfo = new JLabel("Double-cliquer pour choisir un client.");
+		jlInfo.setHorizontalAlignment(JLabel.CENTER);
+	}
+
+	
 	// *************************GETTERS****************************************
 
 	public JPanel getPanelHaut() {
@@ -199,6 +216,14 @@ public class RechercherPanel extends JPanel {
 
 	public JTable getTablClients() {
 		return tablClients;
+	}
+
+	public JPanel getPanelInfo(){
+		return panelInfo;
+	}
+
+	public JLabel getJlInfo(){
+		return jlInfo;
 	}
 
 }

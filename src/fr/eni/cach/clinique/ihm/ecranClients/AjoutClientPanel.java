@@ -199,7 +199,6 @@ public class AjoutClientPanel extends JPanel {
 				} catch (BLLException e1) {
 					JOptionPane.showMessageDialog(AjoutClientPanel.this, e1.getMessage(),
 							"Ajout d'un Client", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
 				}
 			}
 		});

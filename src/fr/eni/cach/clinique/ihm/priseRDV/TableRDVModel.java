@@ -1,13 +1,19 @@
 package fr.eni.cach.clinique.ihm.priseRDV;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bll.RdvManager;
+import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.bo.Rdv;
+import fr.eni.cach.clinique.bo.Veterinaire;
 import fr.eni.cach.clinique.dal.RdvDAO;
 import fr.eni.cach.clinique.ihm.ecranClients.TableAnimalModel;
 
@@ -33,7 +39,7 @@ public class TableRDVModel extends AbstractTableModel {
 	/**
 	 * Définition des noms des colonnes de la JTable
 	 */
-	private String[] nomsColonnes = {"Heure", "Client", "Animal", "Race"};
+	private String[] nomsColonnes = {"Heure", "Client", "Animal", "Espèce"};
 
 	/**
 	 * Liste des RDV qui sont ajoutés à la JTable
@@ -47,21 +53,28 @@ public class TableRDVModel extends AbstractTableModel {
 	 * Constructeur de TableRDVModel
 	 * permet de faire l'ajout des données dans une JTable
 	 */
-	public TableRDVModel() {
-		chargementDonnees();
+	private TableRDVModel() {
+		
+		
 	}
 	
 	/**
 	 * Charge les données de la BDD dans la liste de rendez-vous
 	 */
-	public void chargementDonnees() {
-		//TODO enlever le bouchon quand BLL dispo
-	//	rdv = Catalogue.getInstance().getCatalogue();
+	public void chargementDonnees(Veterinaire veto, Date date) {
 		
-		//Veterinaire veto = 
-		//LocalDateTime date =	
+		//DateLabelFormatter formatter = new DateLabelFormatter(); 
+	
+		try {
+			//String dateStr = formatter.valueToString(date);
+			String dateStr = new SimpleDateFormat("dd-MM-yyyy").format(date);
+			listeDeRdv = RdvManager.getInstance().getListeRdv(veto, dateStr);
+		} catch (BLLException e) {
+			e.printStackTrace();
+		}
+	
 		
-		// listeRdv = RdvManager.getInstance().getListeRdv(veto, date);
+		
 		
 		
 		
@@ -106,29 +119,45 @@ public class TableRDVModel extends AbstractTableModel {
 			
 			switch (columnIndex) {
 			case 0:
-				//TODO
-			//	value = rdvAAfficher.getDateRdv();
-				value = "Mon Heure";
+				
+				if (rdvAAfficher.getDateRdv().getMinute() == 0){
+					value = String.valueOf(rdvAAfficher.getDateRdv().getHour())+"h"+String.valueOf(rdvAAfficher.getDateRdv().getMinute()+"0");
+					}else {
+					value = String.valueOf(rdvAAfficher.getDateRdv().getHour())+"h"+String.valueOf(rdvAAfficher.getDateRdv().getMinute());
+					}
+				
+				
+			
 				break;
 			case 1:
 				//TODO
-			//	value = rdvAAfficher.getClient();
-				value = "Mon Client";
+				value = rdvAAfficher.getClient();
+				
 				break;
 			case 2:
 				//TODO
-			//	value = rdvAAfficher.getAnimal();
-				value = "Mon Animal";
+				value = rdvAAfficher.getAnimal();
+				
 				break;
 			case 3:
 				//TODO
-			//	value = rdvAAfficher.getRace();
-				value = "Ma Race";
+				value = rdvAAfficher.getAnimal().getEspece();
+				
 				break;
 			}
 		}
 		
 		return value;
+	}
+
+	public Rdv getValueAt(int rowIndex) throws Exception {
+		if(rowIndex >= 0 && rowIndex < listeDeRdv.size()) {
+			return listeDeRdv.get(rowIndex);
+		}
+		throw new Exception ("Le RDV n'existe pas en BDD");
+		
+		
+		
 	}
 	
 

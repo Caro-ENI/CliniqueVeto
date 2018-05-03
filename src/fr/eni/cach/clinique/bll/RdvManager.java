@@ -72,20 +72,17 @@ public class RdvManager {
 		return listeRdv;
 	}
 	
-	public List <Rdv> getListeRdv (Veterinaire veto, LocalDateTime date) throws BLLException {
+	public List <Rdv> getListeRdv (Veterinaire veto, String date) throws BLLException {
 		
 		List <Rdv> listeRdv = new ArrayList <> ();
 		
-			DateLabelFormatter formatter = new DateLabelFormatter(); 
+		//	DateLabelFormatter formatter = new DateLabelFormatter(); 
 			try {
-				listeRdv = daoRdv.selectRdvByVetoAndDate(veto.getCodePersonnel(), formatter.valueToString(date));
+				listeRdv = daoRdv.selectRdvByVetoAndDate(veto.getCodePersonnel(), date);
 			} catch (DalException e) {
 				
 				e.printStackTrace();
 				throw new BLLException ("Erreur accès données : la liste des RDV n'est pas récupérable en BDD");
-			} catch (ParseException e) {
-				
-				e.printStackTrace();
 			}
 		
 		

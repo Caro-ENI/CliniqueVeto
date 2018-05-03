@@ -54,6 +54,10 @@ public class TableAnimalModel extends AbstractTableModel {
 		}
 		fireTableDataChanged();
 	}
+	
+	public void dechargementDonnees(){
+		listeAnimaux = new ArrayList<>();
+	}
 
 	@Override
 	public int getColumnCount() {

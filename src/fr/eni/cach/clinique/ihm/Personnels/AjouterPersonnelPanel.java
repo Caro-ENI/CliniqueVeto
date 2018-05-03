@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -45,6 +46,7 @@ public class AjouterPersonnelPanel extends JPanel {
 		private JTextField tfNom;
 		private JPasswordField tfMotPasse;
 		private JTextField tfRole;
+		private JComboBox<String> cbRole;
 		
 		
 		
@@ -61,7 +63,10 @@ public class AjouterPersonnelPanel extends JPanel {
 				this.createTfCodePers ();
 				this.createTfNom();
 				this.createTfMotPasse();
+				//ComboBox
 				this.createTfRole();
+				this.createCbRole ();
+				
 				
 				this.createBttValider();
 				this.createBttAnnuler ();
@@ -84,6 +89,8 @@ public class AjouterPersonnelPanel extends JPanel {
 		}
 		
 		
+		
+
 		//--------------------------------------CREATION DES PANELS-------------------------------------------
 		
 		
@@ -103,7 +110,7 @@ public class AjouterPersonnelPanel extends JPanel {
 			utilsIHM.addComponentTo(getTfMotPasse(), panelInfos, 1, 1, 1, 1, 0.7, true);
 			
 			utilsIHM.addComponentTo(getLblRole(), panelInfos, 0, 2, 1, 1, 0.3, true);
-			utilsIHM.addComponentTo(getTfRole(), panelInfos, 1, 2, 1, 1, 0.7, true);
+			utilsIHM.addComponentTo(getCbRole(), panelInfos, 1, 2, 1, 1, 0.7, true);
 			
 		}
 
@@ -155,28 +162,29 @@ public class AjouterPersonnelPanel extends JPanel {
 					
 					Personnel persAAjouter = null;
 					
-					switch (getTfRole().getText()) {
-					case "sec":
+				//	switch (getTfRole().getText()) {
+					switch (getCbRole().getSelectedItem().toString()) {
+					case "Secrétaire":
 						persAAjouter = new Secretaire();
-						
+						persAAjouter.setRole("sec");
 						break;
-					case "adm":
+					case "Administrateur":
 						persAAjouter = new Admin();
-						
+						persAAjouter.setRole("adm");
 						break;
-					case "vet":
+					case "Vétérinaire":
 						persAAjouter = new Veterinaire();
-						
+						persAAjouter.setRole("vet");
 						break;	
 						
 					default :
 						persAAjouter = new Veterinaire();
+						persAAjouter.setRole("vet");
 						break;
 					}
-					
 					persAAjouter.setNom(getTfNom().getText());
 					persAAjouter.setMotPasse(getTfMotPasse().getText());
-					persAAjouter.setRole(getTfRole().getText());
+					
 					
 					
 					PersonnelManager.getInstance().addPersonnel(persAAjouter);
@@ -190,6 +198,14 @@ public class AjouterPersonnelPanel extends JPanel {
 					}
 				}
 			});
+		}
+		
+		
+		
+		private void createCbRole() {
+			String [] roles = {"Administrateur","Secrétaire","Vétérinaire"};
+			cbRole = new JComboBox<>(roles);
+			cbRole.setSelectedItem(null);
 		}
 
 
@@ -301,6 +317,13 @@ public class AjouterPersonnelPanel extends JPanel {
 
 		public JTextField getTfRole() {
 			return tfRole;
+		}
+
+
+
+
+		public JComboBox<String> getCbRole() {
+			return cbRole;
 		}
 		
 		

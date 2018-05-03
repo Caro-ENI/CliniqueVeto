@@ -171,7 +171,19 @@ public class ReinitialiserMotPassePanel extends JPanel {
 	private void createTfRole() {
 		try {
 			Personnel persAInitialiser = model.getValueAt(table.getSelectedRow());
-			tfRole = new JTextField (persAInitialiser.getRole());
+			
+			switch (persAInitialiser.getRole()) {
+			case "sec" :
+				tfRole = new JTextField ("Secrétaire");
+				break;
+			case "vet" :
+				tfRole = new JTextField ("Vétérinaire");
+				break;
+			case "adm" :
+				tfRole = new JTextField ("Administrateur");
+				break;
+			}
+			
 			tfRole.setEditable(false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
