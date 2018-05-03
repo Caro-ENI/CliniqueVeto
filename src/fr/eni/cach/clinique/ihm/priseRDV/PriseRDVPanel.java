@@ -47,6 +47,7 @@ import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.bo.Veterinaire;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
+import fr.eni.cach.clinique.ihm.Personnels.AjouterPersonnelPanel;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
 import fr.eni.cach.clinique.ihm.ecranClients.AjoutClientPanel;
@@ -414,7 +415,7 @@ public class PriseRDVPanel extends JPanel {
 
 				try {
 					dateCourante = new SimpleDateFormat("dd-MM-yyyy").parse(dateString);
-					// System.out.println(dateCourante);
+					
 				} catch (ParseException e1) {
 
 					e1.printStackTrace();
@@ -498,8 +499,11 @@ public class PriseRDVPanel extends JPanel {
 				
 				
 				} catch (BLLException e1) {
-					// TODO Auto-generated catch block
+				
 					e1.printStackTrace();
+					JOptionPane.showMessageDialog(PriseRDVPanel.this, e1.getMessage(),
+							"Ajout de Rdv Impossible", JOptionPane.ERROR_MESSAGE);
+					
 				}
 				
 			
@@ -651,7 +655,9 @@ public class PriseRDVPanel extends JPanel {
 
 				// le vétérinaire sélectionné est stocké dans une variable
 				// intermédiaire
+				
 				vetoCourant = (Veterinaire) jcbVeto.getSelectedItem();
+				
 
 				TableRDVModel.getInstance().chargementDonnees(vetoCourant, dateCourante);
 

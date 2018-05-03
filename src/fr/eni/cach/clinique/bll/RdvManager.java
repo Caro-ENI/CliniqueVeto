@@ -1,5 +1,6 @@
 package fr.eni.cach.clinique.bll;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class RdvManager {
 	public void addRdv(Rdv rdv) throws BLLException {
 
 		try {
+			validationRdv(rdv);
 			daoRdv.insert(rdv);
 		} catch (DalException e) {
 			e.printStackTrace();
@@ -42,6 +44,8 @@ public class RdvManager {
 		}
 	}
 	
+
+
 	public void deleteRdv (Rdv rdv) throws BLLException {
 		
 		try {
@@ -84,6 +88,32 @@ public class RdvManager {
 		
 		return listeRdv;
 		
+		
+	}
+	
+	// *********** METHODES DE VERIFICATION ******************
+	
+	private void validationRdv(Rdv rdv) throws BLLException {
+		
+		if (rdv.getAnimal() == null)
+			throw new BLLException ("Le choix d'un animal pour un rdv est obligatoire");
+		
+		if (rdv.getVeterinaire() == null)
+			throw new BLLException("Le choix d'un vétérinaire pour un rdv est obligatoire");	
+		
+		if (rdv.getDateRdv() == null)
+			throw new BLLException("Le choix d'une date de Rdv pour un rdv est obligatoire");
+		
+		validiteDateRdv (rdv);
+			
+	}
+
+	private void validiteDateRdv(Rdv rdv) throws BLLException {
+		
+		if (rdv.getDateRdv().isBefore(LocalDateTime.now()) == true) {
+			throw new BLLException ("Impossible de prendre un Rdv pour une date passée");
+		}
+			
 		
 	}
 	
