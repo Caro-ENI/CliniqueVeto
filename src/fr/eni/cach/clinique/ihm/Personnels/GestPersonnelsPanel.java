@@ -21,93 +21,108 @@ import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 
 public class GestPersonnelsPanel extends JPanel {
 
+	/*
+	 * ORGANISATION DE LA CLASSE : - Attributs - Constructeur principal - Création
+	 * des panels - Creation des boutons - Création Table - Getters
+	 */
+
+	// *********** ATTRIBUTS ****************************
+
 	private static final long serialVersionUID = 4638604561225803319L;
-	
+
 	private JPanel panelBoutons;
 	private JScrollPane panelTablPersonnel;
 	private static JTable tablPersonnel;
-	
+
 	private UtilsIHM utilsIHM = UtilsIHM.getInstance();
-	
+
 	private JButton bttAjouter;
 	private JButton bttSupprimer;
 	private JButton bttReinitialiser;
 	public static TablePersonnelModel tablPersonnelModel;
-	
 
+	// *********** CONSTRUCTEUR PRINCIPAL ***************
 
 	public GestPersonnelsPanel() {
-		
-		//création de la JTable et des boutons
-		
+
+		// création de la JTable et des boutons
+
 		this.createTablPersonnel();
 		this.createBttAjouter();
 		this.createBttSupprimer();
 		this.createBttReinitialiser();
-		
-		//création des panels
-		
+
+		// création des panels
+
 		this.createPanelBoutons();
 		this.createPanelTablPersonnel();
-		
+
 		// Panel global
-		
+
 		BorderLayout layoutGlobal = new BorderLayout();
 		this.setLayout(layoutGlobal);
-		
+
 		this.add(getPanelBoutons(), BorderLayout.NORTH);
 		this.add(getPanelTablPersonnel(), BorderLayout.CENTER);
-		
-		
+
 	}
 
-	
+	// *********** CREATION PANELS **********************
 
-	
+	private void createPanelBoutons() {
+		// permet de définir l'orientation de l'écriture dans le panel
+		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		panelBoutons = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
+		// pour mettre une bordure sur le panel boutons : faire appel à la BorderFactory
+		panelBoutons.setBorder(BorderFactory.createEtchedBorder());
 
+		panelBoutons.add(getBttAjouter());
+		panelBoutons.add(getBttSupprimer());
+		panelBoutons.add(getBttReinitialiser());
+	}
 
-	//**********CREATION DES BOUTONS ET DE LA JTABLE*********************
-	
+	private void createPanelTablPersonnel() {
+		panelTablPersonnel = new JScrollPane();
+		panelTablPersonnel.setViewportView(getTablPersonnel());
+	}
+
+	// *********** CREATION BOUTONS *********************
+
 	private void createBttReinitialiser() {
 		bttReinitialiser = utilsIHM.createBttAvecIcon("Réinitialiser", UtilsIHM.IconesEnum.REINIT);
 		bttReinitialiser.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ReinitialiserMotPassePanel reinitialiserPanel = new ReinitialiserMotPassePanel();
-				JInternalFrame jifReinitialiserMotPasse = utilsIHM.createJIF("Réinitialiser mot de passe", reinitialiserPanel);
+				JInternalFrame jifReinitialiserMotPasse = utilsIHM.createJIF("Réinitialiser mot de passe",
+						reinitialiserPanel);
 				jifReinitialiserMotPasse.setSize(500, 350);
 				jifReinitialiserMotPasse.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifReinitialiserMotPasse);
-				
-				
-				
+
 				try {
 					jifReinitialiserMotPasse.setSelected(true);
-		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
-				
-				
+				} catch (java.beans.PropertyVetoException eAjoutCli) {
+				}
+
 			}
 		});
-		
-		
-		
-		
-					}
+
+	}
 
 	private void createBttSupprimer() {
 		bttSupprimer = utilsIHM.createBttAvecIcon("Supprimer", UtilsIHM.IconesEnum.SUPPRIMER);
 		bttSupprimer.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
 				try {
 					Personnel personnelASupprimer = tablPersonnelModel.getValueAt(tablPersonnel.getSelectedRow());
 					personnelASupprimer.setArchive(true);
-					
+
 					PersonnelManager.getInstance().updatePersonnel(personnelASupprimer);
 					// Permet de rafraichir la JTable
 					tablPersonnelModel.chargementDonnees();
@@ -115,23 +130,19 @@ public class GestPersonnelsPanel extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
-				
+
 			}
 		});
-			
-			
-		
-		
+
 	}
 
 	private void createBttAjouter() {
-		//On crée le bouton grâce au créateur de bouton avec icones de UtilsIHM
-		// UtilsIHM.IconesEnum.AJOUTER -> désigne le nom de l'icone que l'on ajoute qui est stocké dans une enum interne : IconesEnum 
+		// On crée le bouton grâce au créateur de bouton avec icones de UtilsIHM
+		// UtilsIHM.IconesEnum.AJOUTER -> désigne le nom de l'icone que l'on ajoute qui
+		// est stocké dans une enum interne : IconesEnum
 		bttAjouter = utilsIHM.createBttAvecIcon("Ajouter", UtilsIHM.IconesEnum.AJOUTER);
 		bttAjouter.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AjouterPersonnelPanel ajoutPanel = new AjouterPersonnelPanel();
@@ -139,76 +150,32 @@ public class GestPersonnelsPanel extends JPanel {
 				jifAjoutSalarie.setSize(500, 350);
 				jifAjoutSalarie.setVisible(true);
 				CliniqueVetoFrame2.getInstance("").getDesktop().add(jifAjoutSalarie);
-				
+
 				try {
 					jifAjoutSalarie.setSelected(true);
-		        } catch (java.beans.PropertyVetoException eAjoutCli) {}
-				
-				
-				
+				} catch (java.beans.PropertyVetoException eAjoutCli) {
+				}
+
 			}
 		});
-		
-		
-		
+
 	}
 
+	// *********** CREATION TABLES **********************
+
 	private void createTablPersonnel() {
-		
+
 		tablPersonnelModel = TablePersonnelModel.getInstance();
 		tablPersonnel = new JTable(tablPersonnelModel);
 		tablPersonnel.setBorder(BorderFactory.createEtchedBorder());
 		tablPersonnel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablPersonnel.setRowHeight(30);
 		tablPersonnel.getSelectionModel().setSelectionInterval(0, 0);
-		
-		
-	
-	}
-	
-	
-	//***************CREATION DES PANELS***************
-	
-	
-	
-	private void createPanelBoutons() {
-		//permet de définir l'orientation de l'écriture dans le panel 
-		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panelBoutons = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		//panelBoutons.setBackground(Color.GRAY);
-		
-		// pour mettre une bordure sur le panel boutons : faire appel à la BorderFactory
-		panelBoutons.setBorder(BorderFactory.createEtchedBorder());
-		
-		// -> Récupère la taille de l'écran
-		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		//panelBoutons.setSize(screenSize.width-10, 4);
-		
-		
-		panelBoutons.add(getBttAjouter());
-		panelBoutons.add(getBttSupprimer());
-		panelBoutons.add(getBttReinitialiser());
-		
-	}
-	
-	private void createPanelTablPersonnel() {
-		panelTablPersonnel = new JScrollPane();		
-		panelTablPersonnel.setViewportView(getTablPersonnel());
-		
-		//panelTablPersonnel.setBackground(Color.MAGENTA);
-		
+
 	}
 
+	// *********** GETTERS ******************************
 
-
-
-
-
-
-	
-	
-	//*****************GETTERS************************
-	
 	public JPanel getPanelBoutons() {
 		return panelBoutons;
 	}
@@ -236,7 +203,5 @@ public class GestPersonnelsPanel extends JPanel {
 	public static TablePersonnelModel getTablPersonnelModel() {
 		return tablPersonnelModel;
 	}
-	
-
 
 }

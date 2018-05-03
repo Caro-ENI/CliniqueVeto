@@ -11,11 +11,19 @@ import fr.eni.cach.clinique.dal.DalException;
 import fr.eni.cach.clinique.dal.PersonnelDAO;
 
 public class TablePersonnelModel extends AbstractTableModel {
+	
+	/*
+	 * ORGANISATION DE LA CLASSE : 
+	 * - Attributs
+	 * - Singleton
+	 * - Création des panels 
+	 * - Creation des boutons & zone de texte
+	 * - Méthodes annexes 
+	 * - Getters
+	 */
+	// *********** ATTRIBUTS ****************************
 
 	private static final long serialVersionUID = 7022554891763668907L;
-	
-	private static TablePersonnelModel instance =null;
-	
 	/**
 	 * Définition des noms des colonnes de la JTable
 	 */
@@ -28,8 +36,9 @@ public class TablePersonnelModel extends AbstractTableModel {
 	
 	private PersonnelDAO daoPersonnel = DAOFactory.getPersonelDAO();
 	
+	// *********** SINGLETON ****************************
 	
-	
+	private static TablePersonnelModel instance =null;
 	
 	/**
 	 * Constructeur de TablePersonnelModel -> permet de faire l'ajout de données dans une JTable
@@ -38,13 +47,22 @@ public class TablePersonnelModel extends AbstractTableModel {
 		this.chargementDonnees();
 	}
 	
+	/**
+	 * Permet d'obtenir l'instance du model de Jtable TablePersonnelModel
+	 * @return
+	 */
 	public static TablePersonnelModel getInstance(){
 		if (instance == null) {
 			instance = new TablePersonnelModel();
 		}
 		return instance;
 	}
-	
+	 
+	// *********** METHODES *****************************
+
+	/**
+	 * Charge les données du Personnel dans la Table
+	 */
 	public void chargementDonnees() {		
 		try {
 			listePersonnels = daoPersonnel.selectAll();
@@ -69,6 +87,9 @@ public class TablePersonnelModel extends AbstractTableModel {
 		return nomsColonnes[column];
 	}
 
+	/**
+	 * Méthode qui peuple la Jtable avec les informations récupérées
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Object value = null;
@@ -101,14 +122,17 @@ public class TablePersonnelModel extends AbstractTableModel {
 		
 	}
 	
-	
+	/**
+	 * Méthode qui renvoie le personnel présent dans la Jtable à l'index passé en paramètre
+	 * @param rowIndex
+	 * @return
+	 * @throws Exception
+	 */
 	public Personnel getValueAt (int rowIndex) throws Exception {
 		if(rowIndex >= 0 && rowIndex < listePersonnels.size()) {
 			return listePersonnels.get(rowIndex);
 		}
 		throw new Exception ("Le salarié n'existe pas en BDD");
-		
-		
 	}
 	
 
