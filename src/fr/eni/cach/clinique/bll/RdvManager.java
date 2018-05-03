@@ -1,6 +1,7 @@
 package fr.eni.cach.clinique.bll;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,7 +114,39 @@ public class RdvManager {
 		if (rdv.getDateRdv().isBefore(LocalDateTime.now()) == true) {
 			throw new BLLException ("Impossible de prendre un Rdv pour une date passée");
 		}
+		
+		if (rdv.getDateRdv().getDayOfWeek().getValue() == 6 || rdv.getDateRdv().getDayOfWeek().getValue() == 7 ) {
+			throw new BLLException("Impossible prendre un Rdv un Samedi ou un Dimanche");
+		}
+		
+		
+		// Vérification que le vétérinaire choisi n'a pas déjà un rendez-vous à la date de rendez-vous choisi
+		
+		DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"); ;
+		List<Rdv> listeRDVOccupe;
+		try {
+			listeRDVOccupe = daoRdv.selectRdvByVetoAndDate(rdv.getVeterinaire().getCodePersonnel(), rdv.getDateRdv().format(formatter));
+			for (Rdv rdv2 : listeRDVOccupe) {
+				
+				if (rdv.getDateRdv().isEqual(rdv2.getDateRdv()) == true) {
+				throw new BLLException("Le créneau de ce RDV est déjà occupé");	
+					
+				}
+				
+			}
+		
+		
+		
+		
+		} catch (DalException e) {
 			
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
 		
 	}
 	
