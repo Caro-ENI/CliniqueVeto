@@ -1,10 +1,8 @@
 package fr.eni.cach.clinique.dal;
 
-import java.util.Date;
 import java.util.List;
 
 import fr.eni.cach.clinique.bo.Rdv;
-import fr.eni.cach.clinique.bo.Veterinaire;
 
 public interface RdvDAO extends DAO<Rdv> {
 

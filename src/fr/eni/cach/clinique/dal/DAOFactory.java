@@ -1,9 +1,5 @@
 package fr.eni.cach.clinique.dal;
 
-import java.util.List;
-
-import fr.eni.cach.clinique.bo.Espece;
-import fr.eni.cach.clinique.bo.Race;
 import fr.eni.cach.clinique.configuration.Configuration;
 import fr.eni.cach.clinique.dal.jdbc.AnimalDAOimplJDBC;
 import fr.eni.cach.clinique.dal.jdbc.ClientDAOimplJDBC;

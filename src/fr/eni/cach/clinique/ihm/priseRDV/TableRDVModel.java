@@ -1,8 +1,6 @@
 package fr.eni.cach.clinique.ihm.priseRDV;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +9,8 @@ import javax.swing.table.AbstractTableModel;
 
 import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bll.RdvManager;
-import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.bo.Veterinaire;
-import fr.eni.cach.clinique.dal.RdvDAO;
-import fr.eni.cach.clinique.ihm.ecranClients.TableAnimalModel;
 
 public class TableRDVModel extends AbstractTableModel {
 

@@ -1,7 +1,5 @@
 package fr.eni.cach.clinique.bo;
 
-import java.util.List;
-
 public class Race {
 
 	private String race;

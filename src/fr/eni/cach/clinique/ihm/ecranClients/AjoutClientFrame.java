@@ -1,11 +1,9 @@
 package fr.eni.cach.clinique.ihm.ecranClients;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
-import java.awt.TextField;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;

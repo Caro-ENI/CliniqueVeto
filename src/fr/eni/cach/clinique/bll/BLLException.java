@@ -3,6 +3,8 @@ package fr.eni.cach.clinique.bll;
 import java.util.ArrayList;
 
 public class BLLException extends Exception {
+
+	private static final long serialVersionUID = 9165172527346599735L;
 	
 private ArrayList<Exception> exceptions = new ArrayList<>();
 	

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.cach.clinique.bo.Admin;
-import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Personnel;
 import fr.eni.cach.clinique.bo.Secretaire;
 import fr.eni.cach.clinique.bo.Veterinaire;

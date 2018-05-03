@@ -8,7 +8,6 @@ import javax.swing.table.AbstractTableModel;
 import fr.eni.cach.clinique.bll.AnimalManager;
 import fr.eni.cach.clinique.bll.BLLException;
 import fr.eni.cach.clinique.bo.Animal;
-import fr.eni.cach.clinique.bo.Client;
 
 
 public class TableAnimalModel extends AbstractTableModel {

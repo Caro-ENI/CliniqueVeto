@@ -3,7 +3,6 @@ package fr.eni.cach.clinique.ihm.ecranClients;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import fr.eni.cach.clinique.bll.BLLException;

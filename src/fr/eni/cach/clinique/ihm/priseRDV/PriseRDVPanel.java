@@ -13,11 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -49,13 +46,10 @@ import fr.eni.cach.clinique.bo.Animal;
 import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.bo.Veterinaire;
-import fr.eni.cach.clinique.dal.RdvDAO;
 import fr.eni.cach.clinique.ihm.UtilsIHM;
-import fr.eni.cach.clinique.ihm.Personnels.TablePersonnelModel;
 import fr.eni.cach.clinique.ihm.cliniqueVeto.CliniqueVetoFrame2;
 import fr.eni.cach.clinique.ihm.ecranAnimaux.AnimauxPanel;
 import fr.eni.cach.clinique.ihm.ecranClients.AjoutClientPanel;
-import fr.eni.cach.clinique.ihm.ecranClients.GestClientPanel;
 
 public class PriseRDVPanel extends JPanel {
 	/*

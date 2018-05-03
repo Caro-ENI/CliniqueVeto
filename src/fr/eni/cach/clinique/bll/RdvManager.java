@@ -1,12 +1,8 @@
 package fr.eni.cach.clinique.bll;
 
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.bo.Rdv;
 import fr.eni.cach.clinique.bo.Veterinaire;
 import fr.eni.cach.clinique.dal.DAOFactory;

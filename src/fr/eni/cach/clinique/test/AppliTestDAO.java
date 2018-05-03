@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.security.auth.callback.LanguageCallback;
-
 import fr.eni.cach.clinique.bo.Animal;
 import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Personnel;

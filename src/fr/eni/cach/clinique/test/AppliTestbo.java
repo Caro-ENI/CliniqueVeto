@@ -2,10 +2,8 @@ package fr.eni.cach.clinique.test;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import fr.eni.cach.clinique.bo.Animal;
 import fr.eni.cach.clinique.bo.Client;

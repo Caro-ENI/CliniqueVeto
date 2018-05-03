@@ -1,18 +1,13 @@
 package fr.eni.cach.clinique.dal.jdbc;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.cach.clinique.bll.Utilitaires.DateLabelFormatter;
 import fr.eni.cach.clinique.bo.Animal;
 import fr.eni.cach.clinique.bo.Client;
 import fr.eni.cach.clinique.bo.Personnel;

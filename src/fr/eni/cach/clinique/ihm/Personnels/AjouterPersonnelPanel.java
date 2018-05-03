@@ -1,7 +1,6 @@
 package fr.eni.cach.clinique.ihm.Personnels;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
@@ -183,7 +182,7 @@ public class AjouterPersonnelPanel extends JPanel {
 						break;
 					}
 					persAAjouter.setNom(getTfNom().getText());
-					persAAjouter.setMotPasse(getTfMotPasse().getText());
+					persAAjouter.setMotPasse(String.valueOf(getTfMotPasse().getPassword()));
 					
 					
 					

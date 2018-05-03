@@ -1,19 +1,14 @@
 package fr.eni.cach.clinique.ihm.Agenda;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import fr.eni.cach.clinique.ihm.UtilsIHM;

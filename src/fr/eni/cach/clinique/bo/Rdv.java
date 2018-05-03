@@ -1,7 +1,6 @@
 package fr.eni.cach.clinique.bo;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Rdv {
 	
